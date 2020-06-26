@@ -6,27 +6,22 @@ import org.springframework.stereotype.Component;
 
 @Component("projectVO")
 public class projectVO {
-	private String MEMBER_ID;  //È¸¿ø¾ÆÀÌµğ
-	private String PROJECT_CODE; //ÇÁ·ÎÁ§Æ®ÄÚµå
-	private String PROJECT_TITTLE; //ÇÁ·ÎÁ§Æ® Á¦¸ñ
-	private String PROJECT_CONTENT; // ³»¿ë
-	private String PROJECT_REGISTER_DAY; //ÀÛ¼ºÀÏ
-	private String INVITE_STRDAY; // ¸ğÁı ½ÃÀÛÀÏ
-	private String INVITE_ENDDAY; // ¸ğÁı Á¾·áÀÏ
-	private String PROJECT_STRDAY; // ÇÁ·ÎÁ§Æ® ½ÃÀÛÀÏ
- 	private String PROJECT_ENDDAY; // ÇÁ·ÎÁ§Æ® Á¾·áÀÏ
-	private String TOTALMEMBER; //ÃÑ¿ø
-	private int APPLYMEMBER; //Áö¿øÀÚ ¼ö 
-	private int PASSMEMBER; //¸ğÁıµÈ ÀÎ¿ø¼ö
-	private String T_PROJECT_TAG; //ÇÁ·ÎÁ§Æ® Å×±×
-	
-	//¿ì¸®Áı¿¡¼­ µÈ´Ù È÷È÷~
-	//µÇ³ª¿ä?
-//ÇìÇìÇìÇìÇì
-//asdsadasd
-//gpgpgpgpgpgpggp
+	private String MEMBER_ID;  // íšŒì›ì•„ì´ë””
+	private String PROJECT_CODE; // í”„ë¡œì íŠ¸ ì½”ë“œ
+	private String PROJECT_TITTLE; // í”„ë¡œì íŠ¸ ì œëª©
+	private String PROJECT_CONTENT; // í”„ë¡œì íŠ¸ ë‚´ìš©
+	private String PROJECT_REGISTER_DAY; // ë“±ë¡ì¼
+	private String INVITE_STRDAY; // ëª¨ì§‘ì¼
+	private String INVITE_ENDDAY; // ëª¨ì§‘ë§ˆê°ì¼
+	private String PROJECT_STRDAY; // í”„ë¡œì íŠ¸ ì‹œì‘ì¼
+ 	private String PROJECT_ENDDAY; // í”„ë¡œì íŠ¸ ì¢…ë£Œì¼
+	private String TOTALMEMBER; // ì´ì›
+	private int APPLYMEMBER; // í˜„ì¬ ì§€ì› í•œ ì¸ì›
+	private int PASSMEMBER; // í˜„ì¬ ëª¨ì§‘ í•œ ì¸ì›
+	private String T_PROJECT_TAG; // í”„ë¡œì íŠ¸ íƒœê·¸
+
+
  public projectVO() {
-	 System.out.println("sras");
  }
  
  public String getMEMBER_ID() {
@@ -98,11 +93,6 @@ public class projectVO {
  public void setTOTALMEMBER(String TOTALMEMBER) {
 	 this.TOTALMEMBER=TOTALMEMBER;
  }
- //asdsadas
- //asdihsakdjashkdjhsakjdhakdl
- //asjkdalksjdsakljdsakljda
- //asdsadasdasdasdada
- //asdsadsa
  public String getT_PROJECT_TAG() {
 	 return T_PROJECT_TAG;
  }

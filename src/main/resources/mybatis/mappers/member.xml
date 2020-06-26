@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+	<resultMap id="memResult" type="memberVO">
+		<result property="MEMBER_ID" column="MEMBER_ID" />
+        <result property="MEMBER_PW" column="MEMBER_PW" />
+        <result property="MEMBER_NAME" column="MEMBER_NAME" />
+        <result property="MEMBER_GENDER" column="MEMBER_GENDER" />
+        <result property="MEMBER_BIRTH_Y" column="MEMBER_BIRTH_Y" />
+        <result property="MEMBER_BIRTH_M" column="MEMBER_BIRTH_M" />
+        <result property="MEMBER_BIRTH_D" column="MEMBER_BIRTH_D" />
+        <result property="MEMBER_CONTENT" column="MEMBER_CONTENT" />
+        <result property="MEMBER_JOB" column="MEMBER_JOB" />
+        
+        <result property="TEL1" column="TEL1" />
+        <result property="HP1" column="HP1" />
+        <result property="SMSSTS_YN" column="SMSSTS_YN" />
+        <result property="EMAIL1" column="EMAIL1" />
+        <result property="EMAILSTS_YN" column="EMAILSTS_YN" />
+        <result property="ZIPCODE" column="ZIPCODE" />
+        <result property="ROADADDRESS" column="ROADADDRESS" />
+        <result property="JIBUNADDRESS" column="JIBUNADDRESS" />
+        <result property="NAMUJIADDRESS" column="NAMUJIADDRESS" />
+        <result property="JOINDATE" column="JOINDATE" />        
+	</resultMap> 
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="memberVO"  parameterType="java.util.Map"  >
+	    <![CDATA[
+			select * from T_PROJECT_MEMBER 
+			 where MEMBER_ID=#{MEMBER_ID}
+			 and MEMBER_PW=#{MEMBER_PW}			
+			 
+		]]>
+	</select>
+	
+	<!-- 아이디 중복 체크 -->
+	<select id="selectOverlappedID" parameterType="String" resultType="String">
+	   select decode(count(*),1, 'true', 0, 'false')
+	   from T_PROJECT_MEMBER
+	   where MEMBER_ID = #{MEMBER_ID}
+	</select>
+
+	<select id="selectAllMemberList" resultMap="memResult">
+      <![CDATA[
+         select * from T_PROJECT_MEMBER	 	
+      ]]>
+	</select>
+
+	<select id="selectName" resultType="String">
+    <![CDATA[
+	select name from T_PROJECT_MEMBER
+	where MEMBER_ID = 'hong'			
+    ]]>
+	</select>
+		
+	<select id="selectPwd" resultType="int" >
+	  <![CDATA[ 
+	    select pwd from T_PROJECT_MEMBER 
+	    where MEMBER_ID = 'hong'
+	 ]]>
+	 </select> 
+	 
+	<select id="selectMemberById" resultType="memberVO"  parameterType="String" >
+      <![CDATA[
+         select * from T_PROJECT_MEMBER
+         where
+         MEMBER_ID=#{MEMBER_ID}			
+      ]]>
+	 </select>	
+	
+	<select id="selectMemberByPwd" resultMap="memResult"  parameterType="int" >
+      <![CDATA[
+         select * from T_PROJECT_MEMBER
+         where
+         pwd = #{pwd}			
+      ]]>
+    </select>
+    
+     <insert id="insertMember"  parameterType="memberVO">
+		<![CDATA[
+		 insert into T_PROJECT_MEMBER 
+			 	(MEMBER_ID, MEMBER_PW, MEMBER_NAME, MEMBER_GENDER,
+			     MEMBER_BIRTH_Y, MEMBER_BIRTH_M, MEMBER_BIRTH_D, MEMBER_CONTENT, 
+			 	 MEMBER_JOB, TEL1,TEL2,TEL3, HP1,HP2,HP3, EMAIL1,EMAIL2,
+			 	 ZIPCODE, ROADADDRESS, JIBUNADDRESS,
+			 	 NAMUJIADDRESS)
+
+			values
+				( #{MEMBER_ID}, #{MEMBER_PW}, #{MEMBER_NAME},
+				  #{MEMBER_GENDER}, #{MEMBER_BIRTH_Y},#{MEMBER_BIRTH_M}, 
+				  #{MEMBER_BIRTH_D}, #{MEMBER_CONTENT},  #{MEMBER_JOB}, 
+				  #{TEL1}, #{TEL2}, #{TEL3}, #{HP1}, #{HP2}, #{HP3} , #{EMAIL1}, #{EMAIL2},
+				  #{ZIPCODE}, #{ROADADDRESS}, #{JIBUNADDRESS}, 
+				  #{NAMUJIADDRESS})
+		]]>      
+	</insert>
+	
+	<insert id="insertMember2"  parameterType="java.util.HashMap">
+		<![CDATA[
+			insert into T_PROJECT_MEMBER 
+			 	(MEMBER_ID, MEMBER_PW, MEMBER_NAME, MEMBER_GENDER,
+			     MEMBER_BIRTH_Y, MEMBER_BIRTH_M, MEMBER_BIRTH_D, MEMBER_CONTENT, 
+			 	 MEMBER_JOB, TEL1, HP1, SMSSTS_YN, EMAIL1,EMAILSTS_YN, 
+				 ZIPCODE, ROADADDRESS, JIBUNADDRESS, NAMUJIADDRESS, JOINDATE)
+
+			values
+				( #{MEMBER_ID}, #{MEMBER_PW}, #{MEMBER_NAME},
+				  #{MEMBER_GENDER}, #{MEMBER_BIRTH_Y},#{MEMBER_BIRTH_M}, 
+				  #{MEMBER_BIRTH_D}, #{MEMBER_CONTENT},  #{MEMBER_JOB}, 
+				  #{TEL1}, #{HP1}, #{SMSSTS_YN}, #{EMAIL1},
+				  #{EMAILSTS_YN}, #{ZIPCODE}, #{ROADADDRESS}, #{JIBUNADDRESS}, 
+				  #{NAMUJIADDRESS}, #{JOINDATE})
+		]]>      
+   </insert>
+   
+   <update id="updateMember"  parameterType="memberVO">
+     <![CDATA[
+	     update T_PROJECT_MEMBER
+	     set pwd=#{pwd}, name=#{name}, email=#{email}
+	     where
+	     MEMBER_ID=#{MEMBER_ID}
+      ]]>      
+   </update> 
+     
+   <delete id="deleteMember"  parameterType="String">
+	<![CDATA[
+	   delete from  T_PROJECT_MEMBER
+	   where
+	   MEMBER_ID=#{MEMBER_ID}
+	]]>      
+  </delete>
+	
+	
+	<!-- 동적 SQL문 -->
+  <select id="searchMember" parameterType="memberVO" resultMap="memResult">
+      <![CDATA[
+          select * from T_PROJECT_MEMBER
+      ]]>
+      <where>
+         <if test=" name != ''  and  name != null">
+            MEMBER_NAME=#{MEMBER_NAME}
+         </if>
+         <if test="email != ''  and email != null ">
+           and EMAIL1 = #{EMAIL1}
+         </if>
+      </where>
+      order by joinDate desc
+  </select>
+  
+ <!--  
+   <sql id="a">
+    <![CDATA[
+      select * from T_PROJECT_MEMBER
+     ]]> 
+   </sql>  -->  
+  
+<!--    
+  <select id="searchMember" parameterType="memberVO" resultMap="memResult">
+	     <include refid="a" /> 
+	   <![CDATA[
+         select * from T_PROJECT_MEMBER 
+      ]]>
+	  
+       <where>
+		  <choose>
+		      <when test="name != '' and name != null and  email != '' and email != null">
+			     name=#{name} and email=#{email}
+		      </when>
+		      <when test="name != '' and name != null">
+			     name = #{name}
+		      </when>
+		      <when test="email !='' and email != null">
+			    email = #{email}
+		      </when>
+	      </choose>
+       </where>
+       order by joinDate desc
+   </select> -->
+   <!-- 회원검색 -->
+   <select id="foreachSelect" resultMap="memResult" parameterType="java.util.Map">
+      <!-- <include refid="a" /> -->
+      <![CDATA[
+        select * from T_PROJECT_MEMBER 
+          
+      ]]>
+      
+      where name in
+      <foreach item="item" collection="list" open="(" separator="," close=")" >
+         #{item}
+      </foreach>
+      order by joinDate desc
+   </select>
+   
+   <insert id="foreachInsert"  parameterType="java.util.Map">
+      <foreach item="item"  collection="list"   open="INSERT ALL" separator=" " close="SELECT * FROM DUAL" >
+          INTO  T_PROJECT_MEMBER(id, pwd, name, email)
+          VALUES  (#{item.id},
+                    #{item.pwd},
+                    #{item.name},
+                    #{item.email})
+      </foreach>
+   </insert>
+   
+   <!--  like 검색 -->
+   <select id="selectLike" resultMap="memResult"  parameterType="String" >
+      <![CDATA[
+         select * from T_PROJECT_MEMBER
+         where
+         name like '%' || #{name} || '%'		
+      ]]>
+    </select>
+</mapper>
