@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /*import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;*/
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,40 +35,108 @@ import com.myspring.pro.member.vo.MemberVO;
 @RequestMapping(value="/member")
 
 public class MemberControllerImpl implements MemberController{
+	private static final Logger logger = 
+						LoggerFactory.getLogger(MemberControllerImpl.class);
+	
 	@Autowired
 	private MemberService memberService;
 	@Autowired
 	private MemberVO memberVO;
 	
-	
+	// 회원 조회
 	@Override
-	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
+	@RequestMapping(value="/listMembers.do" ,method = RequestMethod.GET)
+	public ModelAndView listMembers(HttpServletRequest request, 
+										HttpServletResponse response) 
+												throws Exception {
+		//request.setCharacterEncoding("UTF-8");
+		//response.setContentType("text/html; charset=UTF-8");
+		
+		String viewName = getViewName(request);
+		
+		logger.info("info레벨 : viewName = " + viewName);
+		logger.debug("debug 레벨 : viewName = " + viewName);
+			
+		List membersList = memberService.listMembers();
+		
+		// viewName이 tiles_member.xml의 <definition>태그에 설정한 뷰이름과 일치한다.
+		ModelAndView mav = new ModelAndView(viewName);
+		
+		mav.addObject("membersList", membersList);
+		
+		// ModelAndView 객체에 설정한 뷰이름을 타일즈 뷰리졸버로 반환한다.
+		return mav;
+	}
+	
+	// 로그인
+	@Override
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	                         //로그인 창에서 전송된 ID,비밀번호를 MemberVO 객체인 member에 저장.
 	public ModelAndView login(@ModelAttribute("member") MemberVO member,
+			//RedirectAttributes클래스를 이용해 로그인 실패 시 다시 로그인창으로 리다이렉트하여 실패 메시지 전달!
 				              RedirectAttributes rAttr,
 		                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-	ModelAndView mav = new ModelAndView();
-	memberVO = memberService.login(member);
-	if(memberVO != null) {
-		    HttpSession session = request.getSession();
-		    session.setAttribute("member", memberVO);
-		    session.setAttribute("isLogOn", true);
-		    mav.setViewName("redirect:/member/listMembers.do");
-	}else {
-		    rAttr.addAttribute("result","loginFailed");
-		    mav.setViewName("redirect:/member/loginForm.do");
-	}
-	return mav;
-	}
+		
+		ModelAndView mav = new ModelAndView();
+		
+		// login()메서드를 호출하면서 로그인 정보를 전달.
+		memberVO = memberService.login(member);
+		
+		if(memberVO != null) {
+			    HttpSession session = request.getSession();
+			    
+			    // 세션에 회원 정보를 저장.
+			    session.setAttribute("member", memberVO);
+			    
+			    // 세션에 로그인 상태를 true로 설정.
+			    session.setAttribute("isLogOn", true);
+			    
+			    // memberVO로 반환된 값이 있으면 세션을 이용해 로그인 상태를 true로 한다.
+			    mav.setViewName("redirect:/member/listMembers.do");
+			    
+		}else {
+				// 로그인 실패시 실패 메시지를 로그인 창으로 전달.
+			    rAttr.addAttribute("result","loginFailed");
+			    
+			    // 로그인 실패시 다시 로그인 창으로 리다이렉트.
+			    mav.setViewName("redirect:/member/loginForm.do");
+		}
+		return mav;// ModelAndView 객체에 설정한 뷰이름을 타일즈 뷰리졸버로 반환한다.
+		}
 	
+	// 로그아웃
 	@Override
 	@RequestMapping(value="/logout.do" ,method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, 
 							   HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
 		HttpSession session=request.getSession();
+		
+		// 로그아웃 요청 시 세션에 저장된 로그인 정보와 회원 정보를 삭제
 		session.setAttribute("isLogOn", false);
 		session.removeAttribute("memberInfo");
-		mav.setViewName("redirect:/main/main.do");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/member/listMembers.do");
+		
+		// ModelAndView 객체에 설정한 뷰이름을 타일즈 뷰리졸버로 반환한다.
+		return mav;
+	}
+	
+	// 등록
+	@RequestMapping(value = "/*Form.do", method =  RequestMethod.GET)
+							// 로그인창 요청 시 매개변수가 result가 전송되면 변수 result에 값을 저장.
+							// 최초 로그인창을 요청할 때는 매개변수 result가 전송되지 않으므로 무시한다.
+	private ModelAndView form(@RequestParam(value= "result", required=false) String result,
+						       HttpServletRequest request, 
+						       HttpServletResponse response) throws Exception {
+		
+		//String viewName = (String)request.getAttribute("viewName");
+		String viewName = getViewName(request);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("result",result);
+		System.out.println(result);
+		mav.setViewName(viewName);
+		
+		// ModelAndView 객체에 설정한 뷰이름을 타일즈 뷰리졸버로 반환한다.
 		return mav;
 	}
 	
@@ -114,32 +184,6 @@ public class MemberControllerImpl implements MemberController{
 		String result = memberService.overlapped(MEMBER_ID);
 		resEntity =new ResponseEntity(result, HttpStatus.OK);
 		return resEntity;
-	}
-	
-	@RequestMapping(value = "/*Form.do", method =  RequestMethod.GET)
-	private ModelAndView form(@RequestParam(value= "result", required=false) String result,
-						       HttpServletRequest request, 
-						       HttpServletResponse response) throws Exception {
-		String viewName = (String)request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("result",result);
-		mav.setViewName(viewName);
-		
-		return mav;
-	}
-	
-	@Override
-	@RequestMapping(value="/listMembers.do" ,method = RequestMethod.GET)
-	public ModelAndView listMembers(HttpServletRequest request, 
-										HttpServletResponse response) 
-												throws Exception {
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		String viewName = getViewName(request);
-		List membersList = memberService.listMembers();
-		ModelAndView mav = new ModelAndView(viewName);
-		mav.addObject("membersList", membersList);
-		return mav;
 	}
 	
 	@RequestMapping(value="/removeMember.do" ,method={RequestMethod.POST,RequestMethod.GET})
