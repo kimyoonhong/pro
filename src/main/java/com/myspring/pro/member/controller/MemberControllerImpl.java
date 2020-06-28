@@ -31,9 +31,16 @@ import com.myspring.pro.member.controller.MemberControllerImpl;
 import com.myspring.pro.member.service.MemberService;
 import com.myspring.pro.member.vo.MemberVO;
 
+/*
+  # 실행순서
+  
+   브라우저 요청 (ex)127.0.0.1:8090/pro/member/xxxx.do 
+   -> 인터셉터(인터셉터에서 .do를 제외한 뷰이름을 request에 바인딩) -> 컨트롤러
+ 
+ */
+
 @Controller("memberController")
 @RequestMapping(value="/member")
-
 public class MemberControllerImpl implements MemberController{
 	private static final Logger logger = 
 						LoggerFactory.getLogger(MemberControllerImpl.class);
@@ -49,10 +56,11 @@ public class MemberControllerImpl implements MemberController{
 	public ModelAndView listMembers(HttpServletRequest request, 
 										HttpServletResponse response) 
 												throws Exception {
-		//request.setCharacterEncoding("UTF-8");
-		//response.setContentType("text/html; charset=UTF-8");
 		
-		String viewName = getViewName(request);
+		//String viewName = getViewName(request); // 컨트롤러에 있는 getViewName()메서드 (필터 사용전)
+		
+		// 인터셉터에서 바인딩 된 뷰 이름을 가져온다.
+		String viewName = (String)request.getAttribute("viewName");
 		
 		logger.info("info레벨 : viewName = " + viewName);
 		logger.debug("debug 레벨 : viewName = " + viewName);
@@ -128,9 +136,10 @@ public class MemberControllerImpl implements MemberController{
 	private ModelAndView form(@RequestParam(value= "result", required=false) String result,
 						       HttpServletRequest request, 
 						       HttpServletResponse response) throws Exception {
+		//String viewName = getViewName(request); // 컨트롤러에 있는 getViewName()메서드 (필터 사용전)
 		
-		//String viewName = (String)request.getAttribute("viewName");
-		String viewName = getViewName(request);
+		// 인터셉터에서 바인딩 된 뷰 이름을 가져온다.
+		String viewName = (String)request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		System.out.println(result);

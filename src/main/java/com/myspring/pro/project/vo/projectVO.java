@@ -6,24 +6,80 @@ import org.springframework.stereotype.Component;
 
 @Component("projectVO")
 public class projectVO {
-	private String MEMBER_ID;  // 회원아이디
-	private String PROJECT_CODE; // 프로젝트 코드
-	private String PROJECT_TITTLE; // 프로젝트 제목
-	private String PROJECT_CONTENT; // 프로젝트 내용
-	private String PROJECT_REGISTER_DAY; // 등록일
-	private String INVITE_STRDAY; // 모집일
-	private String INVITE_ENDDAY; // 모집마감일
-	private String PROJECT_STRDAY; // 프로젝트 시작일
- 	private String PROJECT_ENDDAY; // 프로젝트 종료일
-	private String TOTALMEMBER; // 총원
-	private int APPLYMEMBER; // 현재 지원 한 인원
-	private int PASSMEMBER; // 현재 모집 한 인원
-	private String T_PROJECT_TAG; // 프로젝트 태그
+	private String MEMBER_ID;  //ȸ�����̵�
+	private String PROJECT_CODE; //������Ʈ�ڵ�
+	private String PROJECT_TITTLE; //������Ʈ ����
+	private String PROJECT_CONTENT; // ����
+	private String PROJECT_REGISTER_DAY; //�ۼ���
+	private String INVITE_STRDAY; // ���� ������
+	private String INVITE_ENDDAY; // ���� ������
+	private String PROJECT_STRDAY; // ������Ʈ ������
+ 	private String PROJECT_ENDDAY; // ������Ʈ ������
+	private String TOTALMEMBER; //�ѿ�
+	private int APPLYMEMBER; //������ �� 
+	private int PASSMEMBER; //������ �ο���
+	private String T_PROJECT_TAG; //������Ʈ �ױ�
+	private String Tag1;
+	private String Tag2;
+	private String Tag3;
+	private String Tag4;
+	
+	private String Tag5;
+	private String keyword;
 
-
- public projectVO() {
+public projectVO() {
+	 
  }
- 
+public String getKeyword() {
+	return keyword;
+}
+public void setKeyword(String keyword) {
+	this.keyword = keyword;
+}
+public projectVO(String tag1,String tag2,String tag3,String tag4,String tag5) {
+	this.Tag1 = tag1;
+	this.Tag2 = tag2;
+	this.Tag3 = tag3;
+	this.Tag4 = tag4;
+	this.Tag5 = tag5;
+}
+
+public void setTags(String tag1,String tag2,String tag3,String tag4,String tag5) {
+	this.Tag1 = tag1;
+	this.Tag2 = tag2;
+	this.Tag3 = tag3;
+	this.Tag4 = tag4;
+	this.Tag5 = tag5;
+}
+public String getTag1() {
+	return Tag1;
+}
+public void setTag1(String tag1) {
+}
+public String getTag2() {
+	return Tag2;
+}
+public void setTag2(String tag2) {
+	this.Tag2 = tag2;
+}
+public String getTag3() {
+	return Tag3;
+}
+public void setTag3(String tag3) {
+	this.Tag3 = tag3;
+}
+public String getTag4() {
+	return Tag4;
+}
+public void setTag4(String tag4) {
+	this.Tag4 = tag4;
+}
+public String getTag5() {
+	return Tag5;
+}
+public void setTag5(String tag5) {
+	this.Tag5 = tag5;
+}
  public String getMEMBER_ID() {
 	 return MEMBER_ID;
  }
@@ -93,6 +149,7 @@ public class projectVO {
  public void setTOTALMEMBER(String TOTALMEMBER) {
 	 this.TOTALMEMBER=TOTALMEMBER;
  }
+ 
  public String getT_PROJECT_TAG() {
 	 return T_PROJECT_TAG;
  }

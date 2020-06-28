@@ -14,28 +14,20 @@
 
    <!-- 컨트롤러에서 반환되는 뷰이름을 지정한다. 
    		(/member/listMember.do로 요청했을때 .do를 제외한 요청명과 "name"의 값이 일치해야한다. -->
-   		
-   <!-- 회원조회 기능 -->
-   <definition name="/member/listMembers" extends="baseLayout">
-      <put-attribute name="title" value="회원목록창" />
-      <put-attribute name="body" value="/WEB-INF/views/member/listMembers.jsp" />
-   </definition>
-   
-
    <!-- 로그인 기능 -->
-   <definition name="/member/loginForm" extends="baseLayout">
-      <put-attribute name="title" value="로그인창" />
-      <put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp" />
+   <definition name="/project/listprojects" extends="baseLayout">
+      <put-attribute name="title" value="프로젝트리스트" />
+      <put-attribute name="body" value="/WEB-INF/views/project/listprojects.jsp" />
    </definition>
       
 
-   <definition name="/member/memberForm" extends="baseLayout">
-      <put-attribute name="title" value="회원등록창" />
-      <put-attribute name="body" value="/WEB-INF/views/member/memberForm.jsp" />
+   <definition name="/project/addproject" extends="baseLayout">
+      <put-attribute name="title" value="프로젝트추가" />
+      <put-attribute name="body" value="/WEB-INF/views/project/projectadd.jsp" />
    </definition>
 
-   <definition name="/member/viewDetail" extends="baseLayout">
-      <put-attribute name="title" value="회원상세창" />
-      <put-attribute name="body" value="/WEB-INF/views/member/viewDetail.jsp" />
+   <definition name="/project/searchprojects" extends="baseLayout">
+      <put-attribute name="title" value="프로젝트검색" />
+      <put-attribute name="body" value="/WEB-INF/views/project/searchprojects.jsp" />
    </definition> 
 </tiles-definitions>

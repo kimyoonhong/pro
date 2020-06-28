@@ -12,13 +12,9 @@
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
 
-   <!-- <definition name="main" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
-      <put-attribute name="body" value="/WEB-INF/views/main.jsp" />
-   </definition> -->
-
-   <!-- 컨트롤러에서 반환되는 뷰이름을 지정합니다. 
+   <!-- 컨트롤러에서 반환되는 뷰이름을 지정한다. 
    		(/member/listMember.do로 요청했을때 .do를 제외한 요청명과 "name"의 값이 일치해야한다. -->
+   		
    <!-- 회원조회 기능 -->
    <definition name="/member/listMembers" extends="baseLayout">
       <put-attribute name="title" value="회원목록창" />

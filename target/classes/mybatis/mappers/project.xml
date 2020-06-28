@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.project">
+	<resultMap id="project" type="projectVO">
+		<result property="MEMBER_ID" column="MEMBER_ID" />
+        <result property="PROJECT_CODE" column="PROJECT_CODE" />
+        <result property="PROJECT_TITTLE" column="PROJECT_TITTLE" />
+        <result property="PROJECT_CONTENT" column="PROJECT_CONTENT" />
+        <result property="PROJECT_REGISTER_DAY" column="PROJECT_REGISTER_DAY" />
+        <result property="INVITE_STRDAY" column="INVITE_STRDAY" />
+        <result property="INVITE_ENDDAY" column="INVITE_ENDDAY" />
+        <result property="PROJECT_STRDAY" column="PROJECT_STRDAY" />
+        <result property="PROJECT_ENDDAY" column="PROJECT_ENDDAY" />
+        <result property="TOTALMEMBER" column="TOTALMEMBER" />
+        <result property="APPLYMEMBER" column="APPLYMEMBER" />
+        <result property="PASSMEMBER" column="PASSMEMBER" />
+        <result property="T_PROJECT_TAG" column="T_PROJECT_TAG" />
+        <result property="Tag1" />
+        <result property="Tag2" />
+        <result property="Tag3" />
+        <result property="Tag4" />
+        <result property="Tag5" />
+        <result property="keyword" />
+	</resultMap> 
+	
+	<select id="selectAllprojectList" resultMap="project">
+      <![CDATA[
+         select * from T_PROJECT_BOARD	order by  PROJECT_CODE	
+      ]]>
+	</select>
+    
+     <insert id="insertproject"  parameterType="projectVO">
+		<![CDATA[
+		 insert into T_PROJECT_BOARD(MEMBER_ID,PROJECT_CODE, PROJECT_TITTLE, PROJECT_CONTENT,PROJECT_REGISTER_DAY,INVITE_STRDAY,INVITE_ENDDAY,PROJECT_STRDAY,PROJECT_ENDDAY,TOTALMEMBER,APPLYMEMBER,PASSMEMBER)
+		 values(#{MEMBER_ID}, #{PROJECT_CODE}, #{PROJECT_TITTLE}, #{PROJECT_CONTENT}, #{PROJECT_REGISTER_DAY}, #{INVITE_STRDAY}, #{INVITE_ENDDAY}, #{PROJECT_STRDAY}, #{PROJECT_ENDDAY}, #{TOTALMEMBER}, #{APPLYMEMBER}, #{PASSMEMBER})
+		]]>      
+	</insert>
+
+	 <select id="selectKeywordSearch" resultMap="project" parameterType="projectVO" >
+	    <![CDATA[
+        select DISTINCT(p.PROJECT_TITTLE)
+		from T_PROJECT_BOARD p left outer join t_project_taglist t
+		on p.project_code = t.project_code
+		where         
+		p.PROJECT_TITTLE like '%'|| #{keyword} || '%'
+		or t.project_tag = #{Tag1}
+		or t.project_tag = #{Tag2}
+		or t.project_tag = #{Tag3}
+		or t.project_tag = #{Tag4}
+		or t.project_tag = #{Tag5}
+		]]>
+	</select> 
+   
+   <update id="updateproject"  parameterType="projectVO">
+     <![CDATA[
+	     update T_PROJECT_BOARD
+	     set PROJECT_TITTLE=#{PROJECT_TITTLE}, PROJECT_CONTENT=#{PROJECT_CONTENT}, PROJECT_REGISTER_DAY=SYSDATE, INVITE_STRDAY=#{INVITE_STRDAY}, INVITE_ENDDAY=#{INVITE_ENDDAY}, PROJECT_STRDAY=#{PROJECT_STRDAY}, PROJECT_ENDDAY=#{PROJECT_ENDDAY}, TOTALMEMBER=#{TOTALMEMBER}, APPLYMEMBER=#{APPLYMEMBER}, PASSMEMBER=#{PASSMEMBER}, T_PROJECT_TAG=#{T_PROJECT_TAG}
+	     where
+	     PROJECT_CODE=#{PROJECT_CODE}
+      ]]>      
+   </update> 
+     
+   <delete id="deleteproject"  parameterType="String">
+	<![CDATA[
+	   delete from  T_PROJECT_BOARD
+	   where
+	   PROJECT_CODE=#{PROJECT_CODE}
+	]]>      
+  </delete>
+  
+</mapper>

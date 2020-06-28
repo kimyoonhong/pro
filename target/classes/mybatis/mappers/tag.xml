@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.tag">
+	 <resultMap id="tag" type="tagVO">
+		<result property="TAG_FIRST" column="TAG_FIRST"/>
+		<result property="TAG_SECOND" column="TAG_SECOND"/>
+		<result property="TAG_THIRD" column="TAG_THIRD"/>
+	</resultMap> 
+	<select id="selectTagList" resultMap="tag">
+      <![CDATA[
+         select * from  TAG 	
+      ]]>
+	</select>
+</mapper>
