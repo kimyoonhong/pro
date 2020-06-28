@@ -43,9 +43,6 @@ public class projectControllerImpl   implements projectController {
 	public ModelAndView listprojects(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = getViewName(request);
 
-		logger.info("viewName: "+ viewName);
-		logger.debug("viewName: "+ viewName);
-		
 		List projectsList = projectService.listprojects();
 		List projectTagList = projectService.TagList();
 		ModelAndView mav = new ModelAndView(viewName);

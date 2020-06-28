@@ -12,9 +12,29 @@
 <meta charset="utf-8">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript">
+/* 이메일 체크 */
+//이메일 입력방식 선택
+function Check_Email() {
+   var EMAIL2 = $("#EMAIL2").val();
+   var selectEmail = $("#selectEmail").val();
+   
+   if (selectEmail == '1'){
+	   $('#EMAIL2').prop("value",'');
+	   $('#EMAIL2').prop("readonly",false);
+   }else {
+      alert(selectEmail);
+      $('#EMAIL2').prop("value",selectEmail);
+      $('#EMAIL2').prop("readonly",true);
+   }
+}
+</script>
+
+
+
 <script>
-
-
 function execDaumPostcode() {
   new daum.Postcode({
     oncomplete: function(data) {
@@ -101,7 +121,7 @@ function fn_overlapped(){
 </head>
 <body>
 	<h3>필수입력사항</h3>
-	<form action="${contextPath}/member/addMember.do" method="post">	
+	<form name = "form" action="${contextPath}/member/addMember.do" method="post">	
 	<div id="detail_table">
 		<table>
 			<tbody>
@@ -218,15 +238,17 @@ function fn_overlapped(){
 							<option value="018">018</option>
 							<option value="019">019</option>
 					</select> - <input size="10px"  type="text" name="HP2"> - <input size="10px"  type="text"name="HP3"><br> <br> 
-					<!-- <input type="checkbox"	name="SMSSTS_YN" value="Y" checked /> 홈페이지에서 발송하는 SMS 소식을 수신합니다.</td> -->
+					 <input type="checkbox"	name="SMSSTS_YN" value="Y" checked /> 홈페이지에서 발송하는 SMS 소식을 수신합니다.</td> 
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">이메일<br>(e-mail)</td>
-					<td><input size="10px"   type="text" name="EMAIL1" /> @ <input  size="10px"  type="text"name="EMAIL2" /> 
-						 <!--  <select name="EMAIL2" onChange=""	title="직접입력">
-									<option value="non">직접입력</option>
-									<option value="hanmail.net">hanmail.net</option>
+					<td><input size="10px"   type="text" name="EMAIL1" /> @ 
+						<input  size="10px"  type="text" id="EMAIL2" name="EMAIL2"  /> 
+						   <select  onchange="Check_Email()" id="selectEmail" name="EMAIL3">
+									<option value="0">선택하세요</option>
+									<option value="1">직접입력</option>
 									<option value="naver.com">naver.com</option>
+									<option value="hanmail.net">hanmail.net</option>
 									<option value="yahoo.co.kr">yahoo.co.kr</option>
 									<option value="hotmail.com">hotmail.com</option>
 									<option value="paran.com">paran.com</option>
@@ -236,7 +258,8 @@ function fn_overlapped(){
 									<option value="empal.com">empal.com</option>
 									<option value="korea.com">korea.com</option>
 									<option value="freechal.com">freechal.com</option>
-							</select><br> <br> --> <!-- <input type="checkbox" name="EMAILSTS_YN" value="Y" checked /> 홈페이지에서 발송하는 e-mail을 수신합니다.</td> -->
+							</select><br> <br>   
+							<input type="checkbox" name="EMAILSTS_YN" value="Y" checked /> 홈페이지에서 발송하는 e-mail을 수신합니다.</td>
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">주소</td>

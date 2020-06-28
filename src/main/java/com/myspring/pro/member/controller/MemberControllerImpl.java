@@ -161,16 +161,13 @@ public class MemberControllerImpl implements MemberController{
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type","text/html;charset=utf-8");
 		
-		System.out.println("MEMBER_ID:" + _memberVO.getMEMBER_ID());
-		System.out.println("MEMBER_NAME:" + _memberVO.getMEMBER_NAME());
+		System.out.println("EMAIL2:" + _memberVO.getEMAIL2());
 		
-		System.out.println("성별() : " + _memberVO.getMEMBER_GENDER());
-		System.out.println("성별 : " + request.getParameter("MEMBER_GENDER"));
 		try {
 		    memberService.addMember(_memberVO);
 		    message  = "<script>";
 		    message +=" alert('회원 가입을 마쳤습니다.회원조회창으로 이동합니다.');";
-		    message += " location.href='"+request.getContextPath()+"/member/login.do';";
+		    message += " location.href='"+request.getContextPath()+"/member/listMembers.do';";
 		    message += " </script>";
 		    
 		}catch(Exception e) {

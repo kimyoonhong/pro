@@ -18,7 +18,7 @@
 <table border=0  width="100%">
   <tr>
      <td>
-		<a href="${contextPath}/listMembers.do">
+		<a href="${contextPath}/member/listMembers.do">
 		  <img src="${contextPath}/resources/image/duke_swing.gif"  />
 		</a>
      </td>
