@@ -19,6 +19,7 @@
 function fn_ck(){
 	var isSeasonChk =false;
 	var selecttag =document.getElementsByName("selecttag");
+	alert(selecttag);
 	for(var i=0;i<selecttag.length; i++){
 		if(selecttag[i].checked == true){
 			isSeasonChk = true;

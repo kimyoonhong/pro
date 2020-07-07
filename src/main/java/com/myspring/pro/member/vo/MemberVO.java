@@ -20,6 +20,15 @@ public class MemberVO {
 	private String TEL3; // 전화번호 3
 	private String HP1;  // 휴대전화 1
 	private String HP2;  // 휴대전화 2
+	
+	private String TAG; // 해쉬태그(소분류)
+	
+	public String getTAG() {
+		return TAG;
+	}
+	public void setTAG(String tAG) {
+		TAG = tAG;
+	}
 	public String getEMAIL2() {
 		return EMAIL2;
 	}

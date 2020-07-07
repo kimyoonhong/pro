@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.mypage">
+	<resultMap id="myPageVO" type="myPageVO">
+		<result property="MEMBER_ID" column="MEMBER_ID" />
+		<result property="PROJECT_CODE" column="PROJECT_CODE" />
+		<result property="APPLY_CK" column="APPLY_CK" />
+		<result property="APPLY_DAY" column="APPLY_DAY" />
+		<result property="PASS_CK" column="PASS_CK" />
+		<result property="PASS_DAY" column="PASS_DAY" />
+	</resultMap> 
+	
+	<!-- 신청 프로젝트 -->
+    <select id="selectMyProjectList" resultMap="myPageVO" parameterType="String">
+      <![CDATA[
+         select * from T_MEMBER_PROJECT_LIST
+         where MEMBER_ID = #{MEMBER_ID}	 	
+      ]]>
+	</select>
+	
+	
+	
+	
+</mapper>

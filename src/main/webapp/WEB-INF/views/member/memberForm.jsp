@@ -18,16 +18,19 @@
 /* 이메일 체크 */
 //이메일 입력방식 선택
 function Check_Email() {
-   var EMAIL2 = $("#EMAIL2").val();
-   var selectEmail = $("#selectEmail").val();
-   
+   var EMAIL2 = $("#EMAIL2").val(); // input 박스  값 
+   var selectEmail = $("#selectEmail").val();// select박스 선택 값
+        
+   // 직접 입력 선택했을 경우
    if (selectEmail == '1'){
-	   $('#EMAIL2').prop("value",'');
-	   $('#EMAIL2').prop("readonly",false);
+	   $('#EMAIL2').prop("value",''); // input 박스 초기화
+	   $('#EMAIL2').prop("readonly",false);// input 박스 readonly 속성 비활성화
    }else {
+   // 이메일 선택했을경우   
+      $('#EMAIL2').prop("value",selectEmail); // 선택 값 input박스로 전달
+      $('#EMAIL2').prop("readonly",true); // input 박스 readonly 속성 활성화
       alert(selectEmail);
-      $('#EMAIL2').prop("value",selectEmail);
-      $('#EMAIL2').prop("readonly",true);
+      
    }
 }
 </script>
@@ -101,7 +104,7 @@ function fn_overlapped(){
 	       data: {MEMBER_ID:_MEMBER_ID},
 	       success:function (data,textStatus){
 	          if(data=='false'){
-	       	    alert("사용할 수 있는 ID입니다.");
+	       	    alert("사용할  수 있는 ID입니다.");
 	       	    $('#btnOverlapped').prop("disabled", true);
 	       	    $('#_MEMBER_ID').prop("disabled", true);
 	       	    $('#MEMBER_ID').val(_MEMBER_ID);
@@ -121,7 +124,7 @@ function fn_overlapped(){
 </head>
 <body>
 	<h3>필수입력사항</h3>
-	<form name = "form" action="${contextPath}/member/addMember.do" method="post">	
+	<form action="${contextPath}/member/addMember.do" method="post">	
 	<div id="detail_table">
 		<table>
 			<tbody>
@@ -243,21 +246,21 @@ function fn_overlapped(){
 				<tr class="dot_line">
 					<td class="fixed_join">이메일<br>(e-mail)</td>
 					<td><input size="10px"   type="text" name="EMAIL1" /> @ 
-						<input  size="10px"  type="text" id="EMAIL2" name="EMAIL2"  /> 
-						   <select  onchange="Check_Email()" id="selectEmail" name="EMAIL3">
-									<option value="0">선택하세요</option>
+						<input  size="10px"  type="text" id="EMAIL2" name="EMAIL2" value = "선택하세요" readonly /> 
+						   <select onchange="Check_Email()" id="selectEmail" name="EMAIL3">
+									<option value="선택하세요" selected>선택하세요</option>
 									<option value="1">직접입력</option>
-									<option value="naver.com">naver.com</option>
-									<option value="hanmail.net">hanmail.net</option>
-									<option value="yahoo.co.kr">yahoo.co.kr</option>
-									<option value="hotmail.com">hotmail.com</option>
-									<option value="paran.com">paran.com</option>
-									<option value="nate.com">nate.com</option>
-									<option value="google.com">google.com</option>
-									<option value="gmail.com">gmail.com</option>
-									<option value="empal.com">empal.com</option>
-									<option value="korea.com">korea.com</option>
-									<option value="freechal.com">freechal.com</option>
+									<option value="naver.com">네이버</option>
+									<option value="daum.net">다음</option>
+									<option value="yahoo.co.kr">야후</option>
+									<option value="hotmail.com">핫메일</option>
+									<option value="paran.com">파란</option>
+									<option value="nate.com">네이트</option>
+									<option value="google.com">구글</option>
+									<option value="gmail.com">G메일</option>
+									<option value="empal.com">empal닷컴</option>
+									<option value="korea.com">korea닷컴</option>
+									<option value="freechal.com">freechal닷컴</option>
 							</select><br> <br>   
 							<input type="checkbox" name="EMAILSTS_YN" value="Y" checked /> 홈페이지에서 발송하는 e-mail을 수신합니다.</td>
 				</tr>
@@ -285,6 +288,15 @@ function fn_overlapped(){
 					<td>
 						<input type="text" id="MEMBER_JOB" name="MEMBER_JOB">
 					</td>
+				</tr>
+				<tr class="dot_line">
+					<td text-align="center"><h3>관심분야</h3></td>
+					<c:forEach var="tag" items="${projectTagList}">
+					<tr>
+						<td>${tag.TAG_THIRD}</td>
+						<td><input type="checkbox" id="tagVO" name="tagVO" value="${tag.TAG_THIRD}"></td>
+					</tr>
+					</c:forEach>
 				</tr>
 			</tbody>
 		</table>

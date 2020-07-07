@@ -31,4 +31,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 		class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
+	
+	<!-- <bean id="memberController"
+		  class="com.myspring.pro.member.controller.MemberControllerImpl"
+		  <property name="projectDAO" ref="projectDAO"/>
+	</bean> -->
+  	
+  
 </beans>

@@ -7,5 +7,6 @@
 		<typeAlias type="com.myspring.pro.member.vo.MemberVO"  alias="memberVO" />
 		<typeAlias type="com.myspring.pro.project.vo.projectVO"  alias="projectVO" />
 		<typeAlias type="com.myspring.pro.project.vo.tagVO"  alias="tagVO" />
+		<typeAlias type="com.myspring.pro.mypage.vo.MyPageVO"  alias="myPageVO" />
 	</typeAliases>
 </configuration>

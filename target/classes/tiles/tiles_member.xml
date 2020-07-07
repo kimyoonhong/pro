@@ -21,21 +21,24 @@
       <put-attribute name="body" value="/WEB-INF/views/member/listMembers.jsp" />
    </definition>
    
-
    <!-- 로그인 기능 -->
-   <definition name="/member/loginForm" extends="baseLayout">
+   <!-- <definition name="/member/loginForm" extends="baseLayout">
       <put-attribute name="title" value="로그인창" />
       <put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp" />
-   </definition>
-      
-
+   </definition> -->
+   
    <definition name="/member/memberForm" extends="baseLayout">
       <put-attribute name="title" value="회원등록창" />
       <put-attribute name="body" value="/WEB-INF/views/member/memberForm.jsp" />
    </definition>
 
-   <definition name="/member/viewDetail" extends="baseLayout">
+   <definition name="/mypage/myDetailInfo" extends="baseLayout">
       <put-attribute name="title" value="회원상세창" />
-      <put-attribute name="body" value="/WEB-INF/views/member/viewDetail.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/mypage/myDetailInfo.jsp" />
    </definition> 
+   
+   <definition name="/mypage/myProject" extends="baseLayout">
+      <put-attribute name="title" value="신청프로젝트" />
+      <put-attribute name="body" value="/WEB-INF/views/mypage/myProject.jsp" />
+   </definition>
 </tiles-definitions>

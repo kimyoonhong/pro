@@ -9,6 +9,7 @@
 		<result property="TAG_SECOND" column="TAG_SECOND"/>
 		<result property="TAG_THIRD" column="TAG_THIRD"/>
 	</resultMap> 
+	
 	<select id="selectTagList" resultMap="tag">
       <![CDATA[
          select * from  TAG 	

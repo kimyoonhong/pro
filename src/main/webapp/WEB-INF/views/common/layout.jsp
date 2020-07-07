@@ -18,11 +18,13 @@
         border: 0px solid #bcbcbc;
       }
       #header {
-        padding: 5px;
+      	padding: 5px;
+      	margin: 0px auto;
         margin-bottom: 5px;
-        border: 0px solid #bcbcbc;
-         background-color: lightgreen;
+        border: 1px solid #bcbcbc;
+        background-color: lightgreen;
       }
+      
       #sidebar-left {
         width: 15%;
         height:700px;
@@ -34,19 +36,22 @@
         border: 0px solid #bcbcbc;
         font-size:10px;
       }
+      
       #content {
         width: 75%;
         padding: 5px;
         margin-right: 5px;
-        float: left;
+        float: left; 
         border: 0px solid #bcbcbc;
       }
+      
       #footer {
         clear: both;
         padding: 5px;
         border: 0px solid #bcbcbc;
          background-color: lightblue;
       }
+      
       
     </style>
     <!-- tiles_member.xml의 <definition>의 하위태그인 <put-attribute>태그의 name이 tittle인 값(value)표시 -->
@@ -58,6 +63,7 @@
       <!-- tiles_member.xml의 <definition>의 하위태그인 <put-attribute>태그의 name이 header인 값(value)표시 -->
          <tiles:insertAttribute name="header"/>
       </div>
+      <div class="clear"></div>
       <div id="sidebar-left">
       <!-- tiles_member.xml의 <definition>의 하위태그인 <put-attribute>태그의 name이 side인 값(value)표시 -->
           <tiles:insertAttribute name="side"/> 

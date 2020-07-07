@@ -27,18 +27,28 @@ public class projectServiceImpl implements projectService {
 	public List listprojects() throws DataAccessException {
 		List projectsList = null;
 		projectsList = projectDAO.selectAllprojectList();
-		
 		return projectsList;
 	}
+	
+	@Override
+	public List projectTagList(int PROJECT_CODE) throws DataAccessException {
+		List<projectVO> projectTagList = null;
+		projectTagList=projectDAO.selectprojectTagList(PROJECT_CODE);
+		return projectTagList;
+	}
+/*	public int insertprojecttaglist(Map projectMap,List<String> tag) throws DataAccessException{
+		return projectDAO.insertprojecttaglist(projectMap, tag);
+	}*/
 
 	
-	public int addproject(projectVO project) throws DataAccessException {
-		return projectDAO.insertproject(project);
+	public int addproject(Map projectMap,List<String> tag) throws DataAccessException {
+
+		return projectDAO.insertproject(projectMap,tag);
 	}
 
 	
-	public int removeproject(String PROJECT_CODE) throws DataAccessException {
-		return projectDAO.deleteproject(PROJECT_CODE);
+	public void removeproject(int PROJECT_CODE) throws DataAccessException {
+		 projectDAO.deleteproject(PROJECT_CODE);
 	}
 
 	
@@ -61,6 +71,51 @@ public class projectServiceImpl implements projectService {
 		List<String> list=projectDAO.selectKeywordSearch(searchWord,tag);
 		return list;
 	}
+
+		@Override
+		public projectVO viewproject(int PROJECT_CODE) throws DataAccessException {
+			System.out.println("여기여기");
+			return projectDAO.selectviewprojectList(PROJECT_CODE);
+		}
+
+		@Override
+		public void modproject(Map projectMap) throws Exception {
+			projectDAO.updateproject(projectMap);
+		}
+
+		@Override
+		public void removetag(int PROJECT_CODE, String tag) throws DataAccessException {
+			
+			projectDAO.removetag(PROJECT_CODE, tag);
+		}
+
+		@Override
+		public void addprojecttag(Map projectMap,int PROJECT_CODE) throws DataAccessException {
+			projectDAO.insetprojecttag(projectMap,PROJECT_CODE);
+		}
+
+		@Override
+		public boolean overlappedTag(Map projectMap,int PROJECT_CODE) throws DataAccessException {
+			boolean a=  projectDAO.selectoverlappedtag(projectMap, PROJECT_CODE);
+			return a;
+		}
+
+		@Override
+		public void addmemberproject(Map projectMap, int PROJECT_CODE) throws DataAccessException {
+			
+			
+		}
+
+		@Override
+		public boolean overlappedMemberproject(Map projectMap, int PROJECT_CODE) throws DataAccessException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+
+		
+
+
 	
 	
 

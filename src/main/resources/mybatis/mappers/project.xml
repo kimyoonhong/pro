@@ -26,6 +26,12 @@
         <result property="keyword" />
 	</resultMap> 
 	
+	<insert id="addMember_Tag"  parameterType="projectVO">
+		<![CDATA[
+		 
+		]]>      
+	</insert>
+	
 	<select id="selectAllprojectList" resultMap="project">
       <![CDATA[
          select * from T_PROJECT_BOARD	order by  PROJECT_CODE	

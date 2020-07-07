@@ -1,0 +1,53 @@
+package com.myspring.pro.mypage.vo;
+
+import java.sql.Date;
+import org.springframework.stereotype.Component;
+
+@Component("mypageVO")
+public class MyPageVO {
+	private String MEMBER_ID;     // 아이디
+	private String PROJECT_CODE;  // 프로젝트 코드
+	private String APPLY_CK;      // 신청여부
+	private String APPLY_DAY;       // 신청일
+	private String PASS_CK;       // 합격여부
+	private String PASS_DAY;         // 합격일
+	public String getMEMBER_ID() {
+		return MEMBER_ID;
+	}
+	public void setMEMBER_ID(String mEMBER_ID) {
+		MEMBER_ID = mEMBER_ID;
+	}
+	public String getPROJECT_CODE() {
+		return PROJECT_CODE;
+	}
+	public void setPROJECT_CODE(String pROJECT_CODE) {
+		PROJECT_CODE = pROJECT_CODE;
+	}
+	public String getAPPLY_CK() {
+		return APPLY_CK;
+	}
+	public void setAPPLY_CK(String aPPLY_CK) {
+		APPLY_CK = aPPLY_CK;
+	}
+	public String getAPPLY_DAY() {
+		return APPLY_DAY;
+	}
+	public void setAPPLY_DAY(String aPPLY_DAY) {
+		APPLY_DAY = aPPLY_DAY;
+	}
+	public String getPASS_CK() {
+		return PASS_CK;
+	}
+	public void setPASS_CK(String pASS_CK) {
+		PASS_CK = pASS_CK;
+	}
+	public String getPASS_DAY() {
+		return PASS_DAY;
+	}
+	public void setPASS_DAY(String pASS_DAY) {
+		PASS_DAY = pASS_DAY;
+	}
+	
+	
+	
+}

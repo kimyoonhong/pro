@@ -6,24 +6,25 @@ import org.springframework.stereotype.Component;
 
 @Component("projectVO")
 public class projectVO {
-	private String MEMBER_ID;  //ȸ�����̵�
-	private String PROJECT_CODE; //������Ʈ�ڵ�
-	private String PROJECT_TITTLE; //������Ʈ ����
-	private String PROJECT_CONTENT; // ����
-	private String PROJECT_REGISTER_DAY; //�ۼ���
-	private String INVITE_STRDAY; // ���� ������
-	private String INVITE_ENDDAY; // ���� ������
-	private String PROJECT_STRDAY; // ������Ʈ ������
- 	private String PROJECT_ENDDAY; // ������Ʈ ������
-	private String TOTALMEMBER; //�ѿ�
-	private int APPLYMEMBER; //������ �� 
-	private int PASSMEMBER; //������ �ο���
-	private String T_PROJECT_TAG; //������Ʈ �ױ�
+	private String MEMBER_ID;  
+	private int PROJECT_CODE; 
+	private String PROJECT_TITTLE; 
+	private String PROJECT_CONTENT; 
+	private String PROJECT_REGISTER_DAY; 
+	private String INVITE_STRDAY; 
+	private String PROJECT_FILENAME;
+	private String INVITE_ENDDAY; 
+	private String PROJECT_STRDAY; 
+ 	private String PROJECT_ENDDAY; 
+	private String TOTALMEMBER;
+	private String APPLY_CK;
+	private int APPLYMEMBER; 
+	private int PASSMEMBER; 
+	private String PROJECT_TAG; 
 	private String Tag1;
 	private String Tag2;
 	private String Tag3;
 	private String Tag4;
-	
 	private String Tag5;
 	private String keyword;
 
@@ -35,6 +36,12 @@ public String getKeyword() {
 }
 public void setKeyword(String keyword) {
 	this.keyword = keyword;
+}
+public String getPROJECT_FILENAME() {
+	return PROJECT_FILENAME;
+}
+public void setPROJECT_FILENAME(String pROJECT_FILENAME) {
+	PROJECT_FILENAME = pROJECT_FILENAME;
 }
 public projectVO(String tag1,String tag2,String tag3,String tag4,String tag5) {
 	this.Tag1 = tag1;
@@ -51,6 +58,14 @@ public void setTags(String tag1,String tag2,String tag3,String tag4,String tag5)
 	this.Tag4 = tag4;
 	this.Tag5 = tag5;
 }
+
+public String getAPPLY_CK() {
+	return APPLY_CK;
+}
+public void setAPPLY_CK(String aPPLY_CK) {
+	APPLY_CK = aPPLY_CK;
+}
+
 public String getTag1() {
 	return Tag1;
 }
@@ -86,28 +101,24 @@ public void setTag5(String tag5) {
  public void setMEMBER_ID(String MEMBER_ID) {
 	 this.MEMBER_ID=MEMBER_ID;
  }
- 
- public String getPROJECT_CODE() {
+ public int getPROJECT_CODE() {
 	 return PROJECT_CODE;
  }
- public void setPROJECT_CODE(String PROJECT_CODE) {
+ public void setPROJECT_CODE(int PROJECT_CODE) {
 	 this.PROJECT_CODE=PROJECT_CODE;
  }
- 
  public String getPROJECT_TITTLE() {
 	 return PROJECT_TITTLE;
  }
  public void setPROJECT_TITTLE(String PROJECT_TITTLE) {
 	 this.PROJECT_TITTLE=PROJECT_TITTLE;
  }
- 
  public String getPROJECT_CONTENT() {
 	 return PROJECT_CONTENT;
  }
  public void setPROJECT_CONTENT(String PROJECT_CONTENT) {
 	 this.PROJECT_CONTENT=PROJECT_CONTENT;
  }
- 
  public String getPROJECT_REGISTER_DAY() {
 	 return PROJECT_REGISTER_DAY;
  }
@@ -149,12 +160,16 @@ public void setTag5(String tag5) {
  public void setTOTALMEMBER(String TOTALMEMBER) {
 	 this.TOTALMEMBER=TOTALMEMBER;
  }
- 
- public String getT_PROJECT_TAG() {
-	 return T_PROJECT_TAG;
+ //asdsadas
+ //asdihsakdjashkdjhsakjdhakdl
+ //asjkdalksjdsakljdsakljda
+ //asdsadasdasdasdada
+ //asdsadsa
+ public String getPROJECT_TAG() {
+	 return PROJECT_TAG;
  }
- public void setT_PROJECT_TAG(String T_PROJECT_TAG) {
-	 this.T_PROJECT_TAG=T_PROJECT_TAG;
+ public void setPROJECT_TAG(String T_PROJECT_TAG) {
+	 this.PROJECT_TAG=T_PROJECT_TAG;
  }
  
  public int getAPPLYMEMBER() {
