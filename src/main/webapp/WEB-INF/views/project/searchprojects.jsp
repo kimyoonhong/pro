@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="EUC-KR">
 <title>Insert title here</title>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -22,36 +22,16 @@
 <body>
 <table border="1"  align="center"  width="80%">
     <tr align="center"   bgcolor="lightgreen">
-      <td ><b>작성자</b></td>
-      <td><b>프로젝트 코드</b></td>
+      <td><b>글번호</b></td>
       <td><b>제목</b></td>
-      <td><b>내용</b></td>
       <td><b>작성일</b></td>
-      <td><b>모집 시작일</b></td>
-      <td><b>모집 종료일</b></td>
-      <td><b>프로젝트 시작일</b></td>
-      <td><b>프로젝트 종료일</b></td>
-      <td><b>총원</b></td>
-      <td><b>지원자수</b></td>
-      <td><b>모집된 인원수</b></td>
-      <td><b>삭제</b></td>
    </tr>
-   
- <c:forEach var="search" items="${projectsList}" >     
+ <c:forEach var="search" items="${projectsList}" >
+      
    <tr align="center">
-      <td>${search.MEMBER_ID}</td>
-      <td>${search.PROJECT_CODE}</td>
-      <td>${search.PROJECT_TITTLE}</td>
-      <td>${search.PROJECT_CONTENT}</td>
+    <td></td>
+	  <td><a class='cls1' href="${contextPath}/project/projectDetail.do?PROJECT_CODE=${search.PROJECT_CODE}">${search.PROJECT_TITTLE }</a></td>
       <td>${search.PROJECT_REGISTER_DAY}</td>
-      <td>${search.INVITE_STRDAY}</td>
-      <td>${search.INVITE_ENDDAY}</td>
-      <td>${search.PROJECT_STRDAY}</td>
-      <td>${search.PROJECT_ENDDAY}</td>
-      <td>${search.TOTALMEMBER}</td>
-      <td>${search.APPLYMEMBER}</td>
-      <td>${search.PASSMEMBER}</td>
-      <td><a href="${contextPath}/project/removeproject.do?PROJECT_CODE=${project.PROJECT_CODE}">삭제하기</a></td>
     </tr>
   </c:forEach>   
 </table>

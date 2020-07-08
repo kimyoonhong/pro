@@ -18,13 +18,18 @@ import com.myspring.pro.project.vo.tagVO;
 
 public interface MyPageController {
 	
+	// 신청프로젝트 취소
+	public ModelAndView cancelApply(@RequestParam("PROJECT_CODE") int PROJECT_CODE,
+									HttpServletRequest request, 
+			 						HttpServletResponse response)  throws Exception;
+	
 	// 나의 프로젝트 조회
 	public ModelAndView myProject(HttpServletRequest request, 
-										HttpServletResponse response) 
+								  HttpServletResponse response) 
 													throws Exception;
 	// 회원 수정 (해쉬태그 추가)
 	public String addTag(@RequestParam("MEMBER_ID") String MEMBER_ID,
-			 						 @RequestParam("TAG_THIRD") String TAG_THIRD,
+			 			 @RequestParam("TAG_THIRD") String TAG_THIRD,
 									HttpServletRequest request,
 									HttpServletResponse response) throws Exception;
 	// 회원 수정(해쉬태그 삭제)

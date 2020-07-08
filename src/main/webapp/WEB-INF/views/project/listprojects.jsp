@@ -19,13 +19,7 @@
 function fn_ck(){
 	var isSeasonChk =false;
 	var selecttag =document.getElementsByName("selecttag");
-	alert(selecttag);
-	for(var i=0;i<selecttag.length; i++){
-		if(selecttag[i].checked == true){
-			isSeasonChk = true;
-			break;
-		}
-	}
+
 	if(!isSeasonChk){
 		selecttag[0].checked =true;
 		selecttag[0].value = "null";
@@ -72,7 +66,7 @@ function fn_ck(){
     </tr>
   </c:forEach>   
 </table>
-<a  href="${contextPath}/project/projectadd.do"><h1 style="text-align:center">글작성</h1></a>
+<a  href="${contextPath}/project/projectadd.do"><h1 style="text-align:center">프로젝트 작성</h1></a>
 
 <form name="frmSearch" action="${contextPath}/project/searchprojects.do" method = "get">
 <table border="1"  align="center"  width="80%">

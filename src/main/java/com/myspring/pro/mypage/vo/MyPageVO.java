@@ -6,21 +6,21 @@ import org.springframework.stereotype.Component;
 @Component("mypageVO")
 public class MyPageVO {
 	private String MEMBER_ID;     // 아이디
-	private String PROJECT_CODE;  // 프로젝트 코드
+	private int PROJECT_CODE;  // 프로젝트 코드
 	private String APPLY_CK;      // 신청여부
-	private String APPLY_DAY;       // 신청일
+	private String APPLY_DAY;     // 신청일
 	private String PASS_CK;       // 합격여부
-	private String PASS_DAY;         // 합격일
+	private String PASS_DAY;      // 합격일
 	public String getMEMBER_ID() {
 		return MEMBER_ID;
 	}
 	public void setMEMBER_ID(String mEMBER_ID) {
 		MEMBER_ID = mEMBER_ID;
 	}
-	public String getPROJECT_CODE() {
+	public int getPROJECT_CODE() {
 		return PROJECT_CODE;
 	}
-	public void setPROJECT_CODE(String pROJECT_CODE) {
+	public void setPROJECT_CODE(int pROJECT_CODE) {
 		PROJECT_CODE = pROJECT_CODE;
 	}
 	public String getAPPLY_CK() {

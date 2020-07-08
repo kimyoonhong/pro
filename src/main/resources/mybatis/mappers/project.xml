@@ -10,6 +10,7 @@
         <result property="PROJECT_TITTLE" column="PROJECT_TITTLE" />
         <result property="PROJECT_CONTENT" column="PROJECT_CONTENT" />
         <result property="PROJECT_REGISTER_DAY" column="PROJECT_REGISTER_DAY" />
+        <result property="PROJECT_FILENAME" column="PROJECT_FILENAME"/>
         <result property="INVITE_STRDAY" column="INVITE_STRDAY" />
         <result property="INVITE_ENDDAY" column="INVITE_ENDDAY" />
         <result property="PROJECT_STRDAY" column="PROJECT_STRDAY" />
@@ -17,7 +18,8 @@
         <result property="TOTALMEMBER" column="TOTALMEMBER" />
         <result property="APPLYMEMBER" column="APPLYMEMBER" />
         <result property="PASSMEMBER" column="PASSMEMBER" />
-        <result property="T_PROJECT_TAG" column="T_PROJECT_TAG" />
+        <result property="PROJECT_TAG" column="PROJECT_TAG" />
+        <result property="APPLY_CK" column="APPLY_CK" />
         <result property="Tag1" />
         <result property="Tag2" />
         <result property="Tag3" />
@@ -25,29 +27,70 @@
         <result property="Tag5" />
         <result property="keyword" />
 	</resultMap> 
+
+	<select id="selectMemberProjectList" parameterType="String" resultMap="project">
+      <![CDATA[
+         select * from T_PROJECT_BOARD	where MEMBER_ID=#{MEMBER_ID}	
+      ]]>
+	</select>
 	
-	<insert id="addMember_Tag"  parameterType="projectVO">
-		<![CDATA[
-		 
-		]]>      
-	</insert>
 	
 	<select id="selectAllprojectList" resultMap="project">
       <![CDATA[
          select * from T_PROJECT_BOARD	order by  PROJECT_CODE	
       ]]>
 	</select>
+	
+	<select id="selectviewproject"  resultMap="project">
+      <![CDATA[
+         select * from T_PROJECT_BOARD	where PROJECT_CODE = #{PROJECT_CODE} order by  PROJECT_CODE	
+      ]]>
+	</select>
     
-     <insert id="insertproject"  parameterType="projectVO">
+  <select id="selectprojectcode" resultType="int"  >
 		<![CDATA[
-		 insert into T_PROJECT_BOARD(MEMBER_ID,PROJECT_CODE, PROJECT_TITTLE, PROJECT_CONTENT,PROJECT_REGISTER_DAY,INVITE_STRDAY,INVITE_ENDDAY,PROJECT_STRDAY,PROJECT_ENDDAY,TOTALMEMBER,APPLYMEMBER,PASSMEMBER)
-		 values(#{MEMBER_ID}, #{PROJECT_CODE}, #{PROJECT_TITTLE}, #{PROJECT_CONTENT}, #{PROJECT_REGISTER_DAY}, #{INVITE_STRDAY}, #{INVITE_ENDDAY}, #{PROJECT_STRDAY}, #{PROJECT_ENDDAY}, #{TOTALMEMBER}, #{APPLYMEMBER}, #{PASSMEMBER})
+			SELECT  max(PROJECT_CODE)+1 from T_PROJECT_BOARD	
+		]]>
+	</select>
+	<select id ="selectprojectTagList" resultMap="project" parameterType="int">
+	select PROJECT_TAG from T_PROJECT_TAGLIST
+	where PROJECT_CODE = #{PROJECT_CODE}
+	
+	</select>
+     <insert id="insertproject"  parameterType="java.util.Map">
+		<![CDATA[
+		 insert into T_PROJECT_BOARD
+		 (MEMBER_ID,PROJECT_CODE,
+		 PROJECT_TITTLE,
+		 PROJECT_FILENAME,
+		 PROJECT_CONTENT,
+		 PROJECT_REGISTER_DAY,
+		 INVITE_STRDAY,
+		 INVITE_ENDDAY,
+		 PROJECT_STRDAY,
+		 PROJECT_ENDDAY,
+		 TOTALMEMBER,
+		 APPLYMEMBER,
+		 PASSMEMBER)
+		 values(#{MEMBER_ID}, 
+		 #{PROJCET_CODE},
+		  #{PROJECT_TITTLE},
+		  #{PROJECT_FILENAME}, 
+		  #{PROJECT_CONTENT}, 
+		  sysdate,
+		   #{INVITE_STRDAY},
+		   #{INVITE_ENDDAY}, 
+		   #{PROJECT_STRDAY},
+		    #{PROJECT_ENDDAY},#{TOTALMEMBER},0,0)
 		]]>      
 	</insert>
-
+	<insert id="insertprojecttag" parameterType="projectVo">
+		insert into T_PROJECT_TAGLIST(PROJECT_CODE,PROJECT_TITTLE,PROJECT_TAG)
+		values(#{PROJECT_CODE}, #{PROJECT_TITTLE},#{PROJECT_TAG})
+	</insert>
 	 <select id="selectKeywordSearch" resultMap="project" parameterType="projectVO" >
 	    <![CDATA[
-        select DISTINCT(p.PROJECT_TITTLE)
+        select DISTINCT(p.PROJECT_TITTLE),p.PROJECT_CODE,p.PROJECT_REGISTER_DAY
 		from T_PROJECT_BOARD p left outer join t_project_taglist t
 		on p.project_code = t.project_code
 		where         
@@ -57,24 +100,57 @@
 		or t.project_tag = #{Tag3}
 		or t.project_tag = #{Tag4}
 		or t.project_tag = #{Tag5}
+		
+		order by p.PROJECT_CODE asc
 		]]>
 	</select> 
+   <update id="updateproject"  parameterType="java.util.Map">
+			update t_project_board
+			set PROJECT_TITTLE=#{PROJECT_TITTLE},	 
+			PROJECT_STRDAY=#{PROJECT_STRDAY},
+			PROJECT_ENDDAY=#{PROJECT_ENDDAY},
+			INVITE_STRDAY=#{INVITE_STRDAY},
+			INVITE_ENDDAY=#{INVITE_ENDDAY},
+			PROJECT_CONTENT=#{PROJECT_CONTENT},
+			TOTALMEMBER=#{TOTALMEMBER},
+			APPLYMEMBER=#{APPLYMEMBER},
+			 <if test="PROJECT_FILENAME!='' and PROJECT_FILENAME!=null">
+			  , PROJECT_FILENAME=#{PROJECT_FILENAME},
+			</if>
+			PASSMEMBER=#{PASSMEMBER}
+			
+			where PROJECT_CODE=#{PROJECT_CODE}
+	</update>
    
-   <update id="updateproject"  parameterType="projectVO">
-     <![CDATA[
-	     update T_PROJECT_BOARD
-	     set PROJECT_TITTLE=#{PROJECT_TITTLE}, PROJECT_CONTENT=#{PROJECT_CONTENT}, PROJECT_REGISTER_DAY=SYSDATE, INVITE_STRDAY=#{INVITE_STRDAY}, INVITE_ENDDAY=#{INVITE_ENDDAY}, PROJECT_STRDAY=#{PROJECT_STRDAY}, PROJECT_ENDDAY=#{PROJECT_ENDDAY}, TOTALMEMBER=#{TOTALMEMBER}, APPLYMEMBER=#{APPLYMEMBER}, PASSMEMBER=#{PASSMEMBER}, T_PROJECT_TAG=#{T_PROJECT_TAG}
-	     where
-	     PROJECT_CODE=#{PROJECT_CODE}
-      ]]>      
-   </update> 
-     
-   <delete id="deleteproject"  parameterType="String">
+    <delete id="deleteprojecttag" parameterType="projectVo">
+    	delete from T_PROJECT_TAGLIST
+    	
+    	where PROJECT_CODE=#{PROJECT_CODE}
+    	and PROJECT_TAG=#{PROJECT_TAG}
+    </delete>
+   <delete id="deleteproject"  parameterType="int">
 	<![CDATA[
-	   delete from  T_PROJECT_BOARD
+	   delete from  T_PROJECT_BOARD 
 	   where
-	   PROJECT_CODE=#{PROJECT_CODE}
+	    PROJECT_CODE=#{PROJECT_CODE}
 	]]>      
   </delete>
+  <select id="selectoverlappedtag" parameterType="projectVO" resultType="String">
+  	select decode(count(*),1, 'true', 0, 'false') from T_PROJECT_TAGLIST
+	where PROJECT_CODE = #{PROJECT_CODE}
+	and PROJECT_TAG=#{PROJECT_TAG}
+  </select>
+  
+  <select id="selectoverlappedmemberproject" parameterType="projectVO" resultType="String">
+  	select decode(count(*),1, 'true', 0, 'false') from T_MEMBER_PROJECT_LIST
+	where MEMBER_ID = #{MEMBER_ID}
+	and PROJECT_CODE =#{PROJECT_CODE}
+  </select>
+  
+  <insert id="insertprojectmemberproject" parameterType="projectVo">
+		insert into T_MEMBER_PROJECT_LIST(MEMBER_ID,PROJECT_CODE,APPLY_CK)
+		values(#{MEMBER_ID}, #{PROJECT_CODE},#{APPLY_CK})
+	</insert>
+  
   
 </mapper>

@@ -22,10 +22,10 @@
    </definition>
    
    <!-- 로그인 기능 -->
-   <!-- <definition name="/member/loginForm" extends="baseLayout">
+   <definition name="/member/loginForm" extends="baseLayout">
       <put-attribute name="title" value="로그인창" />
       <put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp" />
-   </definition> -->
+   </definition>
    
    <definition name="/member/memberForm" extends="baseLayout">
       <put-attribute name="title" value="회원등록창" />

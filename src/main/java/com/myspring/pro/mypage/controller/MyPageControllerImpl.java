@@ -35,6 +35,7 @@ import com.myspring.pro.member.vo.MemberVO;
 import com.myspring.pro.project.controller.projectControllerImpl;
 import com.myspring.pro.project.service.projectService;
 import com.myspring.pro.project.dao.projectDAO;
+import com.myspring.pro.project.vo.projectVO;
 import com.myspring.pro.project.vo.tagVO;
 
 import com.myspring.pro.mypage.service.MyPageService;
@@ -87,6 +88,38 @@ public class MyPageControllerImpl implements MyPageController{
 	@Autowired
 	private MyPageVO myPageVO;
 	
+	
+	// 프로젝트 신청 취소
+	// 회원삭제
+		@Override
+		@RequestMapping(value="/cancel.do" ,method={RequestMethod.POST,RequestMethod.GET})
+		public ModelAndView cancelApply( @RequestParam("PROJECT_CODE") int PROJECT_CODE,
+										 HttpServletRequest request, 
+										 HttpServletResponse response)  throws Exception {
+			ModelAndView mav = new ModelAndView();
+			//
+			System.out.println(request.getParameter("MEMBER_ID"));
+			
+			// 아이디, 프로젝트 코드 변수에 저장.
+			String MEMBER_ID=request.getParameter("MEMBER_ID");
+			
+			
+			System.out.println("프로젝트 코드 : " + PROJECT_CODE);
+
+			
+			// myPageVO에 아이디, 프로젝트 코드 셋.
+			myPageVO.setMEMBER_ID(MEMBER_ID);
+			myPageVO.setPROJECT_CODE(PROJECT_CODE);
+			
+			// myPageVO를 매개변수로 신청프로젝트 취소.
+			myPageService.cancelApply(myPageVO);
+			
+			// 내 프로젝트로 리다이렉트
+			mav.setViewName("redirect:/mypage/myProject.do");
+			
+			return mav;
+			
+		}
 	// 회원 조회
 		@Override
 		@RequestMapping(value="/myProject.do" ,method = RequestMethod.GET)
@@ -102,11 +135,16 @@ public class MyPageControllerImpl implements MyPageController{
 			memberVO= (MemberVO)session.getAttribute("memberInfo");
 			
 			String MEMBER_ID = memberVO.getMEMBER_ID();
-				
-			List myProjectList = myPageService.selectMyProjectList(MEMBER_ID);
+			
+			// 내가 신청한 프로젝트 리스트
+			List ApplyProjectList = myPageService.selectApplyProjectList(MEMBER_ID);
+			// 내가 등록한 프로젝트 리스트
+			List<projectVO> MyProjectList = myPageService.selectMyProjectList(MEMBER_ID);
+			
 			// viewName이 tiles_member.xml의 <definition>태그에 설정한 뷰이름과 일치한다.
 			ModelAndView mav = new ModelAndView(viewName);
-			mav.addObject("myProjectList", myProjectList);
+			mav.addObject("ApplyProjectList", ApplyProjectList);
+			mav.addObject("MyProjectList", MyProjectList);
 			// ModelAndView 객체에 설정한 뷰이름을 타일즈 뷰리졸버로 반환한다.
 			return mav;
 		}

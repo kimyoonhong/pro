@@ -20,7 +20,13 @@
       ]]>
 	</select>
 	
-	
+	<delete id="cancelApply"  parameterType="myPageVO">
+	<![CDATA[
+	   delete from  T_MEMBER_PROJECT_LIST
+	   where
+	   MEMBER_ID=#{MEMBER_ID} and PROJECT_CODE=#{PROJECT_CODE}
+	]]>      
+  </delete>
 	
 	
 </mapper>

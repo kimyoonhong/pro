@@ -9,12 +9,29 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.myspring.pro.member.vo.MemberVO;
+import com.myspring.pro.mypage.vo.MyPageVO;
+import com.myspring.pro.project.vo.projectVO;
 
 @Repository("mypageDAO")
 public class MyPageDAOImpl implements MyPageDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	// 내가 등록한 프로젝트 조회
+	@Override
+    public List<projectVO> selectMyProjectList(String MEMBER_ID)  throws Exception {
+    	List<projectVO> MyProjectList = null;
+    	MyProjectList = sqlSession.selectList("mapper.project.selectMemberProjectList",MEMBER_ID);
+    	return MyProjectList;
+    }
+	
+	
+	// 신청 프로젝트 취소
+    @Override
+    public void cancelApply(MyPageVO mypageVO)  throws Exception {
+    	sqlSession.delete("mapper.mypage.cancelApply",mypageVO);
+    }
+    
 	// 회원 정보 수정
 	@Override
 	public void modifyMyInfo(Map memberMap) throws DataAccessException{
@@ -60,12 +77,12 @@ public class MyPageDAOImpl implements MyPageDAO {
 		 return result;
 	 }
 	
-	// 나의 프로젝트 조회
+	// 신청한 프로젝트 조회
 		@Override
-		public List selectMyProjectList(String MEMBER_ID) throws DataAccessException {
-			List MyProjectList = null;
-			MyProjectList = sqlSession.selectList("mapper.mypage.selectMyProjectList",MEMBER_ID);
-			return MyProjectList;
+		public List selectApplyProjectList(String MEMBER_ID) throws DataAccessException {
+			List ApplyProjectList = null;
+			ApplyProjectList = sqlSession.selectList("mapper.mypage.selectMyProjectList",MEMBER_ID);
+			return ApplyProjectList;
 		}
 		
 	

@@ -22,13 +22,15 @@
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 	
+	
 	<!-- 뷰리졸버 -->
+	<!--
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
 		<beans:property name="prefix" value="/WEB-INF/views/" /> 
 		<beans:property name="suffix" value=".jsp" /> 
 		<beans:property name="order" value="2" />
 	</beans:bean>
-  
+  -->
  
 	<!-- 타일즈 설정 -->
 	<!-- 스프링의 TilesConfigurer 클래스를 이용해 tilesConfigure 빈 생성. -->
@@ -52,15 +54,13 @@
 	<context:component-scan	base-package="com.myspring.pro" />
 	
 	<!-- 멀티파트 리졸버 -->
-	<!-- 
+	
   <beans:bean id="multipartResolver"    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
       <beans:property name="maxUploadSize" value="52428800" />
       <beans:property name="maxInMemorySize" value="52428800" />
       <beans:property name="defaultEncoding" value="utf-8" />
    </beans:bean>
-	 -->
-	
-
+	 
 <!-- 인터셉터 실습 설정 -->
    <mvc:interceptors>
     	<mvc:interceptor>

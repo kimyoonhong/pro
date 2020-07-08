@@ -73,7 +73,8 @@ public class projectControllerImpl   implements projectController {
 	
 	//프로젝트 추가(실)
 	@Override
-	@RequestMapping(value="/project/addproject.do" ,method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="/project/addproject.do" ,produces = "text/html; charset=utf8",
+							method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	public ResponseEntity addproject(MultipartHttpServletRequest multipartRequest,@RequestParam("selecttag") List<String> tag, 
 	HttpServletResponse response) throws Exception {
@@ -93,7 +94,7 @@ public class projectControllerImpl   implements projectController {
 		ResponseEntity resEnt=null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		int PROJECT_CODE = projectService.addproject(projectMap,tag);
-		responseHeaders.add("Content=Type","text/html; charset=utf-8");
+		responseHeaders.add("Content=Type","text/html; charset=UTF-8");
 		try {
 				//projectService.insertprojecttaglist(projectMap, tag);
 			if(PROJECT_FILENAME!=null && PROJECT_FILENAME.length()!=0) {

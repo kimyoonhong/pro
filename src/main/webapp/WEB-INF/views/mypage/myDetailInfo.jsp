@@ -269,7 +269,7 @@ function fn_modify_member_info(attribute){
 		$.ajax({
 			type : "post",
 			async : false, //false인 경우 동기식으로 처리한다.
-			url : "${contextPath}/member/modifyMyInfo.do",
+			url : "${contextPath}/mypage/modifyMyInfo.do",
 			data : {
 				attribute:attribute,
 				value:value,
@@ -307,7 +307,7 @@ function addTag(TAG_THIRD){
 	 $.ajax({
 			type : "post",
 			async : false, //false인 경우 동기식으로 처리한다.
-			url : "${contextPath}/member/addTag.do",
+			url : "${contextPath}/mypage/addTag.do",
 			dataType:"text",
 			data : {
 				MEMBER_ID:MEMBER_ID,
@@ -327,7 +327,7 @@ function addTag(TAG_THIRD){
 				alert("작업을완료 했습니다");	
 			}
 		}); //end ajax
-
+		history.go(0);
 
 
 	}
@@ -645,7 +645,7 @@ function addTag(TAG_THIRD){
 	   <tr align="center">
 		   <td>${MemberTagList.TAG}</td>
 		   <td>
-		   	 <a href="${contextPath}/member/removeTag.do?MEMBER_ID=${memberInfo.MEMBER_ID}&MEMBER_TAG=${MemberTagList.TAG}">삭제하기</a>
+		   	 <a href="${contextPath}/mypage/removeTag.do?MEMBER_ID=${memberInfo.MEMBER_ID}&MEMBER_TAG=${MemberTagList.TAG}">삭제하기</a>
 		   </td>
 	   </tr>
    </c:forEach>

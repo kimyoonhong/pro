@@ -12,22 +12,37 @@
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
 
-   <!-- 컨트롤러에서 반환되는 뷰이름을 지정한다. 
+   <!-- <definition name="main" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="body" value="/WEB-INF/views/main.jsp" />
+   </definition> -->
+
+   <!-- 컨트롤러에서 반환되는 뷰이름을 지정합니다. 
    		(/member/listMember.do로 요청했을때 .do를 제외한 요청명과 "name"의 값이 일치해야한다. -->
-   <!-- 로그인 기능 -->
+   <!-- 회원조회 기능 -->
    <definition name="/project/listprojects" extends="baseLayout">
-      <put-attribute name="title" value="프로젝트리스트" />
+      <put-attribute name="title" value="프로젝트 게시판" />
       <put-attribute name="body" value="/WEB-INF/views/project/listprojects.jsp" />
    </definition>
-      
+   
+   <definition name="/project/searchprojects" extends="baseLayout">
+      <put-attribute name="title" value="검색 결과" />
+      <put-attribute name="body" value="/WEB-INF/views/project/searchprojects.jsp" />
+   </definition>
 
-   <definition name="/project/addproject" extends="baseLayout">
-      <put-attribute name="title" value="프로젝트추가" />
+	<definition name="/project/projectadd" extends="baseLayout">
+      <put-attribute name="title" value="프로젝트 작성" />
+      <put-attribute name="body" value="/WEB-INF/views/project/projectadd.jsp" />
+   </definition>
+   
+   <definition name="/project/projectDetail" extends="baseLayout">
+      <put-attribute name="title" value="프로젝트 상세보기" />
+      <put-attribute name="body" value="/WEB-INF/views/project/projectDetail.jsp" />
+   </definition>
+   
+   	<definition name="/project/projectadd" extends="baseLayout">
+      <put-attribute name="title" value="프로젝트 작성" />
       <put-attribute name="body" value="/WEB-INF/views/project/projectadd.jsp" />
    </definition>
 
-   <definition name="/project/searchprojects" extends="baseLayout">
-      <put-attribute name="title" value="프로젝트검색" />
-      <put-attribute name="body" value="/WEB-INF/views/project/searchprojects.jsp" />
-   </definition> 
 </tiles-definitions>

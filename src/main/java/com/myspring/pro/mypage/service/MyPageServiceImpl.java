@@ -3,15 +3,20 @@ package com.myspring.pro.mypage.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.pro.member.dao.MemberDAO;
 import com.myspring.pro.member.vo.MemberVO;
-
+import com.myspring.pro.mypage.vo.MyPageVO;
+import com.myspring.pro.project.vo.projectVO;
 import com.myspring.pro.mypage.dao.MyPageDAO;
 
 @Service("mypageService")
@@ -21,6 +26,16 @@ public class MyPageServiceImpl implements MyPageService {
 	private MemberDAO memberDAO;
 	@Autowired
 	private MyPageDAO mypageDAO;
+	
+	// 내가 등록한 프로젝트 조회
+	public List<projectVO> selectMyProjectList(String MEMBER_ID)  throws Exception{
+		return mypageDAO.selectMyProjectList(MEMBER_ID);
+	}
+	
+	// 신청 프로젝트 취소하기
+	public void cancelApply(MyPageVO mypageVO)  throws Exception{
+		mypageDAO.cancelApply(mypageVO);
+	}
 	
 	// 회원 수정 시 해쉬태그 추가
 	@Override
@@ -54,7 +69,7 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 	
 	 // 프로젝트 리스트 조회.
-	 public List selectMyProjectList(String MEMBER_ID) throws DataAccessException{
-		 return mypageDAO.selectMyProjectList(MEMBER_ID);
+	 public List selectApplyProjectList(String MEMBER_ID) throws DataAccessException{
+		 return mypageDAO.selectApplyProjectList(MEMBER_ID);
 	 }
 }

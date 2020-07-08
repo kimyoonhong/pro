@@ -31,15 +31,65 @@
 		   		합격여부
 		   	</td>
 	   	</tr>
-   	<c:forEach var="myProjectList" items="${myProjectList}">
+   	<c:forEach var="ApplyProjectList" items="${ApplyProjectList}">
 	   	<tr align="center">
-		   	<td>${myProjectList.PROJECT_CODE}</td>
-		   	<td>${myProjectList.APPLY_CK}</td>
-		   	<td>${myProjectList.APPLY_DAY}</td>
-		    <td>${myProjectList.PASS_CK}</td>
+		   	<td>
+		   	<a class='cls1' href="${contextPath}/project/projectDetail.do?PROJECT_CODE=
+   			${ApplyProjectList.PROJECT_CODE}">${ApplyProjectList.PROJECT_CODE}</a>
+   			</td>
+		   	</td>
+		   	<td>${ApplyProjectList.APPLY_CK}</td>
+		   	<td>${ApplyProjectList.APPLY_DAY}</td>
+		    <td>${ApplyProjectList.PASS_CK}</td>
+		    <td>
+		   	<a class='cls1' href="${contextPath}/mypage/cancel.do?PROJECT_CODE=
+   			${ApplyProjectList.PROJECT_CODE}&MEMBER_ID=${ApplyProjectList.MEMBER_ID}">신청취소</a>
+   			</td>    
 	   	</tr>
   	 </c:forEach>
    </table>
+   <td>
+   	
 </form>
+
+<form name="frmTag">
+	<table border="1"  align="center"  width="100%">
+	   	<th>내가 만든 프로젝트 리스트</th>
+	   	<tr>
+		   	<td align="center">
+		   	 	제목
+		   	</td>
+		   	<td align="center">
+		   		등록 일 
+		   	</td>
+		   	<td align="center">
+		   		지원자 수
+		   	</td>
+		   	<td align="center">
+		   		합격자 수
+		   	</td>
+		   	<td align="center">
+		   		모집 인원
+		   	</td>
+	   	</tr>
+   	<c:forEach var="MyProjectList" items="${MyProjectList}">
+	   	<tr align="center">
+		   	<td>
+		   	<a class='cls1' href="${contextPath}/project/projectDetail.do?PROJECT_CODE=
+   			${MyProjectList.PROJECT_CODE}">${MyProjectList.PROJECT_TITTLE}</a>
+   			</td>
+		   	</td>
+		   	<td>${MyProjectList.PROJECT_REGISTER_DAY}</td>
+		   	<td>${MyProjectList.APPLYMEMBER}</td>
+		    <td>${MyProjectList.PASSMEMBER}</td>
+		    <td>${MyProjectList.TOTALMEMBER}</td>
+	   	</tr>
+  	 </c:forEach>
+   </table>
+   <td>
+   	
+</form>
+
+
 </body>
 </html>

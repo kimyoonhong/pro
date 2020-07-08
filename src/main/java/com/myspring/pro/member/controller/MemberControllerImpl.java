@@ -171,6 +171,7 @@ public class MemberControllerImpl implements MemberController{
 		
 		// 인터셉터에서 바인딩 된 뷰 이름을 가져온다.
 		String viewName = (String)request.getAttribute("viewName");
+		System.out.println("view 이름 : " + viewName);
 		ModelAndView mav = new ModelAndView();
 		
 		mav.addObject("result",result);

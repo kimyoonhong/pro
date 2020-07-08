@@ -6,8 +6,14 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 
 import com.myspring.pro.member.vo.MemberVO;
+import com.myspring.pro.mypage.vo.MyPageVO;
+import com.myspring.pro.project.vo.projectVO;
 
 public interface MyPageDAO {
+	 // 내가 등록한 프로젝트 조회
+	 public List<projectVO> selectMyProjectList(String MEMBER_ID)  throws Exception;
+	 // 신청 프로젝트 취소
+	 public void cancelApply(MyPageVO mypageVO)  throws Exception;
 	 // 회원 정보 수정
 	 public void  modifyMyInfo(Map memberMap) throws Exception;
 	 // 회원 상세
@@ -19,5 +25,5 @@ public interface MyPageDAO {
 	 // 회원 수정 (해쉬태그 삭제)
 	 public int removeTag(MemberVO memberVO) throws DataAccessException;
 	 // 프로젝트 리스트 조회.
-	 public List selectMyProjectList(String MEMBER_ID) throws DataAccessException;
+	 public List selectApplyProjectList(String MEMBER_ID) throws DataAccessException;
 }
