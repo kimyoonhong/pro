@@ -88,12 +88,11 @@ public class MyPageControllerImpl implements MyPageController{
 	@Autowired
 	private MyPageVO myPageVO;
 	
-	
 	// 프로젝트 신청 취소
 	// 회원삭제
 		@Override
 		@RequestMapping(value="/cancel.do" ,method={RequestMethod.POST,RequestMethod.GET})
-		public ModelAndView cancelApply( @RequestParam("PROJECT_CODE") int PROJECT_CODE,
+		public ModelAndView cancelApply( @ModelAttribute("PROJECT_CODE") int PROJECT_CODE,
 										 HttpServletRequest request, 
 										 HttpServletResponse response)  throws Exception {
 			ModelAndView mav = new ModelAndView();
@@ -103,10 +102,8 @@ public class MyPageControllerImpl implements MyPageController{
 			// 아이디, 프로젝트 코드 변수에 저장.
 			String MEMBER_ID=request.getParameter("MEMBER_ID");
 			
-			
 			System.out.println("프로젝트 코드 : " + PROJECT_CODE);
 
-			
 			// myPageVO에 아이디, 프로젝트 코드 셋.
 			myPageVO.setMEMBER_ID(MEMBER_ID);
 			myPageVO.setPROJECT_CODE(PROJECT_CODE);
@@ -117,10 +114,10 @@ public class MyPageControllerImpl implements MyPageController{
 			// 내 프로젝트로 리다이렉트
 			mav.setViewName("redirect:/mypage/myProject.do");
 			
-			return mav;
-			
+			return mav;	
 		}
-	// 회원 조회
+		
+	// 프로젝트 조회
 		@Override
 		@RequestMapping(value="/myProject.do" ,method = RequestMethod.GET)
 		public ModelAndView myProject(		HttpServletRequest request, 
@@ -132,7 +129,7 @@ public class MyPageControllerImpl implements MyPageController{
 			
 			// 세션
 			HttpSession session=request.getSession();		
-			memberVO= (MemberVO)session.getAttribute("memberInfo");
+			memberVO= (MemberVO)session.getAttribute("member");
 			
 			String MEMBER_ID = memberVO.getMEMBER_ID();
 			
@@ -152,30 +149,40 @@ public class MyPageControllerImpl implements MyPageController{
 	// 회원수정 시 태그 삽입
 		@Override
 		@RequestMapping(value="/addTag.do" ,method = RequestMethod.POST)
-		public @ResponseBody String addTag(@RequestParam("MEMBER_ID") String MEMBER_ID,
-									 @RequestParam("TAG_THIRD") String TAG_THIRD,
+		public @ResponseBody String addTag(
+									@RequestParam("MEMBER_ID") String MEMBER_ID,
+									@RequestParam("TAG_THIRD") String TAG_THIRD,
 									HttpServletRequest request,
 									HttpServletResponse response) throws Exception{
 			
 			// 로그인후 생성된 세션을 가져온다
 			HttpSession session=request.getSession();		
-			memberVO= (MemberVO)session.getAttribute("memberInfo");
+			memberVO= (MemberVO)session.getAttribute("member");
 			
 			System.out.println("추가 태그"+TAG_THIRD);
 			
 			// memberVO에 추가 할 태그 값을 넣는다.
 			memberVO.setTAG(TAG_THIRD);
 			
-			int result = myPageService.addTag(memberVO);
+			// 회원 태그 중복 확인  false = 추가 가능, true = 중복 됨
+			String result1 = myPageService.selectOverlappedTag(memberVO);
 			
-			System.out.println(result);
-			String a = "";
-			if (result == 1) {
-				a="true";
+			System.out.println("RESULT : " + result1);
+			
+			String a = "error";
+			
+			// 중복이 아니라면
+			if (result1.equals("false")) {
+			// 회원 태그 추가
+				int result2 = myPageService.addTag(memberVO);
+				System.out.println("RESULT : " + result2);
+					if(result2 == 1) {
+						a="true";
+					}
+			// 아니면 실행 x
 			}else {
-				a="false";
+				a="false";	
 			}
-			
 			return a;
 		}
 		
@@ -194,7 +201,7 @@ public class MyPageControllerImpl implements MyPageController{
 				
 				HttpSession session=request.getSession();
 				
-				memberVO = (MemberVO)session.getAttribute("memberInfo");
+				memberVO = (MemberVO)session.getAttribute("member");
 				String MEMBER_ID = (String)memberVO.getMEMBER_ID();
 						
 				System.out.println("세션으로 불러오는 아이디: " + MEMBER_ID);
@@ -228,14 +235,15 @@ public class MyPageControllerImpl implements MyPageController{
 		String val[]=null;
 		// 로그인후 생성된 세션을 가져온다
 		HttpSession session=request.getSession();		
-		memberVO= (MemberVO)session.getAttribute("memberInfo");
+		memberVO= (MemberVO)session.getAttribute("member");
 				
 		// JSP에서 자바쪽으로 가져온다. 이클립스에서는 "memberVO"객체로 사용.
 		if(attribute.equals("MEMBER_BIRTH")){
 			val=value.split(",");
 			memberMap.put("MEMBER_BIRTH_Y",val[0]);
 			memberMap.put("MEMBER_BIRTH_M",val[1]);
-			memberMap.put("MEMBER_BIRTH_D",val[2]);					//memberMap.put("member_birth_gn",val[3]);
+			memberMap.put("MEMBER_BIRTH_D",val[2]);					
+			//memberMap.put("member_birth_gn",val[3]);
 		}else if(attribute.equals("TEL")){
 			val=value.split(",");
 			memberMap.put("TEL1",val[0]);
@@ -266,8 +274,8 @@ public class MyPageControllerImpl implements MyPageController{
 				
 				
 		memberVO= (MemberVO) myPageService.modifyMyInfo(memberMap);
-		session.removeAttribute("memberInfo");
-		session.setAttribute("memberInfo", memberVO);
+		session.removeAttribute("member");
+		session.setAttribute("member", memberVO);
 				
 		String message = null;
 		ResponseEntity resEntity = null;
@@ -286,7 +294,7 @@ public class MyPageControllerImpl implements MyPageController{
 				/*
 				// 로그인후 생성된 세션을 가져온다
 				HttpSession session=request.getSession();		
-				memberVO= (MemberVO)session.getAttribute("memberInfo");
+				memberVO= (MemberVO)session.getAttribute("member");
 				*/
 				
 				// @RequestParam으로 던진 ID, TAG를 받는다.

@@ -14,10 +14,15 @@ import com.myspring.pro.mypage.vo.MyPageVO;
 import com.myspring.pro.project.vo.projectVO;
 
 public interface MyPageService {
+	
+	 // 회원 태그 중복 확인
+	 public String selectOverlappedTag(MemberVO memberVO) throws DataAccessException;
 	 // 내가 등록한 프로젝트 조회.
 	 public List<projectVO> selectMyProjectList(String MEMBER_ID)  throws Exception;
 	 // 신청 프로젝트 취소하기
 	 public void cancelApply(MyPageVO mypageVO)  throws Exception;
+	 // 프로젝트 관심-> 신청으로 변경
+	 public void modifyAPPLY_CK(MyPageVO mypageVO)  throws Exception;
 	 // 회원 정보 수정
 	 public MemberVO modifyMyInfo(Map memberMap) throws Exception;
 	 // 회원 수정 (해쉬 태그 추가)

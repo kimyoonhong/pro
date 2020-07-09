@@ -27,6 +27,14 @@ public class projectVO {
 	private String Tag4;
 	private String Tag5;
 	private String keyword;
+	private String PROJECT_STATE; // 프로젝트 상태
+	
+	public String getPROJECT_STATE() {
+		return PROJECT_STATE;
+	}
+	public void setPROJECT_STATE(String pROJECT_STATE) {
+		PROJECT_STATE = pROJECT_STATE;
+	}
 
 public projectVO() {
 	 

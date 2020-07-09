@@ -17,6 +17,16 @@ public class MyPageDAOImpl implements MyPageDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	// 회원 태그 중복 확인
+	@Override
+	public String selectOverlappedTag(MemberVO memberVO) throws DataAccessException{
+		
+		System.out.println("-------"+memberVO.getMEMBER_ID());
+		System.out.println("+++++++"+ memberVO.getTAG());
+		String result =  sqlSession.selectOne("mapper.member.selectOverlappedTag",memberVO);
+			return result;
+		 }
+	
 	// 내가 등록한 프로젝트 조회
 	@Override
     public List<projectVO> selectMyProjectList(String MEMBER_ID)  throws Exception {
@@ -32,6 +42,11 @@ public class MyPageDAOImpl implements MyPageDAO {
     	sqlSession.delete("mapper.mypage.cancelApply",mypageVO);
     }
     
+    // 프로젝트 관심-> 신청으로 변경
+    @Override
+    public void modifyAPPLY_CK(MyPageVO mypageVO)  throws Exception {
+    	sqlSession.update("mapper.mypage.modifyAPPLY_CK",mypageVO);
+    }
 	// 회원 정보 수정
 	@Override
 	public void modifyMyInfo(Map memberMap) throws DataAccessException{
@@ -81,7 +96,7 @@ public class MyPageDAOImpl implements MyPageDAO {
 		@Override
 		public List selectApplyProjectList(String MEMBER_ID) throws DataAccessException {
 			List ApplyProjectList = null;
-			ApplyProjectList = sqlSession.selectList("mapper.mypage.selectMyProjectList",MEMBER_ID);
+			ApplyProjectList = sqlSession.selectList("mapper.mypage.selectApplyProjectList",MEMBER_ID);
 			return ApplyProjectList;
 		}
 		

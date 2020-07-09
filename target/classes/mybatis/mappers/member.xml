@@ -29,6 +29,13 @@
 	</resultMap> 
 	
 	
+	<!-- 회원 태그 중복 체크 -->
+	<select id="selectOverlappedTag" parameterType="memberVO" resultType="String">
+	   select decode(count(*),1, 'true', 0, 'false')
+	   from T_MEMBER_TAGLIST
+	   where MEMBER_ID = #{MEMBER_ID} and TAG = #{TAG}
+	</select>
+	
 	
 	<!-- 로그인 -->
 	<select id="login" resultType="memberVO"  parameterType="memberVO"  >
@@ -45,6 +52,8 @@
 	   from T_PROJECT_MEMBER
 	   where MEMBER_ID = #{MEMBER_ID}
 	</select>
+	
+	
 	
 	<!-- 회원가입시 해쉬태그 삽입 -->
 	<insert id="addMember_tagList"  parameterType="memberVO">

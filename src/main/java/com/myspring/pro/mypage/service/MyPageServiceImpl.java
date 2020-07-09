@@ -27,12 +27,25 @@ public class MyPageServiceImpl implements MyPageService {
 	@Autowired
 	private MyPageDAO mypageDAO;
 	
+	// 회원 태그 중복 확인
+	public String selectOverlappedTag(MemberVO memberVO) throws DataAccessException{
+		return mypageDAO.selectOverlappedTag(memberVO);
+	}
+	
 	// 내가 등록한 프로젝트 조회
+	@Override
 	public List<projectVO> selectMyProjectList(String MEMBER_ID)  throws Exception{
 		return mypageDAO.selectMyProjectList(MEMBER_ID);
 	}
 	
+	// 프로젝트 관심-> 신청으로 변경
+	@Override
+	public void modifyAPPLY_CK(MyPageVO mypageVO)  throws Exception{
+		mypageDAO.modifyAPPLY_CK(mypageVO);
+	}
+	
 	// 신청 프로젝트 취소하기
+	@Override
 	public void cancelApply(MyPageVO mypageVO)  throws Exception{
 		mypageDAO.cancelApply(mypageVO);
 	}

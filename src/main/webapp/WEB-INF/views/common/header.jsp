@@ -28,9 +28,9 @@
      <td>
        <!-- isLogOn 속성 값을 체크하여 로그인 상태 시 로그아웃이 표시 되게 한다. -->
        <c:choose>
-          <c:when test="${isLogOn == true  && memberInfo!= null}">
+          <c:when test="${isLogOn == true  && member!= null}">
           <!-- 컨트롤러에서 member변수에 VO객체를 세션으로 보내준다. -->
-            <h3>환영합니다. ${memberInfo.MEMBER_NAME}님!</h3>
+            <h3>환영합니다. ${member.MEMBER_NAME}님!</h3>
             <a href="${contextPath}/member/logout.do"><h3>로그아웃</h3></a>
             <a href="${contextPath}/mypage/myDetailInfo.do"><h3>회원정보수정</h3></a>
             <a href="${contextPath}/mypage/myProject.do"><h3>신청프로젝트</h3></a>

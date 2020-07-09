@@ -99,9 +99,9 @@
     function selectBoxInit(){
     
      // TEL1, HP1, EMAIL2 기존 회원 정보 받아오기.
-     var TEL1='${memberInfo.TEL1 }';
-     var HP1='${memberInfo.HP1}';
-     var EMAIL2='${memberInfo.EMAIL2}';
+     var TEL1='${member.TEL1 }';
+     var HP1='${member.HP1}';
+     var EMAIL2='${member.EMAIL2}';
      //var ProjectTagList='${ProjectTagList}';
      //var MemberTagList='${MemberTagList}';
      // SELECT 박스 값 초기화 하기위해 ID값 받아오기.
@@ -300,9 +300,12 @@ function fn_modify_member_info(attribute){
 
 }
  
-function addTag(TAG_THIRD){
+function addTag(TAG_THIRD,tag_index){
 	var MEMBER_ID = $('#MEMBER_ID').val()
+	
+	 
 	alert(TAG_THIRD);
+	alert(tag_index);
 
 	 $.ajax({
 			type : "post",
@@ -317,7 +320,7 @@ function addTag(TAG_THIRD){
 				 if(data.trim() =='true'){
 					alert("회원 정보를 수정했습니다.");
 				}else if(data.trim()=='false'){
-					alert("다시 시도해 주세요.");	
+					alert("이미 등록 된 태그 입니다.");	
 				} 
 			},
 			error : function(data,textStatus) {
@@ -383,7 +386,7 @@ function addTag(TAG_THIRD){
 				<tr class="dot_line">
 					<td class="fixed_join">아이디</td>
 					<td>
-						<input id="MEMBER_ID" name="MEMBER_ID" type="text" size="20" value="${memberInfo.MEMBER_ID}"  disabled/>
+						<input id="MEMBER_ID" name="MEMBER_ID" type="text" size="20" value="${member.MEMBER_ID}"  disabled/>
 					</td>
 					 <td>
 					</td>
@@ -391,7 +394,7 @@ function addTag(TAG_THIRD){
 				<tr class="dot_line">
 					<td class="fixed_join">비밀번호</td>
 					<td>
-					  <input name="MEMBER_PW" type="password" size="20" value="${memberInfo.MEMBER_PW }" />
+					  <input name="MEMBER_PW" type="password" size="20" value="${member.MEMBER_PW }" />
 					</td>
 					<td>
 					  <input type="button" value="수정하기" onClick="fn_modify_member_info('MEMBER_PW')" />
@@ -400,7 +403,7 @@ function addTag(TAG_THIRD){
 				<tr class="dot_line">
 					<td class="fixed_join">이름</td>
 					<td>
-					  <input name="MEMBER_NAME" type="text" size="20" value="${memberInfo.MEMBER_NAME }"  disabled />
+					  <input name="MEMBER_NAME" type="text" size="20" value="${member.MEMBER_NAME }"  disabled />
 					 </td>
 					 <td>
 					</td>
@@ -409,7 +412,7 @@ function addTag(TAG_THIRD){
 					<td class="fixed_join">성별</td>
 					<td>
 					  <c:choose >
-					    <c:when test="${memberInfo.MEMBER_GENDER =='M' }">
+					    <c:when test="${member.MEMBER_GENDER =='M' }">
 					      <input type="radio" name="MEMBER_GENDER" value="F" />
 						  여성 <span style="padding-left:30px"></span>
 					   <input type="radio" name="MEMBER_GENDER" value="M" checked />남성
@@ -431,7 +434,7 @@ function addTag(TAG_THIRD){
 					   <select name="MEMBER_BIRTH_Y">
 					     <c:forEach var="i" begin="1" end="100">
 					       <c:choose>
-					         <c:when test="${memberInfo.MEMBER_BIRTH_Y==1920+i }">
+					         <c:when test="${member.MEMBER_BIRTH_Y==1920+i }">
 							   <option value="${ 1920+i}" selected>${ 1920+i} </option>
 							</c:when>
 							<c:otherwise>
@@ -443,7 +446,7 @@ function addTag(TAG_THIRD){
 					<select name="MEMBER_BIRTH_M" >
 						<c:forEach var="i" begin="1" end="12">
 					       <c:choose>
-					         <c:when test="${memberInfo.MEMBER_BIRTH_M==i }">
+					         <c:when test="${member.MEMBER_BIRTH_M==i }">
 							   <option value="${i }" selected>${i }</option>
 							</c:when>
 							<c:otherwise>
@@ -456,7 +459,7 @@ function addTag(TAG_THIRD){
 					<select name="MEMBER_BIRTH_D">
 							<c:forEach var="i" begin="1" end="31">
 					       <c:choose>
-					         <c:when test="${memberInfo.MEMBER_BIRTH_D==i }">
+					         <c:when test="${member.MEMBER_BIRTH_D==i }">
 							   <option value="${i }" selected>${i }</option>
 							</c:when>
 							<c:otherwise>
@@ -500,8 +503,8 @@ function addTag(TAG_THIRD){
 							<option value="0508">0508</option>
 							<option value="070">070</option>
 					</select> 
-					    - <input type="text" size=4  name="TEL2" value="${memberInfo.TEL2 }"> 
-					    - <input type="text" size=4  name="TEL3" value="${memberInfo.TEL3 }">
+					    - <input type="text" size=4  name="TEL2" value="${member.TEL2 }"> 
+					    - <input type="text" size=4  name="TEL3" value="${member.TEL3 }">
 					</td>
 					<td>
 					  <input type="button" value="수정하기" onClick="fn_modify_member_info('TEL')" />
@@ -519,10 +522,10 @@ function addTag(TAG_THIRD){
 							<option value="018">018</option>
 							<option value="019">019</option>
 					</select> 
-					 - <input type="text" name="HP2" size=4 value="${memberInfo.HP2 }"> 
-					 - <input type="text"name="HP3"  size=4 value="${memberInfo.HP3 }"><br> <br>
+					 - <input type="text" name="HP2" size=4 value="${member.HP2 }"> 
+					 - <input type="text"name="HP3"  size=4 value="${member.HP3 }"><br> <br>
 					 <c:choose> 
-					   <c:when test="${memberInfo.SMSSTS_YN=='Y' }">
+					   <c:when test="${member.SMSSTS_YN=='Y' }">
 					     <input type="checkbox"  name="SMSSTS_YN" value="Y" checked /> 쇼핑몰에서 발송하는 SMS 소식을 수신합니다.
 						</c:when>
 						<c:otherwise>
@@ -537,8 +540,8 @@ function addTag(TAG_THIRD){
 				<tr class="dot_line">
 					<td class="fixed_join">이메일<br>(e-mail)</td>
 					<td>
-					   <input size="10px"   type="text" name="EMAIL1" value="${memberInfo.EMAIL1 }"/> @
-					   <input size="10px"  type="text" id="EMAIL2" name="EMAIL2" value = "${memberInfo.EMAIL2}" readonly /> 
+					   <input size="10px"   type="text" name="EMAIL1" value="${member.EMAIL1 }"/> @
+					   <input size="10px"  type="text" id="EMAIL2" name="EMAIL2" value = "${member.EMAIL2}" readonly /> 
 						   <select onchange="Check_Email()" id="selectEmail" name="EMAIL3">
 							<option value="1">직접입력</option>
 							<option value="hanmail.net">hanmail.net</option>
@@ -554,7 +557,7 @@ function addTag(TAG_THIRD){
 							<option value="freechal.com">freechal.com</option>
 					</select><Br><br> 
 					<c:choose> 
-					   <c:when test="${memberInfo.EMAILSTS_YN=='Y' }">
+					   <c:when test="${member.EMAILSTS_YN=='Y' }">
 					     <input type="checkbox" name="EMAILSTS_YN"  value="Y" checked /> 쇼핑몰에서 발송하는 e-mail을 수신합니다.
 						</c:when>
 						<c:otherwise>
@@ -569,12 +572,12 @@ function addTag(TAG_THIRD){
 				<tr class="dot_line">
 					<td class="fixed_join">주소</td>
 					<td>
-					   <input type="text" id="ZIPCODE" name="ZIPCODE" size=5 value="${memberInfo.ZIPCODE }" > <a href="javascript:execDaumPostcode()">우편번호검색</a>
+					   <input type="text" id="ZIPCODE" name="ZIPCODE" size=5 value="${member.ZIPCODE }" > <a href="javascript:execDaumPostcode()">우편번호검색</a>
 					  <br>
 					  <p> 
-					   지번 주소:<br><input type="text" id="ROADADDRESS"  name="ROADADDRESS" size="50" value="${memberInfo.ROADADDRESS }"><br><br>
-					  도로명 주소: <input type="text" id="JIBUNADDRESS" name="JIBUNADDRESS" size="50" value="${memberInfo.JIBUNADDRESS }"><br><br>
-					  나머지 주소: <input type="text"  name="NAMUJIADDRESS" size="50" value="${memberInfo.NAMUJIADDRESS }" />
+					   지번 주소:<br><input type="text" id="ROADADDRESS"  name="ROADADDRESS" size="50" value="${member.ROADADDRESS }"><br><br>
+					  도로명 주소: <input type="text" id="JIBUNADDRESS" name="JIBUNADDRESS" size="50" value="${member.JIBUNADDRESS }"><br><br>
+					  나머지 주소: <input type="text"  name="NAMUJIADDRESS" size="50" value="${member.NAMUJIADDRESS }" />
 					  <span id="guide" style="color:#999"></span>
 					   </p>
 					</td>
@@ -598,8 +601,8 @@ function addTag(TAG_THIRD){
 		</tr>
 	</table>
 	</div>
-	<input  type="hidden" name="H_TEL1" value="${memberInfo.TEL1}" />
-	<input  type="hidden" name="H_HP1" value="${memberInfo.HP1}" />		
+	<input  type="hidden" name="H_TEL1" value="${member.TEL1}" />
+	<input  type="hidden" name="H_HP1" value="${member.HP1}" />		
 	
 <form name="frmTag">
 	<table border="1"  align="center"  width="100%">
@@ -618,18 +621,16 @@ function addTag(TAG_THIRD){
 		   		버튼
 		   	</td>
 	   	</tr>
-   	<c:forEach var="ProjectTagList" items="${ProjectTagList}">
+   	<c:forEach var="ProjectTagList" items="${ProjectTagList}" varStatus = "i" >
 	   	<tr align="center">
+	   		<td>${i.count}</td>
 		   	<td>${ProjectTagList.TAG_FIRST}</td>
 		   	<td>${ProjectTagList.TAG_SECOND}</td>
 		   	<td>${ProjectTagList.TAG_THIRD}</td>
 		   	<td>
-		   		<input type="button" class="addtag"  
-		   			   onClick="addTag('${ProjectTagList.TAG_THIRD}')"
+		   		<input type="button" id = "tag" class="addtag"  
+		   			   onClick="addTag('${ProjectTagList.TAG_THIRD}','${i.index}')"
 		   			   value="추가하기">
-		   	</td>
-		   	<td>
-		   		<input type="hidden" value="${ProjectTagList.TAG_THIRD}"/>
 		   	</td>
 	   	</tr>
   	 </c:forEach>
@@ -645,7 +646,7 @@ function addTag(TAG_THIRD){
 	   <tr align="center">
 		   <td>${MemberTagList.TAG}</td>
 		   <td>
-		   	 <a href="${contextPath}/mypage/removeTag.do?MEMBER_ID=${memberInfo.MEMBER_ID}&MEMBER_TAG=${MemberTagList.TAG}">삭제하기</a>
+		   	 <a href="${contextPath}/mypage/removeTag.do?MEMBER_ID=${member.MEMBER_ID}&MEMBER_TAG=${MemberTagList.TAG}">삭제하기</a>
 		   </td>
 	   </tr>
    </c:forEach>

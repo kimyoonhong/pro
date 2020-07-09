@@ -132,6 +132,8 @@
 		  
 		});
 		 function fn_apply_project(APPLY_CKC,MEMBER_ID){
+			 var MEMBER_ID = MEMBER_ID;
+			 alert(MEMBER_ID);
 			 if(MEMBER_ID==null){
 				 alert("로그인해라");	
 			 }
@@ -296,8 +298,8 @@
 	      <input type=button value="삭제하기" onClick="fn_remove_project('${contextPath}/project/removeproject.do', ${project.PROJECT_CODE})">
 	    </c:if>
 	    <c:if test="${member.MEMBER_ID != project.MEMBER_ID}">
-	     <input type="button" value="신청하기" onClick="fn_apply_project(this.value,${member.MEMBER_ID})">
-	     <input type="button" value="관심등록" onClick="fn_apply_project(this.value,${member.MEMBER_ID})">
+	     <input type="button" value="신청하기" onClick="fn_apply_project(this.value,'${member.MEMBER_ID}')">
+	     <input type="button" value="관심등록" onClick="fn_apply_project(this.value,'${member.MEMBER_ID}')">
 	    </c:if>
 	    <input type=button value="리스트로 돌아가기"  onClick="backToList(this.form)">
    </td>

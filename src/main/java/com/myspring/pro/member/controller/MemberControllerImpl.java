@@ -121,12 +121,11 @@ public class MemberControllerImpl implements MemberController{
 			    
 			    // 세션에 회원 정보를 저장.
 				session=request.getSession();
-			    session.setAttribute("memberVO", memberVO);
 			    
 			    // 세션에 로그인 상태를 true로 설정.
 				// 세션 정보를 "memberInfo 변수에" memberVO 속성으로 저장.
 			    session.setAttribute("isLogOn", true);
-			    session.setAttribute("memberInfo", memberVO);
+			    session.setAttribute("member", memberVO);
 			    
 			    // memberVO로 반환된 값이 있으면 세션을 이용해 로그인 상태를 true로 한다.
 			    mav.setViewName("redirect:/member/listMembers.do");
@@ -150,7 +149,7 @@ public class MemberControllerImpl implements MemberController{
 		
 		// 로그아웃 요청 시 세션에 저장된 로그인 정보와 회원 정보를 삭제
 		session.setAttribute("isLogOn", false);
-		session.removeAttribute("memberInfo");
+		session.removeAttribute("member");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("redirect:/member/listMembers.do");
 		
