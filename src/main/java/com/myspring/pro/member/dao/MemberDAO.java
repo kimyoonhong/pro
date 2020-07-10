@@ -8,6 +8,8 @@ import org.springframework.dao.DataAccessException;
 import com.myspring.pro.member.vo.MemberVO;
 
 public interface MemberDAO {
+	 // 프로젝트에 신청한 회원 정보 조회
+	 public List<MemberVO> selectMemberInfo(MemberVO memberVO) throws DataAccessException;
 	 // 회원조회
 	 public List selectAllMemberList() throws DataAccessException;
 	 // 로그인

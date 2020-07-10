@@ -18,6 +18,12 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
 	
+	// 프로젝트에 신청한 회원 정보 조회
+	@Override
+	public List<MemberVO> selectMemberInfo(MemberVO memberVO) throws DataAccessException {
+		return  memberDAO.selectMemberInfo(memberVO);
+	}
+	
 	// 회원 출력
 	@Override
 	public List listMembers() throws DataAccessException {

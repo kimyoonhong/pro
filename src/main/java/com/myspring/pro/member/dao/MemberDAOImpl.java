@@ -15,6 +15,16 @@ public class MemberDAOImpl implements MemberDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	// 프로젝트에 신청한 회원 정보 조회
+	@Override
+	public List<MemberVO> selectMemberInfo(MemberVO memberVO) throws DataAccessException {
+			List<MemberVO> result=  sqlSession.selectList("mapper.member.selectMemberInfo",memberVO);
+			for(int i = 0; i<result.size();i++) {
+			System.out.println(result.get(i));
+			}
+			
+			return result;
+	}
 
 	// 회원 조회
 	@Override

@@ -14,7 +14,6 @@ import com.myspring.pro.mypage.vo.MyPageVO;
 import com.myspring.pro.project.vo.projectVO;
 
 public interface MyPageService {
-	
 	 // 회원 태그 중복 확인
 	 public String selectOverlappedTag(MemberVO memberVO) throws DataAccessException;
 	 // 내가 등록한 프로젝트 조회.

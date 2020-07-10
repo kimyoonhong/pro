@@ -28,6 +28,14 @@
         <result property="TAG" column="TAG" />        
 	</resultMap> 
 	
+	<!-- 프로젝트에 신청한 회원 정보 조회 -->
+	<select id = "selectMemberInfo" parameterType="String" resultType="memberVO">
+		select MEMBER_NAME, MEMBER_GENDER,
+			   HP1,HP2,HP3,
+			   MEMBER_JOB,MEMBER_CONTENT
+		from T_PROJECT_MEMBER
+		where MEMBER_ID = #{MEMBER_ID}
+	</select>
 	
 	<!-- 회원 태그 중복 체크 -->
 	<select id="selectOverlappedTag" parameterType="memberVO" resultType="String">

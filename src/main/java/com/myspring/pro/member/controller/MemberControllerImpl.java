@@ -36,6 +36,9 @@ import com.myspring.pro.project.service.projectService;
 import com.myspring.pro.project.dao.projectDAO;
 import com.myspring.pro.project.vo.tagVO;
 
+import com.myspring.pro.mypage.controller.MyPageController;
+import com.myspring.pro.mypage.service.MyPageService;
+
 /*
   헷갈리는 부분
   DB에 저장하는것과 VO에 저장하는것을 구분해서 생각!
@@ -76,6 +79,36 @@ public class MemberControllerImpl implements MemberController{
 	private MemberVO memberVO;
 	@Autowired
 	private tagVO tagVO;
+	@Autowired
+	private MyPageService myPageService;
+	
+	
+	@RequestMapping(value="/selectMemberInfo.do" ,method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView selectMemberInfo(HttpServletRequest request, 
+										HttpServletResponse response) 
+												throws Exception {
+		// 인터셉터에서 바인딩 된 뷰 이름을 가져온다.
+		String viewName = (String)request.getAttribute("viewName");
+		logger.info("info레벨 : viewName = " + viewName);
+				
+		System.out.println(viewName);
+		
+		
+		String MEMBER_ID = request.getParameter("MEMBER_ID");
+		memberVO.setMEMBER_ID(MEMBER_ID);
+		
+		System.out.println(MEMBER_ID);
+		
+		List selectMemberInfo = memberService.selectMemberInfo(memberVO);
+		List selectTagList = myPageService.selectTagList(MEMBER_ID);
+		
+		// viewName이 tiles_member.xml의 <definition>태그에 설정한 뷰이름과 일치한다.
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("selectMemberInfo", selectMemberInfo);
+		mav.addObject("selectTagList",selectTagList);
+		// ModelAndView 객체에 설정한 뷰이름을 타일즈 뷰리졸버로 반환한다.
+		return mav;
+	}
 	
 	// 회원 조회
 	@Override
@@ -215,24 +248,12 @@ public class MemberControllerImpl implements MemberController{
 			                HttpServletResponse response) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		/* 값을 제대로 받아들이는지 확인
-		System.out.println("tagvo.size() : " + tagVO.size());
-		for(int i=0; i<tagVO.size(); i++) {
-		System.out.println("tag.get(i) ="+tagVO.get(i));
-		}
-		*/
+		
 		String message = null;
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type","text/html;charset=utf-8");
-		/*
-		 *  DAO에서 구현
-		 * List tag; // 태그를 리스트형식으로 선언한다
-		 * for(int i=0; i<tag.size(); i++) {
-		 * 		memberVO.setTAG(tag[i]);
-		 * 		memberService(인서트문);
-		 * }
-		 * */
+		
 		try {
 		    memberService.addMember(_memberVO,tagVO);
 		    System.out.println("컨트롤러에서 아이디를 잡아넣는가?" + _memberVO.getMEMBER_ID());

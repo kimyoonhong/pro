@@ -139,16 +139,16 @@ function fn_overlapped(){
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">비밀번호</td>
-					<td><input name="MEMBER_PW" type="password" size="20" /></td>
+					<td><input name="MEMBER_PW" type="password" size="20" required/></td>
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">이름</td>
-					<td><input name="MEMBER_NAME" type="text" size="20" /></td>
+					<td><input name="MEMBER_NAME" type="text" size="20" required/></td>
 					
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">성별</td>
-					<td><input type="radio" name="MEMBER_GENDER" value="F" />
+					<td><input type="radio" name="MEMBER_GENDER" value="F" required/>
 						여성<span style="padding-left:120px"></span>
 						 <input type="radio" name="MEMBER_GENDER" value="M" checked />남성
 					</td>
@@ -156,7 +156,7 @@ function fn_overlapped(){
 				<tr class="dot_line">
 					<td class="fixed_join">법정생년월일</td>
 					<td>
-					<select name="MEMBER_BIRTH_Y">
+					<select name="MEMBER_BIRTH_Y" required>
 					 
 					     <c:forEach var="year" begin="1" end="100">
 					       <c:choose>
@@ -170,7 +170,7 @@ function fn_overlapped(){
 					   	</c:forEach> 
 							
 					</select>년 
-					 <select name="MEMBER_BIRTH_M" >
+					 <select name="MEMBER_BIRTH_M" required>
 					   <c:forEach var="month" begin="1" end="12">
 					       <c:choose>
 					         <c:when test="${month==1 }">
@@ -182,7 +182,7 @@ function fn_overlapped(){
 							</c:choose>
 					   	</c:forEach>
 					</select>월  
-					<select name="MEMBER_BIRTH_D">
+					<select name="MEMBER_BIRTH_D" required>
 							<c:forEach var="day" begin="1" end="31">
 					       <c:choose>
 					         <c:when test="${day==7 }">
@@ -232,15 +232,15 @@ function fn_overlapped(){
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">휴대폰번호</td>
-					<td><select  name="HP1">
+					<td><select  name="HP1" required>
 							<option>없음</option>
-							<option selected value="010">010</option>
+							<option selected value="010" required>010</option>
 							<option value="011">011</option>
 							<option value="016">016</option>
 							<option value="017">017</option>
 							<option value="018">018</option>
 							<option value="019">019</option>
-					</select> - <input size="10px"  type="text" name="HP2"> - <input size="10px"  type="text"name="HP3"><br> <br> 
+					</select> - <input size="10px"  type="text" name="HP2" required> - <input size="10px"  type="text"name="HP3" required><br> <br> 
 					 <input type="checkbox"	name="SMSSTS_YN" value="Y" checked /> 홈페이지에서 발송하는 SMS 소식을 수신합니다.</td> 
 				</tr>
 				<tr class="dot_line">
@@ -270,8 +270,8 @@ function fn_overlapped(){
 					   <input type="text" id="ZIPCODE" name="ZIPCODE" size="10" > <a href="javascript:execDaumPostcode()">우편번호검색</a>
 					  <br>
 					  <p> 
-					   도로명 주소:<br><input type="text" id="ROADADDRESS"  name="ROADADDRESS" size="50"><br><br>
-					  지번 주소: <input type="text" id="JIBUNADDRESS" name="JIBUNADDRESS" size="50"><br><br>
+					   도로명 주소:<br><input type="text" id="ROADADDRESS"  name="ROADADDRESS" size="50" required><br><br>
+					  지번 주소: <input type="text" id="JIBUNADDRESS" name="JIBUNADDRESS" size="50" required><br><br>
 					  나머지 주소: <input type="text"  name="NAMUJIADDRESS" size="50" />
 					 <span id="guide" style="color:#999"></span>
 					   </p>
@@ -286,7 +286,7 @@ function fn_overlapped(){
 				<tr class="dot_line">
 					<td class="fixed_join">전공</td>
 					<td>
-						<input type="text" id="MEMBER_JOB" name="MEMBER_JOB">
+						<input type="text" id="MEMBER_JOB" name="MEMBER_JOB" required>
 					</td>
 				</tr>
 				<tr class="dot_line">

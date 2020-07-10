@@ -17,15 +17,17 @@ public class MyPageDAOImpl implements MyPageDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	
 	// 회원 태그 중복 확인
 	@Override
 	public String selectOverlappedTag(MemberVO memberVO) throws DataAccessException{
-		
+			
 		System.out.println("-------"+memberVO.getMEMBER_ID());
 		System.out.println("+++++++"+ memberVO.getTAG());
 		String result =  sqlSession.selectOne("mapper.member.selectOverlappedTag",memberVO);
-			return result;
-		 }
+		
+		return result;
+	}
 	
 	// 내가 등록한 프로젝트 조회
 	@Override

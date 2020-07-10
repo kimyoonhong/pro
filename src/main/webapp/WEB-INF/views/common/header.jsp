@@ -38,7 +38,8 @@
           </c:when>
           <c:otherwise>
 	        <a href="${contextPath}/member/loginForm.do"><h3>로그인</h3></a>
-	        <a href="${contextPath}/member/memberForm.do"><h3">회원가입</h3></a>
+	        <a href="${contextPath}/member/memberForm.do"><h3>회원가입</h3></a>
+	        <a href="${contextPath}/member/selectMemberInfo.do?MEMBER_ID=yy69799"><h3>신청회원조회</h3>
 	        <!-- 로그인 링크를 클릭하면 로그인창 요청. -->
 	      </c:otherwise>
 	   </c:choose>   

@@ -99,7 +99,7 @@
     function selectBoxInit(){
     
      // TEL1, HP1, EMAIL2 기존 회원 정보 받아오기.
-     var TEL1='${member.TEL1 }';
+     var TEL1='${member.TEL1}';
      var HP1='${member.HP1}';
      var EMAIL2='${member.EMAIL2}';
      //var ProjectTagList='${ProjectTagList}';
