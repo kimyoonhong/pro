@@ -4,9 +4,14 @@
 
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.myspring.pro.member.vo.MemberVO"  alias="memberVO" />
-		<typeAlias type="com.myspring.pro.project.vo.projectVO"  alias="projectVO" />
+		<typeAlias type="com.myspring.pro.project.vo.projectVO"  alias="projectVO"/>
 		<typeAlias type="com.myspring.pro.project.vo.tagVO"  alias="tagVO" />
-		<typeAlias type="com.myspring.pro.mypage.vo.MyPageVO"  alias="myPageVO" />
+		<typeAlias type="com.myspring.pro.member.vo.MemberVO"  alias="memberVO" />
+		<typeAlias type="com.myspring.pro.mypage.vo.MyPageVO" alias="myPageVO"/>
+		<typeAlias type="com.myspring.pro.qna.vo.qnaArticleVO"  alias="qnaArticleVO" />
+		<typeAlias type="com.myspring.pro.qna.vo.qnatagVO"  alias="qnatagVO" />
+		<typeAlias type="com.myspring.pro.qna.vo.ImageVO"  alias="ImageVO" />
+		<typeAlias type="com.myspring.pro.admin.vo.adminVO"  alias="adminVO" />
+		
 	</typeAliases>
 </configuration>

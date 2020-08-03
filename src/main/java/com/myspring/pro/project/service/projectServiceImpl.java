@@ -102,14 +102,65 @@ public class projectServiceImpl implements projectService {
 
 		@Override
 		public void addmemberproject(Map projectMap, int PROJECT_CODE) throws DataAccessException {
-			
+			projectDAO.insetmemberproject(projectMap, PROJECT_CODE);
+		}
+
+		@Override
+		public String overlappedMemberproject(Map projectMap, int PROJECT_CODE) throws DataAccessException {
+			return projectDAO.selectoverlappedmemberproject(projectMap, PROJECT_CODE);
+		}
+
+		@Override
+		public List memberprojectlist(int PROJECT_CODE) throws DataAccessException {
+			List<projectVO> memberproject = projectDAO.selectmemberprojectlist(PROJECT_CODE);
+			return memberproject;
+		}
+
+		@Override
+		public void memberpass_ck(Map projectMap, int PROJECT_CODE) throws DataAccessException {
+			projectDAO.updatepass_ck(projectMap, PROJECT_CODE);
+		}
+
+		@Override
+		public void updateapply_ck(Map projectMap, int PROJECT_CODE) throws DataAccessException {
+			projectDAO.updateapply_ck(projectMap, PROJECT_CODE);
 			
 		}
 
 		@Override
-		public boolean overlappedMemberproject(Map projectMap, int PROJECT_CODE) throws DataAccessException {
+		public List tag_firstList() throws DataAccessException {
+			
+			return projectDAO.selecttag_first();
+		}
+
+		@Override
+		public List tag_second(String TAG_FIRST) throws DataAccessException {
+			System.out.println("서비스 확인 :"+TAG_FIRST);
+			if(TAG_FIRST !=null) {
+				System.out.println("헤헤");
+				return 	projectDAO.selecttag_second(TAG_FIRST);
+			}
+			return null;
+		}
+
+		@Override
+		public List tag_third(String TAG_SECOND) throws DataAccessException {
+			if(TAG_SECOND !=null) {
+				return 	projectDAO.selecttag_third(TAG_SECOND);
+			}
+			return null;
+		}
+
+		@Override
+		public void removefile(int PROJECT_CODE) throws DataAccessException {
+			
+			projectDAO.removefile(PROJECT_CODE);
+		}
+
+		@Override
+		public List ALLprojecttagList() throws DataAccessException {
 			// TODO Auto-generated method stub
-			return false;
+			return projectDAO.selectAllprojecttagList();
 		}
 
 

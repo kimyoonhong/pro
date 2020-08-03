@@ -17,26 +17,28 @@
 		<style>
             @import url('https://fonts.googleapis.com/css?jamily=Noto+Sans+KR&display=swap');
             *{margin: 0; padding:0; box-sizing: border-box;}
+    
             body {
+           		position: relative;
                 font-family: 'Noto Sans KR', sans-serif;
                 display: flex;
                 justify-content: center;
                 align-items:center;
-                height: 100vh;
                 background: url('https://lh3.googleusercontent.com/proxy/5183OQuL-5jtRLVdoGxtC4sx3zk0JbWW5arD6F0ZTUnh_hgO4I_H6Dk3it7wTbxlzTrQaIVqzAwcxUxQ-MywD3vT8uBbeY5A_GQ-u799dM7paQ9WnoX4cdDm495UuxiXqeW0oaM6BCADj3Ps_J1_7Ggv1t514EW0mMbfKcDBeK80YHDds1Dn239rT5mgteTyIh8937AKs38LHc_o7wpTs_7pdZyz6ljxnayae1aOCBkFIKdgm2zuRtH6qL6cp86dWqJY4VsnMynUJnJdHnHk_QSEf6UiHhZeJGdvTrB7Dikdwwd7cnHOzBOxbUA2O8XJNAUXFyY') no-repeat center;
                 background-size: cover;
             }
             body::before {
                 content:"";
-                position: absolute; z-index: 1;
+                position: absolute; z-index: 5;
                 top:0; right:0; bottom: 0; left:0;
                 background-color: rgba(0,0,0,.7);
             }
             .login-form {
             position: relative; 
-            z-index:2;
+            z-index:6;
             border: solid 3px #fff; 
-            padding: 50px;
+            padding: 50px ;
+            margin: 0 500px 0 500px; 
             }
             .login-form h1 {
                 font-size: 32px; color:#fff;
@@ -100,17 +102,17 @@
             <form  method="post"  action="${contextPath}/member/login.do">
                 <div class="int-area">
                     <input type="text" name="MEMBER_ID" id="MEMBER_ID"
-                    autocomplete="off" required> 
+                     required> 
                     <label for="MEMBER_ID">ID</label>
                 </div>
                 <div class="int-area">
                     <input type="password" name="MEMBER_PW" id="MEMBER_PW"
-                    autocomplete="off" required> 
+                     required> 
                     <label for="MEMBER_PW">PASSWORD</label>
                 </div>
                 <div class="btn-area">
                     <input type="submit" value="로그인" >
-                    <a href="${contextPath}/member/listMembers.do"><input type="button" value="돌아가기" ></a>
+                    <a href="${contextPath}/project/main.do"><input type="button" value="돌아가기" ></a>
                 </div>
             </form>
         </section>

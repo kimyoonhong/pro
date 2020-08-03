@@ -5,6 +5,7 @@
 <mapper namespace="mapper.mypage">
 	<resultMap id="myPageVO" type="myPageVO">
 		<result property="MEMBER_ID" column="MEMBER_ID" />
+	    <result property="PROJECT_TITTLE" column="PROJECT_TITTLE" />
 		<result property="PROJECT_CODE" column="PROJECT_CODE" />
 		<result property="APPLY_CK" column="APPLY_CK" />
 		<result property="APPLY_DAY" column="APPLY_DAY" />
@@ -16,7 +17,7 @@
 	<!-- 신청 프로젝트 -->
     <select id="selectApplyProjectList" resultMap="myPageVO" parameterType="String">
       <![CDATA[
-         select * from 
+         select M.*,P.PROJECT_TITTLE,P.PROJECT_STATE from 
          T_MEMBER_PROJECT_LIST M, T_PROJECT_BOARD P
          where M.PROJECT_CODE = P.PROJECT_CODE
          AND M.MEMBER_ID = #{MEMBER_ID}

@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Component("projectVO")
 public class projectVO {
-	private String MEMBER_ID;  
+	private String MEMBER_ID;
+	private String MEMBER_NAME; 
 	private int PROJECT_CODE; 
 	private String PROJECT_TITTLE; 
 	private String PROJECT_CONTENT; 
@@ -18,23 +19,18 @@ public class projectVO {
  	private String PROJECT_ENDDAY; 
 	private String TOTALMEMBER;
 	private String APPLY_CK;
+	private String PASS_CK;
 	private int APPLYMEMBER; 
 	private int PASSMEMBER; 
+	private String PROJECT_STATE;
 	private String PROJECT_TAG; 
 	private String Tag1;
 	private String Tag2;
 	private String Tag3;
 	private String Tag4;
 	private String Tag5;
+	private String APPLY_DAY; 
 	private String keyword;
-	private String PROJECT_STATE; // 프로젝트 상태
-	
-	public String getPROJECT_STATE() {
-		return PROJECT_STATE;
-	}
-	public void setPROJECT_STATE(String pROJECT_STATE) {
-		PROJECT_STATE = pROJECT_STATE;
-	}
 
 public projectVO() {
 	 
@@ -50,6 +46,20 @@ public String getPROJECT_FILENAME() {
 }
 public void setPROJECT_FILENAME(String pROJECT_FILENAME) {
 	PROJECT_FILENAME = pROJECT_FILENAME;
+}
+
+public String getMEMBER_NAME() {
+	return MEMBER_NAME;
+}
+public void setMEMBER_NAME(String mEMBER_NAME) {
+	MEMBER_NAME = mEMBER_NAME;
+}
+
+public String getPROJECT_STATE() {
+	return PROJECT_STATE;
+}
+public void setPROJECT_STATE(String pROJECT_STATE) {
+	PROJECT_STATE = pROJECT_STATE;
 }
 public projectVO(String tag1,String tag2,String tag3,String tag4,String tag5) {
 	this.Tag1 = tag1;
@@ -74,6 +84,12 @@ public void setAPPLY_CK(String aPPLY_CK) {
 	APPLY_CK = aPPLY_CK;
 }
 
+public String getPASS_CK() {
+	return PASS_CK;
+}
+public void setPASS_CK(String pASS_CK) {
+	PASS_CK = pASS_CK;
+}
 public String getTag1() {
 	return Tag1;
 }
@@ -109,7 +125,14 @@ public void setTag5(String tag5) {
  public void setMEMBER_ID(String MEMBER_ID) {
 	 this.MEMBER_ID=MEMBER_ID;
  }
- public int getPROJECT_CODE() {
+ 
+ public String getAPPLY_DAY() {
+	return APPLY_DAY;
+}
+public void setAPPLY_DAY(String aPPLY_DAY) {
+	APPLY_DAY = aPPLY_DAY;
+}
+public int getPROJECT_CODE() {
 	 return PROJECT_CODE;
  }
  public void setPROJECT_CODE(int PROJECT_CODE) {
@@ -168,11 +191,7 @@ public void setTag5(String tag5) {
  public void setTOTALMEMBER(String TOTALMEMBER) {
 	 this.TOTALMEMBER=TOTALMEMBER;
  }
- //asdsadas
- //asdihsakdjashkdjhsakjdhakdl
- //asjkdalksjdsakljdsakljda
- //asdsadasdasdasdada
- //asdsadsa
+
  public String getPROJECT_TAG() {
 	 return PROJECT_TAG;
  }
@@ -193,6 +212,8 @@ public void setTag5(String tag5) {
  public void setPASSMEMBER(int PASSMEMBER) {
 	 this.PASSMEMBER=PASSMEMBER;
  }
+ 
+ 
  
  
  

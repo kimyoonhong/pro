@@ -15,33 +15,25 @@
 <title>회원 정보 출력창</title>
 </head>
 <body>
-<table border="1"  align="center"  width="80%">
+<table border="1"  align="center"  width="90%">
     <tr align="center"   bgcolor="lightgreen">
       <td><b>아이디</b></td>
       <td><b>비밀번호</b></td>
       <td><b>이름</b></td>
       <td><b>성별</b></td>
-      <td><b>생년월일 년</b></td>
-      <td><b>생년월일 월</b></td>
-      <td><b>생년월일 일</b></td>
+      <td><b>생년월일</b></td>
       <td><b>자기소개</b></td>
       <td><b>전공</b></td>
       <td><b>전화번호</b></td>
-      
-      <td><b>휴대전화1</b></td>
-      <td><b>휴대전화2</b></td>
-      <td><b>휴대전화3</b></td>
+      <td><b>휴대전화</b></td>
       <td><b>SMS수신동의</b></td>
-      <td><b>이메일1</b></td>
-      <td><b>이메일2</b></td>
+      <td><b>이메일</b></td>
       <td><b>이메일수신동의</b></td>
       <td><b>우편번호</b></td>
       <td><b>도로명주소</b></td>
       <td><b>지번주소</b></td>
       <td><b>나머지주소</b></td>
       <td><b>가입일</b></td>
-      
-      
    </tr>
    
  <c:forEach var="member" items="${membersList}" >     
@@ -50,19 +42,27 @@
       <td>${member.MEMBER_PW}</td>
       <td>${member.MEMBER_NAME}</td>
       <td>${member.MEMBER_GENDER}</td>
-      <td>${member.MEMBER_BIRTH_Y}</td>
-      <td>${member.MEMBER_BIRTH_M}</td>
-      <td>${member.MEMBER_BIRTH_D}</td>
+      <td>${member.MEMBER_BIRTH}</td>
       <td>${member.MEMBER_CONTENT}</td>
       <td>${member.MEMBER_JOB}</td>
-      
-      <td>${member.TEL1}</td>
-      <td>${member.HP1}</td>
-      <td>${member.HP2}</td>
-      <td>${member.HP3}</td>
+      <c:choose> 
+       <c:when test="${member.TEL1 =='없음'}">
+ 	  <td>없음</td>
+ 	  </c:when>
+      <c:when test="${member.TEL1 !='없음'}">
+      <td>${member.TEL}</td>
+ 	  </c:when>
+      </c:choose>
+      <td>${member.HP}</td>
       <td>${member.SMSSTS_YN}</td>
-      <td>${member.EMAIL1}</td>
-      <td>${member.EMAIL2}</td>
+         <c:choose> 
+       <c:when test="${member.EMAIL1 =='없음'}">
+ 	  <td>없음</td>
+ 	  </c:when>
+      <c:when test="${member.EMAIL1 !='없음'}">
+     <td>${member.EMAIL}</td>
+ 	  </c:when>
+      </c:choose>
       <td>${member.EMAILSTS_YN}</td>
       <td>${member.ZIPCODE}</td>
       <td>${member.ROADADDRESS}</td>

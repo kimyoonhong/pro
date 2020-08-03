@@ -1,4 +1,4 @@
-package com.myspring.pro.member.interceptor;
+package com.myspring.pro.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,9 +11,11 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter {
 	// preHandle() 메서드는 컨트롤러 실행 전 호출된다.
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		try {
+			System.out.println("인터셉터");
 			// getViewName() 메서드를 이용해 브라우저 요청명에서 뷰 이름을 가져온다.
 			String viewName = getViewName(request);
 			// 뷰 이름을 request에 바인딩.
+			System.out.println("뷰이름 : "+viewName);
 			request.setAttribute("viewName", viewName);
 		} catch (Exception e) {
 			e.printStackTrace();

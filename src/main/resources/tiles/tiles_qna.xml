@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="/qna/listArticles" extends="baseLayout">
+	      <put-attribute name="title" value="글목록창" />
+	      <put-attribute name="body" value="/WEB-INF/views/qna/listArticles.jsp" />
+	</definition>
+	
+	<definition name="/qna/articleForm" extends="baseLayout">
+		<put-attribute name="title" value="글쓰기창" />
+		<put-attribute name="body" value="/WEB-INF/views/qna/articleForm.jsp" />
+	</definition>
+	
+	<definition name="/qna/viewArticle" extends="baseLayout">
+    <put-attribute name="title" value="글상세창" />
+    <put-attribute name="body" value="/WEB-INF/views/qna/viewArticle.jsp" />
+  </definition>
+  
+  		<definition name="/qna/replyForm" extends="baseLayout">
+		<put-attribute name="title" value="답글쓰기" />
+		<put-attribute name="body" value="/WEB-INF/views/qna/replyForm.jsp" />
+	</definition>
+	
+</tiles-definitions>

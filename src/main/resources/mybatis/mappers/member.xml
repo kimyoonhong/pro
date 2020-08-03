@@ -4,21 +4,29 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.member">
-	<resultMap id="memResult" type="memberVO">
-		<result property="MEMBER_ID" column="MEMBER_ID" />
+   <resultMap id="memResult" type="memberVO">
+      <result property="MEMBER_ID" column="MEMBER_ID" />
         <result property="MEMBER_PW" column="MEMBER_PW" />
         <result property="MEMBER_NAME" column="MEMBER_NAME" />
         <result property="MEMBER_GENDER" column="MEMBER_GENDER" />
+        <result property="MEMBER_BIRTH" column="MEMBER_BIRTH" />
         <result property="MEMBER_BIRTH_Y" column="MEMBER_BIRTH_Y" />
         <result property="MEMBER_BIRTH_M" column="MEMBER_BIRTH_M" />
         <result property="MEMBER_BIRTH_D" column="MEMBER_BIRTH_D" />
         <result property="MEMBER_CONTENT" column="MEMBER_CONTENT" />
         <result property="MEMBER_JOB" column="MEMBER_JOB" />
-        
+        <result property="TEL" column="TEL" />
         <result property="TEL1" column="TEL1" />
+        <result property="TEL2" column="TEL2" />
+        <result property="TEL3" column="TEL3" />
+        <result property="HP" column="HP" />
         <result property="HP1" column="HP1" />
+        <result property="HP2" column="HP2" />
+        <result property="HP3" column="HP3" />
         <result property="SMSSTS_YN" column="SMSSTS_YN" />
+        <result property="EMAIL" column="EMAIL" />
         <result property="EMAIL1" column="EMAIL1" />
+        <result property="EMAIL2" column="EMAIL2" />
         <result property="EMAILSTS_YN" column="EMAILSTS_YN" />
         <result property="ZIPCODE" column="ZIPCODE" />
         <result property="ROADADDRESS" column="ROADADDRESS" />
@@ -26,7 +34,7 @@
         <result property="NAMUJIADDRESS" column="NAMUJIADDRESS" />
         <result property="JOINDATE" column="JOINDATE" />
         <result property="TAG" column="TAG" />        
-	</resultMap> 
+   </resultMap>
 	
 	<!-- 프로젝트에 신청한 회원 정보 조회 -->
 	<select id = "selectMemberInfo" parameterType="String" resultType="memberVO">
@@ -82,12 +90,18 @@
       ]]>
 	</select>
 	
-	<!-- 회원 조회 -->
-	<select id="selectAllMemberList" resultMap="memResult">
+<!-- 회원 조회 -->
+   <select id="selectAllMemberList" resultMap="memResult">
       <![CDATA[
-         select * from T_PROJECT_MEMBER	 	
+         select 
+         MEMBER_ID,MEMBER_PW,MEMBER_NAME,MEMBER_GENDER,
+         TEL1||'-'||TEL2||'-'||TEL3 as TEL, HP1||'-'||HP2||'-'||HP3 as HP,
+         SMSSTS_YN,ZIPCODE,ROADADDRESS,JIBUNADDRESS,NAMUJIADDRESS,
+         MEMBER_BIRTH_Y||'-'||MEMBER_BIRTH_M||'-'||MEMBER_BIRTH_D as MEMBER_BIRTH,EMAIL1 || '@'|| EMAIL2 as EMAIL,TEL1,EMAIL1,
+         MEMBER_CONTENT,MEMBER_JOB,JOINDATE
+         from T_PROJECT_MEMBER       
       ]]>
-	</select>
+   </select>
 
 	<select id="selectMemberById" resultType="memberVO"  parameterType="String" >
       <![CDATA[
@@ -158,58 +172,58 @@
 			        MEMBER_PW=#{MEMBER_PW}
 			      </if>
 			      <if test=" MEMBER_GENDER!='' and MEMBER_GENDER!=NULL">
-			         MEMBER_GENDER=#{MEMBER_GENDER},
+			         ,MEMBER_GENDER=#{MEMBER_GENDER}
 			      </if>
 			       <if test=" MEMBER_BIRTH_Y!='' and MEMBER_BIRTH_Y!=NULL">
-			         MEMBER_BIRTH_Y=#{MEMBER_BIRTH_Y},
+			         ,MEMBER_BIRTH_Y=#{MEMBER_BIRTH_Y}
 			      </if>
 			      <if test=" MEMBER_BIRTH_M!='' and MEMBER_BIRTH_M!=NULL">
-			         MEMBER_BIRTH_M=#{MEMBER_BIRTH_M},
+			         ,MEMBER_BIRTH_M=#{MEMBER_BIRTH_M}
 			      </if>
 			      <if test=" MEMBER_BIRTH_D!='' and MEMBER_BIRTH_D!=NULL">
-			         MEMBER_BIRTH_D=#{MEMBER_BIRTH_D},
+			         ,MEMBER_BIRTH_D=#{MEMBER_BIRTH_D}
 			      </if>
 			      <if test=" TEL1!='' and TEL1!=NULL">
-			         TEL1=#{TEL1},
+			         ,TEL1=#{TEL1}
 			      </if>
 			      <if test=" TEL2!='' and TEL2!=NULL">
-			         TEL2=#{TEL2},
+			         ,TEL2=#{TEL2}
 			      </if>
 			      <if test=" TEL3!='' and TEL3!=NULL">
-			         TEL3=#{TEL3},
+			         ,TEL3=#{TEL3}
 			      </if>
 			      <if test=" HP1!='' and HP1!=NULL">
-			         HP1=#{HP1},
+			         ,HP1=#{HP1}
 			      </if>
 			      <if test=" HP2!='' and HP2!=NULL">
-			         HP2=#{HP2},
+			         ,HP2=#{HP2}
 			      </if>
 			      <if test=" HP3!='' and HP3!=NULL">
-			         HP3=#{HP3},
+			         ,HP3=#{HP3}
 			      </if>
 			      <if test=" SMSSTS_YN!='' and SMSSTS_YN!=NULL">
-			         SMSSTS_YN=#{SMSSTS_YN},
+			         ,SMSSTS_YN=#{SMSSTS_YN}
 			      </if>
 			      <if test=" EMAIL1!='' and EMAIL1!=NULL">
-			         EMAIL1=#{EMAIL1},
+			         ,EMAIL1=#{EMAIL1}
 			      </if>
 			      <if test=" EMAIL2!='' and EMAIL2!=NULL">
-			         EMAIL2=#{EMAIL2},
+			         ,EMAIL2=#{EMAIL2}
 			      </if>
 			      <if test=" EMAILSTS_YN!='' and EMAILSTS_YN!=NULL">
-			         EMAILSTS_YN=#{EMAILSTS_YN},
+			         ,EMAILSTS_YN=#{EMAILSTS_YN}
 			      </if>
 			      <if test=" ZIPCODE!='' and ZIPCODE!=NULL">
-			         ZIPCODE=#{ZIPCODE},
+			         ,ZIPCODE=#{ZIPCODE}
 			      </if>
 			      <if test=" ROADADDRESS!='' and ROADADDRESS!=NULL">
-			         ROADADDRESS=#{ROADADDRESS},
-			      </if>			     
+			         ,ROADADDRESS=#{ROADADDRESS}
+			      </if>			    
 			      <if test=" JIBUNADDRESS!='' and JIBUNADDRESS!=NULL">
-			         JIBUNADDRESS=#{JIBUNADDRESS},
+			         ,JIBUNADDRESS=#{JIBUNADDRESS}
 			      </if>
 			      <if test=" NAMUJIADDRESS!='' and NAMUJIADDRESS!=NULL">
-			         NAMUJIADDRESS=#{NAMUJIADDRESS}
+			         ,NAMUJIADDRESS=#{NAMUJIADDRESS}
 			      </if>
 			   </set> 
 		where 

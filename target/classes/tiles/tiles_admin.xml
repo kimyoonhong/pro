@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+   <!-- 공통 레이아웃의 뷰 이름을 지정한다(baseLayout) -->
+   <definition name="baseLayout"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="side" value="/WEB-INF/views/common/side.jsp" />
+      <put-attribute name="body" value="" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+
+   <!-- 컨트롤러에서 반환되는 뷰이름을 지정한다. 
+   		(/member/listMember.do로 요청했을때 .do를 제외한 요청명과 "name"의 값이 일치해야한다. -->
+   		
+   <!-- 회원조회 기능 -->
+   <definition name="/admin/adminloginForm" extends="baseLayout">
+      <put-attribute name="title" value="회원목록창" />
+     <put-attribute name="body" value="/WEB-INF/views/admin/adminloginForm.jsp" />
+<!--            <put-attribute name="body" value="/WEB-INF/views/member/listMembers.jsp" /> -->
+   </definition>
+   
+      <definition name="/admin/listnotice" extends="baseLayout">
+      <put-attribute name="title" value="회원목록창" />
+     <put-attribute name="body" value="/WEB-INF/views/admin/noticelist.jsp" />
+<!--            <put-attribute name="body" value="/WEB-INF/views/member/listMembers.jsp" /> -->
+   </definition>
+   
+         <definition name="/admin/noticeadd" extends="baseLayout">
+      <put-attribute name="title" value="회원목록창" />
+     <put-attribute name="body" value="/WEB-INF/views/admin/addnotice.jsp" />
+<!--            <put-attribute name="body" value="/WEB-INF/views/member/listMembers.jsp" /> -->
+   </definition>
+   
+    <definition name="/admin/noticeDetail" extends="baseLayout">
+      <put-attribute name="title" value="회원목록창" />
+     <put-attribute name="body" value="/WEB-INF/views/admin/noticeDetail.jsp" />
+<!--            <put-attribute name="body" value="/WEB-INF/views/member/listMembers.jsp" /> -->
+   </definition>
+   
+   
+   <definition name="/admin/admintag" extends="baseLayout">
+      <put-attribute name="title" value="회원목록창" />
+     <put-attribute name="body" value="/WEB-INF/views/admin/admintag.jsp" />
+<!--            <put-attribute name="body" value="/WEB-INF/views/member/listMembers.jsp" /> -->
+   </definition>
+
+</tiles-definitions>

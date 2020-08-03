@@ -3,7 +3,7 @@
 	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -22,16 +22,13 @@
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 	
-	
-	<!-- 뷰리졸버 -->
-	<!--
+	<!-- 뷰리졸버
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
 		<beans:property name="prefix" value="/WEB-INF/views/" /> 
 		<beans:property name="suffix" value=".jsp" /> 
-		<beans:property name="order" value="2" />
 	</beans:bean>
   -->
- 
+	
 	<!-- 타일즈 설정 -->
 	<!-- 스프링의 TilesConfigurer 클래스를 이용해 tilesConfigure 빈 생성. -->
     <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
@@ -44,40 +41,29 @@
 		<beans:property name="preparerFactoryClass"
 			          value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
 	</beans:bean>
-	<!-- 타일즈 뷰리졸버를 사용해 화면을 표시. -->
+	
+				<!-- 타일즈 뷰리졸버를 사용해 화면을 표시. -->
 	<beans:bean id="viewResolver"
 				class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 	<beans:property name="viewClass" 
 					value="org.springframework.web.servlet.view.tiles2.TilesView" />
-	<beans:property name="order" value="1" />
 	</beans:bean>
+		<!-- 멀티파트 리졸버 -->
 	<context:component-scan	base-package="com.myspring.pro" />
-	
-	<!-- 멀티파트 리졸버 -->
-	
-  <beans:bean id="multipartResolver"    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-      <beans:property name="maxUploadSize" value="52428800" />
-      <beans:property name="maxInMemorySize" value="52428800" />
-      <beans:property name="defaultEncoding" value="utf-8" />
-   </beans:bean>
-	 
-<!-- 인터셉터 실습 설정 -->
-   <mvc:interceptors>
+	<beans:bean id="multipartResolver" 	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="52428800" />
+		<beans:property name="maxInMemorySize" value="52428800" />
+		<beans:property name="defaultEncoding" value="utf-8" />
+	</beans:bean>
+
+<!-- 인터셉터 설정 -->
+ <mvc:interceptors>
     	<mvc:interceptor>
     	  <!-- 모든 요청에 대해 인터셉터 빈을 수행. -->
-	      <mvc:mapping path="/member/*.do"/>
+	      <mvc:mapping path="/*/*.do"/>
 	   <!-- 인터셉터 기능을 수행할 빈 설정. -->
-	   <beans:bean class="com.myspring.pro.member.interceptor.ViewNameInterceptor" />
+	   <beans:bean class="com.myspring.pro.interceptor.ViewNameInterceptor" />
 	</mvc:interceptor>
 </mvc:interceptors>
-
-<mvc:interceptors>
-    	<mvc:interceptor>
-    	  <!-- 모든 요청에 대해 인터셉터 빈을 수행. -->
-	      <mvc:mapping path="/mypage/*.do"/>
-	   <!-- 인터셉터 기능을 수행할 빈 설정. -->
-	   <beans:bean class="com.myspring.pro.mypage.interceptor.ViewNameInterceptor" />
-	</mvc:interceptor>
-</mvc:interceptors>
-
 </beans:beans>
+

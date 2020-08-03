@@ -6,6 +6,7 @@
 <mapper namespace="mapper.project">
 	<resultMap id="project" type="projectVO">
 		<result property="MEMBER_ID" column="MEMBER_ID" />
+		<result property="MEMBER_NAME" column="MEMBER_NAME" />
         <result property="PROJECT_CODE" column="PROJECT_CODE" />
         <result property="PROJECT_TITTLE" column="PROJECT_TITTLE" />
         <result property="PROJECT_CONTENT" column="PROJECT_CONTENT" />
@@ -20,6 +21,8 @@
         <result property="PASSMEMBER" column="PASSMEMBER" />
         <result property="PROJECT_TAG" column="PROJECT_TAG" />
         <result property="APPLY_CK" column="APPLY_CK" />
+        <result property="PASS_CK" column="PASS_CK" />
+        <result property="PROJECT_STATE" column="PROJECT_STATE" />
         <result property="Tag1" />
         <result property="Tag2" />
         <result property="Tag3" />
@@ -28,12 +31,6 @@
         <result property="keyword" />
 	</resultMap> 
 
-	<select id="selectMemberProjectList" parameterType="String" resultMap="project">
-      <![CDATA[
-         select * from T_PROJECT_BOARD	where MEMBER_ID=#{MEMBER_ID}	
-      ]]>
-	</select>
-	
 	
 	<select id="selectAllprojectList" resultMap="project">
       <![CDATA[
@@ -41,15 +38,34 @@
       ]]>
 	</select>
 	
+	<select id="selectMemberprojectList" resultMap="project">
+      <![CDATA[
+       select p.MEMBER_ID,m.MEMBER_NAME,p.PROJECT_CODE,p.APPLY_DAY,p.PASS_CK from T_MEMBER_PROJECT_LIST p ,t_project_member m
+         where p.PROJECT_CODE = #{PROJECT_CODE}
+         and m.member_id= p.member_id
+         and p.APPLY_CK='신청중'
+         order by  APPLY_DAY
+      ]]>
+	</select>
+	
+	
 	<select id="selectviewproject"  resultMap="project">
       <![CDATA[
-         select * from T_PROJECT_BOARD	where PROJECT_CODE = #{PROJECT_CODE} order by  PROJECT_CODE	
+         select p.*,m.MEMBER_NAME from T_PROJECT_BOARD p , T_PROJECT_MEMBER m
+		where p.MEMBER_ID = m.MEMBER_ID
+ 			and  p.PROJECT_CODE=#{PROJECT_CODE}
       ]]>
 	</select>
     
   <select id="selectprojectcode" resultType="int"  >
 		<![CDATA[
 			SELECT  max(PROJECT_CODE)+1 from T_PROJECT_BOARD	
+		]]>
+	</select>
+	
+	<select id="selectprojecttag" resultType="projectVO"  >
+		<![CDATA[
+			select PROJECT_CODE,PROJECT_TAG from T_PROJECT_TAGLIST
 		]]>
 	</select>
 	<select id ="selectprojectTagList" resultMap="project" parameterType="int">
@@ -89,18 +105,32 @@
 		values(#{PROJECT_CODE}, #{PROJECT_TITTLE},#{PROJECT_TAG})
 	</insert>
 	 <select id="selectKeywordSearch" resultMap="project" parameterType="projectVO" >
-	    <![CDATA[
+	
         select DISTINCT(p.PROJECT_TITTLE),p.PROJECT_CODE,p.PROJECT_REGISTER_DAY
 		from T_PROJECT_BOARD p left outer join t_project_taglist t
 		on p.project_code = t.project_code
 		where         
 		p.PROJECT_TITTLE like '%'|| #{keyword} || '%'
-		or t.project_tag = #{Tag1}
-		or t.project_tag = #{Tag2}
-		or t.project_tag = #{Tag3}
-		or t.project_tag = #{Tag4}
-		or t.project_tag = #{Tag5}
-		
+		 <if test="Tag1!='' and Tag1!='null'">
+		and t.project_tag in (
+		#{Tag1}
+		<if test="Tag2!='' and Tag2!='null'">
+		,#{Tag2}
+		</if>
+		 <if test="Tag3!='' and Tag3!='null'">
+		,#{Tag3}
+		</if>
+		 <if test="Tag4!='' and Tag4!='null'">
+		,#{Tag4}
+		</if>
+		 <if test="Tag5!='' and Tag5!='null'">
+		,#{Tag5}
+		</if>
+		)
+		</if>
+		and PROJECT_STATE = '모집중'
+		or PROJECT_STATE = '모집중(진행중)'
+		<![CDATA[
 		order by p.PROJECT_CODE asc
 		]]>
 	</select> 
@@ -114,13 +144,40 @@
 			PROJECT_CONTENT=#{PROJECT_CONTENT},
 			TOTALMEMBER=#{TOTALMEMBER},
 			APPLYMEMBER=#{APPLYMEMBER},
+			PROJECT_STATE=#{PROJECT_STATE},
 			 <if test="PROJECT_FILENAME!='' and PROJECT_FILENAME!=null">
-			  , PROJECT_FILENAME=#{PROJECT_FILENAME},
+			 PROJECT_FILENAME=#{PROJECT_FILENAME},
 			</if>
 			PASSMEMBER=#{PASSMEMBER}
 			
 			where PROJECT_CODE=#{PROJECT_CODE}
 	</update>
+	<update id="updatememberpass_ck" parameterType="projectVO">
+		update t_member_project_list
+		set PASS_CK =#{PASS_CK},
+			PASS_DAY=SYSDATE
+			where MEMBER_ID =#{MEMBER_ID}
+			and PROJECT_CODE=#{PROJECT_CODE}
+	</update>
+	
+	<update id="updatememberapply_ck" parameterType="projectVO">
+		update t_member_project_list
+		set APPLY_CK =#{APPLY_CK},
+			APPLY_DAY=SYSDATE
+			where MEMBER_ID =#{MEMBER_ID}
+			and PROJECT_CODE=#{PROJECT_CODE}
+			and APPLY_CK='관심'
+	</update>
+	
+	<update id="updateremovefile" parameterType="projectVO">
+		update t_project_board set PROJECT_FILENAME = NULL where PROJECT_CODE = #{PROJECT_CODE}
+	</update>
+	
+<select id="selectMemberProjectList" parameterType="String" resultMap="project">
+      <![CDATA[
+         select * from T_PROJECT_BOARD   where MEMBER_ID=#{MEMBER_ID}   
+      ]]>
+   </select>
    
     <delete id="deleteprojecttag" parameterType="projectVo">
     	delete from T_PROJECT_TAGLIST
@@ -142,7 +199,7 @@
   </select>
   
   <select id="selectoverlappedmemberproject" parameterType="projectVO" resultType="String">
-  	select decode(count(*),1, 'true', 0, 'false') from T_MEMBER_PROJECT_LIST
+  	select APPLY_CK from T_MEMBER_PROJECT_LIST
 	where MEMBER_ID = #{MEMBER_ID}
 	and PROJECT_CODE =#{PROJECT_CODE}
   </select>

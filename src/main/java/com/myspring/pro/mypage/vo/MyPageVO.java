@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class MyPageVO {
 	private String MEMBER_ID;     // 아이디
 	private int PROJECT_CODE;     // 프로젝트 코드
-	
+	private String PROJECT_TITTLE;
 	private String APPLY_CK;      // 신청여부
 	private String APPLY_DAY;     // 신청일
 	private String PASS_CK;       // 합격여부
@@ -55,6 +55,12 @@ public class MyPageVO {
 	}
 	public void setPASS_DAY(String pASS_DAY) {
 		PASS_DAY = pASS_DAY;
+	}
+	public String getPROJECT_TITTLE() {
+		return PROJECT_TITTLE;
+	}
+	public void setPROJECT_TITTLE(String pROJECT_TITTLE) {
+		PROJECT_TITTLE = pROJECT_TITTLE;
 	}
 	
 	

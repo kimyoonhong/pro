@@ -1,5 +1,7 @@
 package com.myspring.pro.mypage.controller;
 
+import java.io.File;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /*import org.slf4j.Logger;
@@ -222,68 +225,69 @@ public class MyPageControllerImpl implements MyPageController{
 		@Override
 		@RequestMapping(value="/modifyMyInfo.do" ,method = {RequestMethod.POST,RequestMethod.GET})
 		public ResponseEntity modifyMyInfo(
-					                 @ModelAttribute("memberVO") MemberVO memberVO,
-									 // 수정할 회원 정보 속성을 저장.
-									 @RequestParam("attribute")  String attribute,
-									 // 회원 정보의 속성 값을 저장.
-					                 @RequestParam("value")  String value,
 					                 HttpServletRequest request, 
 					                 HttpServletResponse response)  
 					                 throws Exception {
-		System.out.println("수정하기 누름");
+		response.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8");
 		Map<String,Object> memberMap=new HashMap<String,Object>();
-		String val[]=null;
+		
 		// 로그인후 생성된 세션을 가져온다
 		HttpSession session=request.getSession();		
 		memberVO= (MemberVO)session.getAttribute("member");
 				
-		// JSP에서 자바쪽으로 가져온다. 이클립스에서는 "memberVO"객체로 사용.
-		if(attribute.equals("MEMBER_BIRTH")){
-			val=value.split(",");
-			memberMap.put("MEMBER_BIRTH_Y",val[0]);
-			memberMap.put("MEMBER_BIRTH_M",val[1]);
-			memberMap.put("MEMBER_BIRTH_D",val[2]);					
-			//memberMap.put("member_birth_gn",val[3]);
-		}else if(attribute.equals("TEL")){
-			val=value.split(",");
-			memberMap.put("TEL1",val[0]);
-			memberMap.put("TEL2",val[1]);
-			memberMap.put("TEL3",val[2]);
-		}else if(attribute.equals("HP")){
-			val=value.split(",");
-			memberMap.put("HP1",val[0]);
-			memberMap.put("HP2",val[1]);
-			memberMap.put("HP3",val[2]);
-			memberMap.put("SMSSTS_YN", val[3]);
-		}else if(attribute.equals("EMAIL")){
-			val=value.split(",");
-			memberMap.put("EMAIL1",val[0]);
-			memberMap.put("EMAIL2",val[1]);
-			memberMap.put("EMAILSTS_YN", val[2]);
-		}else if(attribute.equals("ADDRESS")){
-			val=value.split(",");
-			memberMap.put("ZIPCODE",val[0]);
-			memberMap.put("ROADADDRESS",val[1]);
-			memberMap.put("JIBUNADDRESS", val[2]);
-			memberMap.put("NAMUJIADDRESS", val[3]);
-		}else {
-			memberMap.put(attribute,value);	
+		Enumeration enu = request.getParameterNames();
+		while (enu.hasMoreElements()) {
+			String name = (String) enu.nextElement();
+			String value = request.getParameter(name);
+			memberMap.put(name, value);	
 		}
-				
-		//memberMap.put("MEMBER_ID", MEMBER_ID);
-				
-				
+		
+		String MEMBER_ID = memberVO.getMEMBER_ID();
+		memberMap.put("MEMBER_ID",MEMBER_ID);
+
+		
+		if(memberMap.get("SMSSTS_YN") == null) {
+			memberMap.put("SMSSTS_YN","N");
+		}else {
+			memberMap.put("SMSSTS_YN","Y");
+		}
+		if(memberMap.get("EMAILSTS_YN") == null) {
+			memberMap.put("EMAILSTS_YN", "N");
+		}else {
+			memberMap.put("EMAILSTS_YN", "Y");
+		}
+		memberMap.remove("MEMBER_NAME");
+		
 		memberVO= (MemberVO) myPageService.modifyMyInfo(memberMap);
+		
 		session.removeAttribute("member");
 		session.setAttribute("member", memberVO);
 				
 		String message = null;
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
-		message  = "mod_success";
-		resEntity =new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		responseHeaders.add("Content-Type","text/html;charset=utf-8");
+		
+		try {
+			message = "<script>";
+			message += " alert('회원 수정 완료.');";
+			message += " location.href='"+request.getContextPath()+"/project/main.do';";
+			message += " </script>";
+			
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('오류가 발생했습니다.다시 수정해주세요');";
+			message += " location.href='"+request.getContextPath()+"/mypage/myDetailInfo.do';";
+			message += " </script>";
+			
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+		System.out.println(message + responseHeaders);
 		return resEntity;
-	}	
+	}
+		
+	
 		// 회원 수정시 태그 삭제
 		@RequestMapping(value="/removeTag.do" ,method={RequestMethod.POST,RequestMethod.GET})
 		public ModelAndView removeTag(@RequestParam("MEMBER_ID") String MEMBER_ID,

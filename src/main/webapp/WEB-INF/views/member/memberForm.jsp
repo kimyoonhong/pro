@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"
-	isELIgnored="false"%>
+   pageEncoding="utf-8"
+   isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <%
@@ -20,16 +20,28 @@
 function Check_Email() {
    var EMAIL2 = $("#EMAIL2").val(); // input 박스  값 
    var selectEmail = $("#selectEmail").val();// select박스 선택 값
-        
+   var email = $("select[name=EMAIL3]").val();
+   
+   alert(email);
    // 직접 입력 선택했을 경우
    if (selectEmail == '1'){
-	   $('#EMAIL2').prop("value",''); // input 박스 초기화
-	   $('#EMAIL2').prop("readonly",false);// input 박스 readonly 속성 비활성화
-   }else {
+      $('#EMAIL1').prop("value",''); // input 박스 초기화
+      $('#EMAIL2').prop("value",''); // input 박스 초기화
+      $('#EMAIL1').prop("readonly",false);// input 박스 readonly 속성 비활성화
+      $('#EMAIL2').prop("readonly",false);// input 박스 readonly 속성 비활성화
+   }
+   else if (selectEmail== '없음'){
+      $('#EMAIL1').prop("value",'없음'); // 없음
+      $('#EMAIL2').prop("value",'없음'); // 없음
+      $('#EMAIL1').prop("readonly",true);// input 박스 readonly 속성 비활성화
+      $('#EMAIL2').prop("readonly",true);// input 박스 readonly 속성 활성화
+   }
+   else {
    // 이메일 선택했을경우   
+      $('#EMAIL1').prop("value",'');  // input 박스 초기화
       $('#EMAIL2').prop("value",selectEmail); // 선택 값 input박스로 전달
+      $('#EMAIL1').prop("readonly",false);// input 박스 readonly 속성 비활성화
       $('#EMAIL2').prop("readonly",true); // input 박스 readonly 속성 활성화
-      alert(selectEmail);
       
    }
 }
@@ -38,6 +50,22 @@ function Check_Email() {
 
 
 <script>
+function checkInfo() {
+   var email1 = $("#EMAIL1").val();
+   var select_email = $("#selectEmail option:selected").val();
+	
+   if ((email1 == '') || (select_email == '선택하세요')){
+	   alert('이메일 선택하세요.');
+	   return false;
+   }
+   
+	
+   if ($("input:checkbox[name=tagVO]").is(":checked") == false){
+      alert('관심분야를 선택해주세요');
+      return false;
+   }
+}
+
 function execDaumPostcode() {
   new daum.Postcode({
     oncomplete: function(data) {
@@ -90,228 +118,318 @@ function execDaumPostcode() {
 }
 
 function fn_overlapped(){
-	 var _MEMBER_ID=$("#_MEMBER_ID").val();
-	
-	    if(_MEMBER_ID==''){
-	   	 alert("ID를 입력하세요");
-	   	 return;
-	    }
-	    $.ajax({
-	       type:"post",
-	       async:false,  
-	       url:"${contextPath}/member/overlapped.do",
-	       dataType:"text",
-	       data: {MEMBER_ID:_MEMBER_ID},
-	       success:function (data,textStatus){
-	          if(data=='false'){
-	       	    alert("사용할  수 있는 ID입니다.");
-	       	    $('#btnOverlapped').prop("disabled", true);
-	       	    $('#_MEMBER_ID').prop("disabled", true);
-	       	    $('#MEMBER_ID').val(_MEMBER_ID);
-	          }else{
-	        	  alert("사용할 수 없는 ID입니다.");
-	          }
-	       },
-	       error:function(data,textStatus){
-	          alert("에러가 발생했습니다.");
-	       },
-	       complete:function(data,textStatus){
-	          //alert("작업을완료 했습니다");
-	       }
-	    });  //end ajax	 
-	 }	
+    var _MEMBER_ID=$("#_MEMBER_ID").val();
+   
+       if(_MEMBER_ID==''){
+          alert("ID를 입력하세요");
+          return;
+       }
+       $.ajax({
+          type:"post",
+          async:false,  
+          url:"${contextPath}/member/overlapped.do",
+          dataType:"text",
+          data: {MEMBER_ID:_MEMBER_ID},
+          success:function (data,textStatus){
+             if(data=='false'){
+                 alert("사용할  수 있는 ID입니다.");
+                 $('#btnOverlapped').prop("disabled", true);
+                 $('#_MEMBER_ID').prop("disabled", true);
+                 $('#MEMBER_ID').val(_MEMBER_ID);
+             }else{
+                alert("사용할 수 없는 ID입니다.");
+             }
+          },
+          error:function(data,textStatus){
+             alert("에러가 발생했습니다.");
+          },
+          complete:function(data,textStatus){
+             //alert("작업을완료 했습니다");
+          }
+       });  //end ajax    
+    }   
 </script>
+<style>
+/*
+.form{
+   margin: 0 auto;
+    /*padding-left: 0px;            350 250
+    padding-right: 0px;
+   */
+    background-color: #ffffff;
+  */  
+   }
+ h, td, tr, input, textarea, select, form
+ {
+   
+  font-size:1em;
+  border-radius:5px;
+  
+ }
+ 
+ table, form
+ {
+  /*border:1px solid rgba(36, 228, 172, 0.29); */
+  border-spacing:15px;
+ }
+ 
+.button {
+    background-color: #475d9f;
+    border: 1px solid #323f6b;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 15px;
+   }
+   
+.fixed_left{
+   float:left;
+   }
+
+.fixed_join{
+   float: right;
+   position:relative;
+   }
+.fixed_left_overlap{
+   float:left;
+   margin: 1px;
+    background-color: #475d9f;
+    border: 1px solid #323f6b;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 15px;
+   
+   }
+.textarea_field {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 3px 0;
+    font-size: 14px;
+    width: 95%;
+    height: 100px;
+   }
+.flex{
+   float: left;
+   }
+.fixd_left_zipcode{
+   text-align:left;
+   }
+   
+#detail_table{
+   position: relative;
+   width: 90%;
+   height: 100%;
+   margin-left: 450px;
+   margin-top: 30px;
+   }
+
+</style>
 </head>
-<body>
-	<h3>필수입력사항</h3>
-	<form action="${contextPath}/member/addMember.do" method="post">	
-	<div id="detail_table">
-		<table>
-			<tbody>
-				<tr class="dot_line">
-					<td class="fixed_join">아이디</td>
-					<td>
-					  <input type="text" name="_MEMBER_ID"  id="_MEMBER_ID"  size="20" />
-					  <input type="hidden" name="MEMBER_ID"  id="MEMBER_ID" />
-					  
-					  <input type="button"  id="btnOverlapped" value="중복체크" onClick="fn_overlapped()" />
-					</td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">비밀번호</td>
-					<td><input name="MEMBER_PW" type="password" size="20" required/></td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">이름</td>
-					<td><input name="MEMBER_NAME" type="text" size="20" required/></td>
-					
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">성별</td>
-					<td><input type="radio" name="MEMBER_GENDER" value="F" required/>
-						여성<span style="padding-left:120px"></span>
-						 <input type="radio" name="MEMBER_GENDER" value="M" checked />남성
-					</td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">법정생년월일</td>
-					<td>
-					<select name="MEMBER_BIRTH_Y" required>
-					 
-					     <c:forEach var="year" begin="1" end="100">
-					       <c:choose>
-					         <c:when test="${year==75}">
-							   <option value="${ 1920+year}" selected>${ 1920+year} </option>
-							</c:when>
-							<c:otherwise>
-							  <option value="${ 1920+year}" >${ 1920+year} </option>
-							</c:otherwise>
-							</c:choose>
-					   	</c:forEach> 
-							
-					</select>년 
-					 <select name="MEMBER_BIRTH_M" required>
-					   <c:forEach var="month" begin="1" end="12">
-					       <c:choose>
-					         <c:when test="${month==1 }">
-							   <option value="${month }" selected>${month }</option>
-							</c:when>
-							<c:otherwise>
-							  <option value="${month }">${month}</option>
-							</c:otherwise>
-							</c:choose>
-					   	</c:forEach>
-					</select>월  
-					<select name="MEMBER_BIRTH_D" required>
-							<c:forEach var="day" begin="1" end="31">
-					       <c:choose>
-					         <c:when test="${day==7 }">
-							   <option value="${day}" selected>${day}</option>
-							</c:when>
-							<c:otherwise>
-							  <option value="${day}">${day}</option>
-							</c:otherwise>
-							</c:choose>
-					   	</c:forEach>
-					</select>일 <span style="padding-left:50px"></span>
-					  <!-- <input type="radio" name="MEMBER_BIRTH_GN" value="2" checked />양력
-						 <span style="padding-left:50px"></span>
-						<input type="radio"  name="MEMBER_BIRTH_GN" value="1" />음력 -->
-				  </td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">전화번호</td>
-					<td><select  name="TEL1">
-							<option>없음</option>
-							<option value="02">02</option>
-							<option value="031">031</option>
-							<option value="032">032</option>
-							<option value="033">033</option>
-							<option value="041">041</option>
-							<option value="042">042</option>
-							<option value="043">043</option>
-							<option value="044">044</option>
-							<option value="051">051</option>
-							<option value="052">052</option>
-							<option value="053">053</option>
-							<option value="054">054</option>
-							<option value="055">055</option>
-							<option value="061">061</option>
-							<option value="062">062</option>
-							<option value="063">063</option>
-							<option value="064">064</option>
-							<option value="0502">0502</option>
-							<option value="0503">0503</option>
-							<option value="0505">0505</option>
-							<option value="0506">0506</option>
-							<option value="0507">0507</option>
-							<option value="0508">0508</option>
-							<option value="070">070</option>
-					   </select> - <input  size="10px" type="text" name="TEL2"> - <input size="10px"  type="text" name="TEL3">
-					</td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">휴대폰번호</td>
-					<td><select  name="HP1" required>
-							<option>없음</option>
-							<option selected value="010" required>010</option>
-							<option value="011">011</option>
-							<option value="016">016</option>
-							<option value="017">017</option>
-							<option value="018">018</option>
-							<option value="019">019</option>
-					</select> - <input size="10px"  type="text" name="HP2" required> - <input size="10px"  type="text"name="HP3" required><br> <br> 
-					 <input type="checkbox"	name="SMSSTS_YN" value="Y" checked /> 홈페이지에서 발송하는 SMS 소식을 수신합니다.</td> 
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">이메일<br>(e-mail)</td>
-					<td><input size="10px"   type="text" name="EMAIL1" /> @ 
-						<input  size="10px"  type="text" id="EMAIL2" name="EMAIL2" value = "선택하세요" readonly /> 
-						   <select onchange="Check_Email()" id="selectEmail" name="EMAIL3">
-									<option value="선택하세요" selected>선택하세요</option>
-									<option value="1">직접입력</option>
-									<option value="naver.com">네이버</option>
-									<option value="daum.net">다음</option>
-									<option value="yahoo.co.kr">야후</option>
-									<option value="hotmail.com">핫메일</option>
-									<option value="paran.com">파란</option>
-									<option value="nate.com">네이트</option>
-									<option value="google.com">구글</option>
-									<option value="gmail.com">G메일</option>
-									<option value="empal.com">empal닷컴</option>
-									<option value="korea.com">korea닷컴</option>
-									<option value="freechal.com">freechal닷컴</option>
-							</select><br> <br>   
-							<input type="checkbox" name="EMAILSTS_YN" value="Y" checked /> 홈페이지에서 발송하는 e-mail을 수신합니다.</td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">주소</td>
-					<td>
-					   <input type="text" id="ZIPCODE" name="ZIPCODE" size="10" > <a href="javascript:execDaumPostcode()">우편번호검색</a>
-					  <br>
-					  <p> 
-					   도로명 주소:<br><input type="text" id="ROADADDRESS"  name="ROADADDRESS" size="50" required><br><br>
-					  지번 주소: <input type="text" id="JIBUNADDRESS" name="JIBUNADDRESS" size="50" required><br><br>
-					  나머지 주소: <input type="text"  name="NAMUJIADDRESS" size="50" />
-					 <span id="guide" style="color:#999"></span>
-					   </p>
-					</td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">자기소개</td>
-					<td>
-						<input type="text" id="MEMBER_CONTENT" name="MEMBER_CONTENT">
-					</td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed_join">전공</td>
-					<td>
-						<input type="text" id="MEMBER_JOB" name="MEMBER_JOB" required>
-					</td>
-				</tr>
-				<tr class="dot_line">
-					<td text-align="center"><h3>관심분야</h3></td>
-					<c:forEach var="tag" items="${projectTagList}">
-					<tr>
-						<td>${tag.TAG_THIRD}</td>
-						<td><input type="checkbox" id="tagVO" name="tagVO" value="${tag.TAG_THIRD}"></td>
-					</tr>
-					</c:forEach>
-				</tr>
-			</tbody>
-		</table>
-		</div>
-		<div class="clear">
-		<br><br>
-		<table align=center>
-		<tr >
-			<td >
-				<input type="submit"  value="회원 가입">
-				<input  type="reset"  value="다시입력">
-			</td>
-		</tr>
-	</table>
-	</div>
-</form>	
+<body style="background-color:#f0f5f3">
+   
+
+   <form class="form" action="${contextPath}/member/addMember.do" method="post" onsubmit="return checkInfo()">
+   <div id="detail_table">
+      <table boder = "" bgcolor = "#809fff" cellspacing = "1" >
+         <tbody class="tbody">
+            <tr class="dot_line">
+               <td class="fixed_join">아이디</td>
+               <td>
+                 <input class="fixed_left" type="text" name="_MEMBER_ID"  id="_MEMBER_ID"  size="20" />
+                 <input type="hidden" name="MEMBER_ID"  id="MEMBER_ID" />
+                 
+                 <input class="fixed_left_overlap" type="button"  id="btnOverlapped" value="중복체크" onClick="fn_overlapped()" />
+               </td>
+            </tr>
+            <tr class="dot_line">
+               <td class="fixed_join">비밀번호</td>
+               <td><input class="fixed_left" name="MEMBER_PW" type="password" size="20" required/></td>
+            </tr>
+            <tr class="dot_line">
+               <td class="fixed_join">이름</td>
+               <td><input class="fixed_left" name="MEMBER_NAME" type="text" size="20" required/></td>
+               
+            </tr>
+            <tr class="dot_line">
+               <td class="fixed_join">성별</td>
+               <td><input  class="fixed_left"  type="radio" name="MEMBER_GENDER" value="F" required/>
+                  <a class="flex">&nbsp여성&nbsp</a><span style="padding-left:120px"></span>
+                  &nbsp<input class="fixed_left"  type="radio" name="MEMBER_GENDER" value="M" checked /><a class="flex">&nbsp남성</a>
+               </td>
+            </tr>
+            <tr class="dot_line">
+               <td class="fixed_join">법정생년월일</td>
+               <td>
+               <select class="fixed_left" name="MEMBER_BIRTH_Y" required>
+                
+                    <c:forEach var="year" begin="1" end="100">
+                      <c:choose>
+                        <c:when test="${year==75}">
+                        <option value="${ 1920+year}" selected>${ 1920+year} </option>
+                     </c:when>
+                     <c:otherwise>
+                       <option value="${ 1920+year}" >${ 1920+year} </option>
+                     </c:otherwise>
+                     </c:choose>
+                     </c:forEach> 
+                     
+               </select><a class="flex">년&nbsp</a>
+                <select class="fixed_left" name="MEMBER_BIRTH_M" required>
+                  <c:forEach var="month" begin="1" end="12">
+                      <c:choose>
+                        <c:when test="${month==1 }">
+                        <option value="${month }" selected>${month }</option>
+                     </c:when>
+                     <c:otherwise>
+                       <option value="${month }">${month}</option>
+                     </c:otherwise>
+                     </c:choose>
+                     </c:forEach>
+               </select><a class="flex"> 월&nbsp </a>
+               <select class="fixed_left" name="MEMBER_BIRTH_D" required>
+                     <c:forEach var="day" begin="1" end="31">
+                      <c:choose>
+                        <c:when test="${day==7 }">
+                        <option value="${day}" selected>${day}</option>
+                     </c:when>
+                     <c:otherwise>
+                       <option value="${day}">${day}</option>
+                     </c:otherwise>
+                     </c:choose>
+                     </c:forEach>
+               </select><a class="flex">일 &nbsp </a> <span style="padding-left:50px"></span>
+              </td>
+            </tr>
+            </class>
+            
+            <tr class="dot_line">
+               <td class="fixed_join">전화번호</td>
+               <td><select class="fixed_left" name="TEL1">
+                     <option>없음&nbsp</option>
+                     <option value="02">02</option>
+                     <option value="031">031</option>
+                     <option value="032">032</option>
+                     <option value="033">033</option>
+                     <option value="041">041</option>
+                     <option value="042">042</option>
+                     <option value="043">043</option>
+                     <option value="044">044</option>
+                     <option value="051">051</option>
+                     <option value="052">052</option>
+                     <option value="053">053</option>
+                     <option value="054">054</option>
+                     <option value="055">055</option>
+                     <option value="061">061</option>
+                     <option value="062">062</option>
+                     <option value="063">063</option>
+                     <option value="064">064</option>
+                     <option value="0502">0502</option>
+                     <option value="0503">0503</option>
+                     <option value="0505">0505</option>
+                     <option value="0506">0506</option>
+                     <option value="0507">0507</option>
+                     <option value="0508">0508</option>
+                     <option value="070">070</option>
+                  </select><a class="flex">&nbsp - &nbsp</a>
+                  <input class="fixed_left" size="10px" type="text" name="TEL2">
+                  <a class="flex">&nbsp - &nbsp</a>
+                  <input class="fixed_left"size="10px"  type="text" name="TEL3">
+               </td>
+            </tr>
+            <tr class="dot_line">
+               <td class="fixed_join">휴대폰번호</td>
+               <td><select class="fixed_left" name="HP1" required>
+                     <option class="fixed_left">없음&nbsp</option>
+                     <option selected value="010" required>010&nbsp</option>
+                     <option value="011">011</option>
+                     <option value="016">016</option>
+                     <option value="017">017</option>
+                     <option value="018">018</option>
+                     <option value="019">019</option>
+               </select><a class="flex">&nbsp - &nbsp</a> 
+                <input class="fixed_left" size="10px"  type="text" name="HP2" required> <a class="flex">&nbsp - &nbsp</a> 
+                <input class="fixed_left" size="10px"  type="text" name="HP3" required><br> <br> 
+                <input class="fixed_left" type="checkbox"   name="SMSSTS_YN" value="Y" checked /> <a class="flex">&nbsp 홈페이지에서 발송하는 SMS 소식을 수신합니다.</td> 
+            </tr>
+            <tr class="dot_line">
+               <td class="fixed_join">이메일<br>(e-mail)</td>
+               <td><input class="fixed_left" size="10px"   type="text" id="EMAIL1" name="EMAIL1" /><a class="flex">&nbsp @ &nbsp</a>  
+                  <input class="fixed_left" size="10px"  type="text" id="EMAIL2" name="EMAIL2" value = "선택하세요" readonly /> 
+                     <select onchange="Check_Email()" id="selectEmail" name="EMAIL3">
+                           <option value="선택하세요" selected>선택하세요</option>
+                           <option value="없음">없음</option>
+                           <option value="1">직접입력</option>
+                           <option value="naver.com">네이버</option>
+                           <option value="daum.net">다음</option>
+                           <option value="yahoo.co.kr">야후</option>
+                           <option value="hotmail.com">핫메일</option>
+                           <option value="paran.com">파란</option>
+                           <option value="nate.com">네이트</option>
+                           <option value="google.com">구글</option>
+                           <option value="gmail.com">G메일</option>
+                           <option value="empal.com">empal닷컴</option>
+                           <option value="korea.com">korea닷컴</option>
+                           <option value="freechal.com">freechal닷컴</option>
+                     </select><br> <br>   
+                     <input class="fixed_left" type="checkbox" name="EMAILSTS_YN" value="Y" checked /> 
+                     <a class="flex">&nbsp 홈페이지에서 발송하는 e-mail을 수신합니다.</a></td>
+            </tr>
+            <tr class="dot_line">
+               <td class="fixed_join">우편번호 : <br><br> 도로명 주소:<br><br>
+                 지번 주소: <br><br> 나머지 주소:<br><br> 
+               </td>
+               
+               <td>
+                 
+                  <input class="fixed_left" type="text" id="ZIPCODE" name="ZIPCODE" size="5"> 
+                  <a class="flex" href="javascript:execDaumPostcode()"> 우편번호검색<br></a>
+                <br><br>
+                <input class="fixed_left" type="text" id="ROADADDRESS"  name="ROADADDRESS" size="50" required><br><br>
+                 <input class="fixed_left" type="text" id="JIBUNADDRESS" name="JIBUNADDRESS" size="50" required><br><br>
+                 <input class="fixed_left" type="text" name="NAMUJIADDRESS" size="50" />
+                <span id="guide" style="color:#999"></span>
+               
+               </td>
+            </tr>
+            <tr class="dot_line">
+               <td class="fixed_join">자기소개 : </td>
+               <td>
+                  <textarea class="textarea_field" type="text" id="MEMBER_CONTENT" name="MEMBER_CONTENT" placeholder="자기소개 부탁드려요."></textarea>
+               </td>
+            </tr>
+            <tr class="dot_line">
+               <td class="fixed_join">전공</td>
+               <td>
+                  <input class="fixed_left" type="text" id="MEMBER_JOB" name="MEMBER_JOB" required>
+               </td>
+            </tr>
+            <tr class="dot_line">
+            
+               <td class="fixed_join" >관심분야</td>
+               <c:forEach var="tag" items="${projectTagList}">
+               <tr>
+                  <td>${tag.TAG_THIRD}</td>
+                  <td><input type="checkbox" id="tagVO" name="tagVO" value="${tag.TAG_THIRD}"></td>
+               </tr>
+               </c:forEach>
+            </tr>
+         </tbody>
+      </table>
+      </div>
+      <div class="clear">
+      <br><br>
+      
+      <table align=center>
+      <tr >
+         <td >
+            <input class="button" type="submit"  value="회원 가입">
+            <input class="button" type="reset"  value="다시입력">
+         </td>
+      </tr>
+   </table>
+   </div>
+</form>   
 </body>
 </html>

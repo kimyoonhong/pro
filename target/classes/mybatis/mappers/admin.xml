@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.admin">
+	<resultMap id="adminVO" type="adminVO">
+		<result property="ADMIN_ID" column="ADMIN_ID" />
+        <result property="ADMIN_PW" column="ADMIN_PW" />
+        <result property="ADMIN_NAME" column="ADMIN_NAME" /> 
+        <result property="NOTICE_CODE" column="NOTICE_CODE" />       
+        <result property="NOTICE_TITLE" column="NOTICE_TITLE" />       
+        <result property="NOTICE_CONTENT" column="NOTICE_CONTENT" />       
+        <result property="NOTICE_WRITEDATE" column="NOTICE_WRITEDATE" /> 
+        <result property="NOTICE_FILENAME" column="NOTICE_FILENAME" />       
+
+              
+	</resultMap> 
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="adminVO"  parameterType="adminVO"  >
+	    <![CDATA[
+			select * from T_ADMIN 
+			 where ADMIN_ID=#{ADMIN_ID}
+			 and ADMIN_PW=#{ADMIN_PW}			
+		]]>
+	</select>
+	
+	<insert id="insert_t_notice" parameterType="java.util.Map">
+		insert into T_NOTICE(ADMIN_ID,ADMIN_NAME,NOTICE_CODE,NOTICE_TITLE,NOTICE_CONTENT,NOTICE_FILENAME) 
+					values(#{ADMIN_ID},#{ADMIN_NAME},#{NOTICE_CODE},#{NOTICE_TITLE},#{NOTICE_CONTENT},#{NOTICE_FILENAME})
+	</insert>
+	
+	<select id="select_t_notice" resultType="adminVO">
+		select * from t_notice
+	</select>
+	
+	<select id="selectnotice_code" resultType="int">
+	SELECT  max(NOTICE_CODE)+1 from T_NOTICE
+	</select>
+	
+	<select id="selectviewnotice" resultMap="adminVO">
+      <![CDATA[
+         select * from T_NOTICE	where NOTICE_CODE = #{NOTICE_CODE}	
+      ]]>
+	</select>
+	
+	 <update id="updatenotice"  parameterType="java.util.Map">
+			update t_notice
+			set 
+			NOTICE_TITLE=#{NOTICE_TITLE},
+			 <if test="NOTICE_FILENAME!='' and NOTICE_FILENAME!=null">
+			 NOTICE_FILENAME=#{NOTICE_FILENAME},
+			</if>	 
+			NOTICE_CONTENT=#{NOTICE_CONTENT}
+			where NOTICE_CODE=#{NOTICE_CODE}
+	</update>
+	
+	<update id="updateremovenoticefile" parameterType="adminVO">
+		update t_notice set NOTICE_FILENAME = NULL where NOTICE_CODE = #{NOTICE_CODE}
+	</update>
+	
+	<delete id="deletenotice" parameterType="adminVO">
+		delete from t_notice where NOTICE_CODE = #{NOTICE_CODE}
+	</delete>
+</mapper>

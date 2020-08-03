@@ -18,6 +18,9 @@
  <table border="1"  align="center"  width="100%">
 	   	<th>신청중 프로젝트 리스트</th>
 	   	<tr>
+	   		<td align="center" >
+	   		프로젝트 제목
+	   		</td>
 		   	<td align="center">
 		   	 	프로젝트 코드
 		   	</td>
@@ -38,11 +41,12 @@
    		<c:choose>
           <c:when test="${ApplyProjectList.APPLY_CK == '신청중'}">
 	   	<tr align="center">
+	   	<td>
+	   	<a class='cls1' href="${contextPath}/project/projectDetail.do?PROJECT_CODE=
+   			${ApplyProjectList.PROJECT_CODE}">${ApplyProjectList.PROJECT_TITTLE}</a></td>
 		   	<td>
-		   	<a class='cls1' href="${contextPath}/project/projectDetail.do?PROJECT_CODE=
-   			${ApplyProjectList.PROJECT_CODE}">${ApplyProjectList.PROJECT_CODE}</a>
+		${ApplyProjectList.PROJECT_CODE}
    			</td>
-		   	</td>
 		   	<td>${ApplyProjectList.APPLY_CK}</td>
 		   	<td>${ApplyProjectList.APPLY_DAY}</td>
 		    <td>${ApplyProjectList.PASS_CK}</td>
@@ -62,6 +66,9 @@
  <table border="1"  align="center"  width="100%">
 	   	<th>내가 찜한 프로젝트 리스트</th>
 	   	<tr>
+	   	<td align="center" >
+	   		프로젝트 제목
+	   		</td>
 		   	<td align="center">
 		   	 	프로젝트 코드
 		   	</td>
@@ -82,9 +89,11 @@
    		<c:choose>
           <c:when test="${ApplyProjectList.APPLY_CK == '관심'}">
 	   	<tr align="center">
+		      	<td>
+	   	<a class='cls1' href="${contextPath}/project/projectDetail.do?PROJECT_CODE=
+   			${ApplyProjectList.PROJECT_CODE}">${ApplyProjectList.PROJECT_TITTLE}</a></td>
 		   	<td>
-		   	<a class='cls1' href="${contextPath}/project/projectDetail.do?PROJECT_CODE=
-   			${ApplyProjectList.PROJECT_CODE}">${ApplyProjectList.PROJECT_CODE}</a>
+		${ApplyProjectList.PROJECT_CODE}
    			</td>
 		   	<td>${ApplyProjectList.APPLY_CK}</td>
 		   	<td>${ApplyProjectList.APPLY_DAY}</td>

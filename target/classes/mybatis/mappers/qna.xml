@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.qna">
+<resultMap id="articlesResult" type="qnaArticleVO">
+    <result property="level" column="level" />
+    <result property="QNA_ARTICLENO" column="QNA_ARTICLENO" />
+    <result property="QNA_PARENTNO" column="QNA_PARENTNO" />
+    <result property="QNA_TAG" column="QNA_TAG" />
+    <result property="QNA_TITLE" column="QNA_TITLE" />
+    <result property="QNA_CONTENT" column="QNA_CONTENT" />
+    <result property="writeDate" column="WRITEDATE" />
+    <result property="MEMBER_ID" column="MEMBER_ID" />
+    <result property="IMAGEFILENAME" column="IMAGEFILENAME" />
+  </resultMap> 
+  
+  <resultMap id="imgResult" type="ImageVO">
+	  <result property="IMAGEFILENAMENO" column="IMAGEFILENAMENO" />
+	  <result property="QNA_ARTICLENO" column="QNA_ARTICLENO" />
+	  <result property="IMAGEFILENAME" column="IMAGEFILENAME" />
+ </resultMap>
+ 
+	
+	 <!-- 게시글 작성 -->
+  <insert id="insertNewArticle"  parameterType="java.util.Map">
+		<![CDATA[
+			INSERT into T_BOARD_QNA(QNA_ARTICLENO, QNA_PARENTNO, QNA_TAG, QNA_TITLE, QNA_CONTENT, MEMBER_ID)
+			VALUES(#{QNA_ARTICLENO}, #{QNA_PARENTNO}, #{QNA_TAG}, #{QNA_TITLE}, #{QNA_CONTENT}, #{MEMBER_ID})
+		]]>      
+	</insert>
+	
+  <select id="selectNewArticleNO" resultType="int"  >
+		<![CDATA[
+			SELECT  max(QNA_ARTICLENO)+1 from T_BOARD_QNA		
+		]]>
+	</select>
+	
+	 <!-- 게시글 상세 보기 -->
+  <select id="selectArticle" resultType="qnaArticleVO"   parameterType="int">
+    <![CDATA[
+      SELECT * from T_BOARD_QNA
+      where QNA_ARTICLENO = #{QNA_ARTICLENO}		
+    ]]>
+  </select>
+  
+   <!-- 게시글 수정 -->
+  <update id="updateArticle"  parameterType="java.util.Map">
+			update T_BOARD_QNA
+			set QNA_TITLE=#{QNA_TITLE},	 
+			QNA_CONTENT=#{QNA_CONTENT}
+		    <if test="IMAGEFILENAME!='' and IMAGEFILENAME!=null">
+			  ,IMAGEFILENAME=#{IMAGEFILENAME}
+			</if>
+			where QNA_ARTICLENO=#{QNA_ARTICLENO}
+	</update>
+	
+	 <!-- 게시글 삭제 -->
+	<delete id="deleteArticle"  parameterType="int">
+    <![CDATA[
+      delete from T_BOARD_QNA
+      where QNA_ARTICLENO in (
+         SELECT QNA_ARTICLENO FROM  T_BOARD_QNA
+         START WITH QNA_ARTICLENO = #{QNA_ARTICLENO}
+         CONNECT BY PRIOR  QNA_ARTICLENO = QNA_PARENTNO )
+    ]]>      
+  </delete>
+  
+  
+  <!-- 이미지관련 소스 -->
+  <select id="selectNewImageFileNO" resultType="int"  >
+    <![CDATA[
+      SELECT  nvl(max(IMAGEFILENAME),0) from t_imageFile		
+    ]]>
+  </select>
+  
+    <select  id="selectImageFileList" resultMap="imgResult" parameterType="int">
+    <![CDATA[
+      SELECT * from t_imageFile
+      where articleNO=#{articleNO}	
+    ]]>
+  </select> 
+	
+	<!-- 페이징처리 -->
+	<!-- 게시물 총 갯수 -->
+	<select id="listCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(QNA_ARTICLENO)
+		  FROM T_BOARD_QNA
+		 WHERE QNA_ARTICLENO > 0
+	]]>
+	</select>
+		
+	<!-- 게시물 목록 + 페이징 -->
+		<select id="listPage" parameterType="com.myspring.pro.page.Criteria" resultType="com.myspring.pro.qna.vo.qnaArticleVO">
+ 		       <![CDATA[
+ 		        select	level,   
+ 		        QNA_ARTICLENO,
+		        QNA_PARENTNO, 
+		        QNA_TAG,
+		        QNA_TITLE, 
+		        QNA_CONTENT,
+                writeDate,
+		        MEMBER_ID,
+		        IMAGEFILENAME
+                from(
+                select QNA_ARTICLENO,
+                        QNA_PARENTNO, 
+                        QNA_TAG,
+                        QNA_TITLE, 
+                        QNA_CONTENT,
+                        writeDate,
+                        MEMBER_ID,
+                        IMAGEFILENAME,
+                        row_number() over(order by QNA_ARTICLENO desc) as RNUM
+                        from T_BOARD_QNA 
+                ) mp
+                WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+                CONNECT BY PRIOR QNA_ARTICLENO=QNA_PARENTNO
+                order by RNUM DESC
+ 		       ]]>
+		</select>
+</mapper>

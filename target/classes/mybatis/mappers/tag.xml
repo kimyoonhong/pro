@@ -9,10 +9,47 @@
 		<result property="TAG_SECOND" column="TAG_SECOND"/>
 		<result property="TAG_THIRD" column="TAG_THIRD"/>
 	</resultMap> 
-	
 	<select id="selectTagList" resultMap="tag">
       <![CDATA[
          select * from  TAG 	
       ]]>
 	</select>
+	
+	<insert id="inserttag" parameterType="java.util.Map">
+	insert into TAG (TAG_FIRST,TAG_SECOND,TAG_THIRD) values(#{TAG_FIRST},#{TAG_SECOND},#{TAG_THIRD})
+	</insert>
+	
+	 <select id="adminovertag" parameterType="java.util.Map" resultType="String">
+  	select decode(count(*),1, 'true', 0, 'false') from TAG
+	where TAG_THIRD = #{TAG_THIRD}
+  </select>
+  
+  <select id="selecttag_firstList" resultMap="tag">
+      <![CDATA[
+           select distinct tag_first from tag
+      ]]>
+	</select>
+	
+	
+	  <select id="selecttag_secondList" resultMap="tag">
+      <![CDATA[
+          select distinct tag_first, tag_second from tag 
+      ]]>
+	</select>
+	
+	  <select id="selecttag_thirdList" resultMap="tag" parameterType="tagVO">
+      <![CDATA[
+          	select  TAG_THIRD from TAG 
+			where TAG_SECOND =#{TAG_SECOND}
+      ]]>
+	</select>
+	
+
+
+  
+  <delete id="deletetag" parameterType="String">
+   delete from  TAG 
+	   where
+	    TAG_THIRD=#{TAG_THIRD}
+  </delete>
 </mapper>

@@ -4,7 +4,7 @@
 "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
    <!-- 공통 레이아웃의 뷰 이름을 지정한다(baseLayout) -->
-   <definition name="baseLayout"  template="/WEB-INF/views/common/layout.jsp">
+   <definition name="baseLayoutproject"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="side" value="/WEB-INF/views/common/side.jsp" />
@@ -20,7 +20,7 @@
    <!-- 컨트롤러에서 반환되는 뷰이름을 지정합니다. 
    		(/member/listMember.do로 요청했을때 .do를 제외한 요청명과 "name"의 값이 일치해야한다. -->
    <!-- 회원조회 기능 -->
-   <definition name="/project/listprojects" extends="baseLayout">
+   <definition name="/project/listprojects" extends="baseLayoutproject">
       <put-attribute name="title" value="프로젝트 게시판" />
       <put-attribute name="body" value="/WEB-INF/views/project/listprojects.jsp" />
    </definition>
@@ -38,6 +38,10 @@
    <definition name="/project/projectDetail" extends="baseLayout">
       <put-attribute name="title" value="프로젝트 상세보기" />
       <put-attribute name="body" value="/WEB-INF/views/project/projectDetail.jsp" />
+   </definition>
+   <definition name="/project/main" extends="baseLayout">
+      <put-attribute name="title" value="프로젝트 상세보기" />
+      <put-attribute name="body" value="/WEB-INF/views/project/mainproject.jsp" />
    </definition>
    
    	<definition name="/project/projectadd" extends="baseLayout">

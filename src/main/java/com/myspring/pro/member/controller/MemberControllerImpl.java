@@ -141,13 +141,17 @@ public class MemberControllerImpl implements MemberController{
 			//RedirectAttributes클래스를 이용해 로그인 실패 시 다시 로그인창으로 리다이렉트하여 실패 메시지 전달!
 				              RedirectAttributes rAttr,
 		                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+	
 		ModelAndView mav = new ModelAndView();
-		
+if(memberVO.getMEMBER_ID().equals("@@") && memberVO.getMEMBER_PW().equals("@@") ) {
+		mav.setViewName("redirect:/admin/adminloginForm.do");
+		return mav;
+		}
 		System.out.println("로그인() ID :"+memberVO.getMEMBER_ID());
 		System.out.println("로그인() PW :"+memberVO.getMEMBER_PW());
 		// login()메서드를 호출하면서 로그인 정보를 전달.
 		memberVO = memberService.login(memberVO);
+	
 		
 		if(memberVO != null) {
 				HttpSession session = request.getSession();
@@ -161,7 +165,7 @@ public class MemberControllerImpl implements MemberController{
 			    session.setAttribute("member", memberVO);
 			    
 			    // memberVO로 반환된 값이 있으면 세션을 이용해 로그인 상태를 true로 한다.
-			    mav.setViewName("redirect:/member/listMembers.do");
+			    mav.setViewName("redirect:/project/main.do");
 			    
 		}else {
 				// 로그인 실패시 실패 메시지를 로그인 창으로 전달.
@@ -184,7 +188,7 @@ public class MemberControllerImpl implements MemberController{
 		session.setAttribute("isLogOn", false);
 		session.removeAttribute("member");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/member/listMembers.do");
+		mav.setViewName("redirect:/project/main.do");
 		
 		// ModelAndView 객체에 설정한 뷰이름을 타일즈 뷰리졸버로 반환한다.
 		return mav;

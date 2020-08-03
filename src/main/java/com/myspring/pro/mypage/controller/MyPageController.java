@@ -38,11 +38,7 @@ public interface MyPageController {
 			  					  HttpServletRequest request, 
 			 					  HttpServletResponse response)  throws Exception;
 	// 회원정보 수정
-	public ResponseEntity modifyMyInfo(
-									   @ModelAttribute("memberVO") MemberVO memberVO,
-									   @RequestParam("attribute")  String attribute,
-            						   @RequestParam("value")  String value,
-            						   HttpServletRequest request, 
+	public ResponseEntity modifyMyInfo(HttpServletRequest request, 
             						   HttpServletResponse response)  throws Exception;
             						   
 	// 회원 상세

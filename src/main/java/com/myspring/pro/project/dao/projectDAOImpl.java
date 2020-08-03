@@ -16,7 +16,10 @@ import com.myspring.pro.project.vo.projectVO;
 public class projectDAOImpl implements projectDAO {
 	@Autowired
 	private SqlSession sqlSession;
-	private projectVO projectVO = new projectVO();
+	@Autowired
+	private projectVO projectVO;
+	@Autowired
+	private tagVO tagVO;
 
 	@Override
 	public List selectAllprojectList() throws DataAccessException {
@@ -68,9 +71,8 @@ public class projectDAOImpl implements projectDAO {
 	public void insertprojecttaglist(Map projectMap,List<String> tag) throws DataAccessException{
 		int i;
 		projectVO.setPROJECT_TITTLE( (String) projectMap.get("PROJECT_TITTLE"));
-	
+		System.out.println("테그 리스트"+tag);
 		
-		if(!tag.get(tag.size()-1).equals("null"))
 		for(i=1;i<tag.size();i++) {
 			projectVO.setPROJECT_TAG(tag.get(i));
 			sqlSession.insert("mapper.project.insertprojecttag",projectVO);
@@ -102,13 +104,13 @@ public class projectDAOImpl implements projectDAO {
 	@Override
 	public List<String> selectKeywordSearch(String keyword,List<String> tag) throws DataAccessException {
 		int i;
-		for(i=0;i<5; i++) {
-			if(tag.size()<5) {
-				tag.add("null1");
+		for(i=1;i<6; i++) {
+			if(tag.size()<6) {
+				tag.add("null");
 			}
 			System.out.println("asd"+tag.get(i));
 		}
-		projectVO.setTags((String)tag.get(0),(String)tag.get(1),(String)tag.get(2),(String)tag.get(3),(String)tag.get(4));
+		projectVO.setTags((String)tag.get(1),(String)tag.get(2),(String)tag.get(3),(String)tag.get(4),(String)tag.get(5));
 		projectVO.setKeyword(keyword);
 	List<String> list=(ArrayList)sqlSession.selectList("mapper.project.selectKeywordSearch",projectVO);
 	
@@ -132,22 +134,26 @@ public class projectDAOImpl implements projectDAO {
 		 boolean a;
 			projectVO.setPROJECT_TITTLE((String)projectMap.get("PROJECT_TITTLE"));
 			projectVO.setPROJECT_TAG((String)projectMap.get("PROJECT_TAG"));
-			String b=sqlSession.selectOne("mapper.project.selectoverlappedtag",projectVO);
 				if(!sqlSession.selectOne("mapper.project.selectoverlappedtag",projectVO).equals("true")) {
 					a=true;
 				}else {
 					a=false;
 				}
-				System.out.println("b 확인"+ b);
 		System.out.println("a 확인"+ a);
 		
 		return a;
 	}
 
 	@Override
-	public boolean selectoverlappedmemberproject(Map projectMap, int PROJECT_CODE) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return false;
+	public String selectoverlappedmemberproject(Map projectMap, int PROJECT_CODE) throws DataAccessException {
+		projectVO.setPROJECT_CODE(PROJECT_CODE);
+		
+		projectVO.setAPPLY_CK((String)projectMap.get("APPLY_CK"));
+		projectVO.setMEMBER_ID((String)projectMap.get("MEMBER_ID"));
+		
+		System.out.println("다오에서 APPLY확인 :"+sqlSession.selectOne("mapper.project.selectoverlappedmemberproject",projectVO));
+		
+		return sqlSession.selectOne("mapper.project.selectoverlappedmemberproject",projectVO);
 	}
 
 	@Override
@@ -155,9 +161,73 @@ public class projectDAOImpl implements projectDAO {
 		projectVO.setPROJECT_CODE(PROJECT_CODE);
 		projectVO.setAPPLY_CK((String)projectMap.get("APPLY_CK"));
 		projectVO.setMEMBER_ID((String)projectMap.get("MEMBER_ID"));
-		
 		sqlSession.insert("insertprojectmemberproject",projectVO);
 		
+	}
+
+	@Override
+	public List selectmemberprojectlist(int PROJECT_CODE) throws DataAccessException {
+		List<projectVO> memberList= null;
+		memberList=sqlSession.selectList("mapper.project.selectMemberprojectList",PROJECT_CODE);
+		return memberList;
+	}
+
+	@Override
+	public void updatepass_ck(Map projectMap, int PROJECT_CODE) throws DataAccessException {
+		projectVO.setPROJECT_CODE(PROJECT_CODE);
+		projectVO.setMEMBER_ID((String)projectMap.get("MEMBER_ID"));
+		projectVO.setPASS_CK((String)projectMap.get("PASS_CK"));
+		System.out.println("pass : "+projectVO.getPASS_CK());
+		
+		sqlSession.update("mapper.project.updatememberpass_ck",projectVO);
+		
+	}
+
+	@Override
+	public void updateapply_ck(Map projectMap, int PROJECT_CODE) throws DataAccessException {
+		projectVO.setPROJECT_CODE(PROJECT_CODE);
+		projectVO.setMEMBER_ID((String)projectMap.get("MEMBER_ID"));
+		projectVO.setPASS_CK((String)projectMap.get("APPLY_CK"));
+		sqlSession.delete("mapper.project.updatememberapply_ck",projectVO);
+	}
+
+	@Override
+	public List selecttag_first() throws DataAccessException {
+		List<tagVO> tag_firstList =null;
+		tag_firstList = sqlSession.selectList("mapper.tag.selecttag_firstList");
+		return tag_firstList;
+	}
+
+	@Override
+	public List selecttag_second(String TAG_FIRST) throws DataAccessException {
+		List<tagVO> tag_secondList =null;
+		tagVO.setTAG_FIRST(TAG_FIRST);
+		System.out.println("VO확인" +tagVO.getTAG_FIRST());
+		tag_secondList =sqlSession.selectList("mapper.tag.selecttag_secondList",tagVO);
+		return tag_secondList;
+	}
+
+	@Override
+	public List selecttag_third(String TAG_SECOND) throws DataAccessException {
+		List<tagVO> tag_thirdList = null;
+		tagVO.setTAG_SECOND(TAG_SECOND);
+		
+		tag_thirdList =sqlSession.selectList("mapper.tag.selecttag_thirdList", tagVO);
+		return tag_thirdList;
+	}
+
+	@Override
+	public void removefile(int PROJECT_CODE) throws DataAccessException {
+		projectVO.setPROJECT_CODE(PROJECT_CODE);
+		sqlSession.update("mapper.project.updateremovefile", projectVO);
+		
+	}
+
+	@Override
+	public List selectAllprojecttagList() throws DataAccessException {
+		// TODO Auto-generated method stub
+		List<tagVO> projectALLtagList = sqlSession.selectList("mapper.project.selectprojecttag");
+		return projectALLtagList;
 	}
 
 }

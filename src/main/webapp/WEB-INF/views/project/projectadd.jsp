@@ -9,6 +9,7 @@
 %> 
 
 <head>
+
 <meta charset="UTF-8">
 <title>글쓰기창</title>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -50,108 +51,192 @@
 	  }
 	  
 	});
-/*   $(function(){
-		var isSeasonChk =false;
-		var selecttag =document.getElementsByName("selecttag");
-		for(var i=0;i<selecttag.length; i++){
-			if(selecttag[i].checked == true){
-				isSeasonChk = true;
-				break;
-			}
+  function DAY_CK(ck){
+
+		if(ck=='inv'){
+			document.getElementById("testDatepicker2").value = "상시모집";
+			document.getElementById("testDatepicker3").value = "상시모집";
 		}
-		if(!isSeasonChk){
-			selecttag[0].checked =true;
-			selecttag[0].value = "null";
-			return false;
+		
+		if(ck=='pro'){
+			document.getElementById("testDatepicker0").value = "미정";
+			document.getElementById("testDatepicker1").value = "미정";
 		}
-	}); */
+		
+	}
 
 
 </script>
+<style>
+.form{
+    padding-left: 250px;
+    padding-right: 250px;
+	background-color: #ffffff;
+	}
+	
+.form_box {
+    background-color: #ffffff;
+    margin: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding-left: 10px;
+    padding-right: 10px;
+	}
+	
+.input_field {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 3px 0;
+    font-size: 14px;
+    width: 90%;
+	}
+.textarea_field {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 3px 0;
+    font-size: 14px;
+    width: 90%;
+    height: 280px;
+	}
+.write_button {
+    background-color: #475d9f;
+    border: 1px solid #323f6b;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 15px;
+	}
+.back_button{
+    background-color: #475d9f;
+    border: 1px solid #323f6b;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 15px;
+	}
+.out_field {
+    /*border: 1px solid #ddd;*/
+   	float: left;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 5px 0;
+    font-size: 14px;
+    width: 15%;
+   	}
+	
+.fixed_left{
+	float:left;
+	}	
+.flex{
+	float: left;
+	}
+	
+
+#contents_tb td, th {
+    border: 3px;
+    padding: 1px;
+	font-gamily: "Nanum Gothic"
+	font-size:14px;
+
+	}
+
+#contents_tb th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+
+    color: white;
+}
+
+</style>
  <title>프로젝트 등록</title>
 </head>
 <body>
-<h1 style="text-align:center">프로젝트 작성</h1>
+<h3 style="text-align:center">프로젝트 작성</h3>
   <form name="addproject" method="post"   action="${contextPath}/project/addproject.do"   enctype="multipart/form-data">
-    <table border="0" align="center">
+
+	<table id="contents_tb"  border="0" bgcolor = "#809fff" align="center">
+	<tbody class="tbody">
+    <!-- <table > -->
     
       <tr>
-					<td align="right"> 작성자</td>
-					<td colspan=2  align="left"><input type="text" size="20" maxlength="100"  value="${memberInfo.MEMBER_NAME}" readonly/> </td>
-					<input type="hidden" name="MEMBER_ID" type="text" value="${memberInfo.MEMBER_ID}" />
-			</tr>
-	     <tr>
-			   <td align="right">프로젝트 제목: </td>
-			   <td colspan="2"><input type="text" size="67"  maxlength="500" name="PROJECT_TITTLE" /></td>
-		 </tr>
-		 <tr>
-		 	  <td align="right">프로젝트 일정: </td>
-			  <td>시작 날짜<input type="text" id="testDatepicker0" name="PROJECT_STRDAY"  value="미정" readonly> </td>
-			  <td>종료 날짜 <input type="text" id="testDatepicker1" name='PROJECT_ENDDAY' value="미정"  readonly> </td>
-			  <td><input type="checkbox" id="DAY_CK0" name="DAY_CK0" value="미정"> 미정</td>
-		 </tr>
-		 		<input type="hidden"  id="selecttag" name="selecttag" value="null">
-		 
-		 <tr><td>카테고리</td></tr>
-		<tr align="center"   bgcolor="lightgreen"> 
-		<td>대분류</td>
-		<td>중분류</td>
-		<td>소분류</td>
-		<td>선택</td>
-		</tr>
-		<c:forEach var="tag" items="${projectTagList}">
-		<tr align="center">
-		<td>${tag.TAG_FIRST}</td>
-		<td>${tag.TAG_SECOND}</td>
-		<td>${tag.TAG_THIRD}</td>
-		<td><input type="checkbox" id="selecttag" name="selecttag" value="${tag.TAG_THIRD}"></td>
-		</tr>
-		</c:forEach>
-		 <tr>
-		 	  <td align="right">모집 기간: </td>
-			  <td>모집날짜 <input type="text" id="testDatepicker2" name="INVITE_STRDAY" value="상시모집"  readonly> </td>
-			  <td>모집종료날짜 <input type="text" id="testDatepicker3" name="INVITE_ENDDAY" value="상시모집" readonly> </td>
-			  <td><input type="checkbox" id="DAY_CK1" name="DAY_CK1" value="미정"> 상시모집</td>
-		 </tr>
-	     <tr>
-			   <td align="right">모집 인원: </td>
-			   <td colspan="2">
-			   <select  onchange="Check_Email()" id="dd" name="TOTALMEMBER">
-			   <option value="미정">선택하세요</option>
-			   <option value="1">1</option>
-			   <option value="2">2</option>
-			   <option value="3">3</option>
-			   <option value="4">4</option>
-			   <option value="5">5</option>
-			   <option value="6">6</option>
-			   <option value="7">7</option>
-			   <option value="8">8</option>
-			   <option value="9">9</option>
-			   <option value="10">10</option>
-			   </select> 명</td>			   
-		 </tr>
-	 <tr>
-				<td align="right" valign="top"><br>글내용: </td>
-				<td colspan=2><textarea name="PROJECT_CONTENT" rows="10" cols="65" maxlength="4000"></textarea> </td>
+           <td align="right"> 작성자:</td>
+           <td colspan=2  align="left"><input type="text" size="20" maxlength="100"  value="${member.MEMBER_NAME}" readonly/> </td>
+           <input class="fixed_left" type="hidden" name="MEMBER_ID" type="text" value="${member.MEMBER_ID}" />
+         </tr>
+        <tr>
+            <td align="right">프로젝트 제목: </td>
+            <td colspan="2"><input class="fixed_left" type="text" size="67"  maxlength="500" name="PROJECT_TITTLE" /></td>
+       </tr>
+       <tr>
+           <td align="right">프로젝트 일정: </td>
+           <td>시작일<input type="text" id="testDatepicker0" name="PROJECT_STRDAY"  value="미정" readonly> </td>
+           <td>종료일 <input type="text" id="testDatepicker1" name='PROJECT_ENDDAY' value="미정"  readonly> </td>
+           <td><input type="button" id="DAY_CK0" name="DAY_CK0" onClick="DAY_CK('pro')" value="미정"></td>
+       </tr>
+     <input type="hidden"  id="selecttag" name="selecttag" value="null">
+      <tr align="center" bgcolor="#0066ff">	<!--    bgcolor="lightgreen" --> 
+      <td>대분류</td>
+      <td>중분류</td>
+      <td>소분류</td>
+      <td>선택</td>
+      </tr>
+      <c:forEach var="tag" items="${projectTagList}">
+      <tr align="center">
+      <td>${tag.TAG_FIRST}</td>
+      <td>${tag.TAG_SECOND}</td>
+      <td>${tag.TAG_THIRD}</td>
+      <td><input type="checkbox" id="selecttag" name="selecttag" value="${tag.TAG_THIRD}"></td>
+      </tr>
+      </c:forEach>
+       <tr>
+           <td align="right">모집 기간: </td>
+           <td  align="right">시작일 <input type="text" id="testDatepicker2" name="INVITE_STRDAY" value="상시모집"  readonly> </td>
+           <td>종료일 <input type="text" id="testDatepicker3" name="INVITE_ENDDAY" value="상시모집" readonly> </td>
+ <td><input type="button" id="DAY_CK1" name="DAY_CK1" onClick="DAY_CK('inv')" value="상시모집"></td>
+       </tr>
+        <tr>
+            <td align="right">모집 인원: </td>
+            <td colspan="2">
+            <select class="fixed_left" id="dd" name="TOTALMEMBER">
+            <option value="미정">선택하세요</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            </select><a class="flex">&nbsp명</a></td>      
+                  
+       </tr>
+    <tr>
+            <td align="right" valign="top"><br>프로젝트내용: </td>
+            <td colspan=2><textarea class="textarea_field" name="PROJECT_CONTENT" rows="10" cols="65" maxlength="4000" placeholder="프로젝트 자세하게 작성 부탁드려요."></textarea> </td>
      </tr>
-	   <tr>
-			  <td align="right">이미지파일 첨부:  </td>
-			  <td> <input type="file" name="imageFileName"  onchange="readURL(this);" /></td>
-			  <td><img  id="preview" src="#"   width=200 height=200/></td>
-			  <td align="right">이미지파일 첨부</td>
-				<td align="left"> <input type="button" value="파일 추가" onClick="fn_addFile()"/></td>
-	   </tr>
-	   <tr>
-	      <td colspan="4"><div id="d_file"></div></td>
-	   </tr>
-	    <tr>
-	      <td align="right"> </td>
-	      <td colspan="2">
-	       <input type="submit" value="글쓰기" />
-	       <input type=button value="목록보기"onClick="backToList(this.form)" />
-	      </td>
+      <tr>
+           <td align="right">파일첨부 첨부:  </td>
+           <td> <input  type="file" name="imageFileName"  onchange="readURL(this);" /></td>
+          
+      </tr>
+      <tr>
+         <td colspan="4"><div id="d_file"></div></td>
+      </tr>
+       <tr>
+         <td align="right"> </td>
+         <td colspan="2">
+          <input class="write_button"  type="submit"  onClick="DAY_CK()" value="글쓰기" />
+          <input class="back_button"  type=button value="목록보기"onClick="backToList(this.form)" />
+         </td>
      </tr>
+     </tbody>
     </table>
   </form>
 </body>
 </html>
+

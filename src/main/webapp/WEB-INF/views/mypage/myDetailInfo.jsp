@@ -16,26 +16,40 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
  <script>
 
-	 /* 이메일 체크 */
-	//이메일 입력방식 선택
-	function Check_Email() {
-	  var EMAIL2 = $("#EMAIL2").val(); // input 박스  값 
-	  var selectEmail = $("#selectEmail").val();// select박스 선택 값
-	       
-	  // 직접 입력 선택했을 경우
-	  if (selectEmail == '1'){
-		   $('#EMAIL2').prop("value",''); // input 박스 초기화
-		   $('#EMAIL2').prop("readonly",false);// input 박스 readonly 속성 비활성화
-	  }else {
-	  // 이메일 선택했을경우   
-	     $('#EMAIL2').prop("value",selectEmail); // 선택 값 input박스로 전달
-	     $('#EMAIL2').prop("readonly",true); // input 박스 readonly 속성 활성화
-	     alert(selectEmail);
-	     
-	  }
-	}
+ /* 이메일 체크 */
+//이메일 입력방식 선택
+function Check_Email() {
+  var EMAIL2 = $("#EMAIL2").val(); // input 박스  값 
+  var selectEmail = $("#selectEmail").val();// select박스 선택 값
+       
+  // 직접 입력 선택했을 경우
+  if (selectEmail == '1'){
+     $('#EMAIL1').prop("value",''); // input 박스 초기화
+     $('#EMAIL2').prop("value",''); // input 박스 초기화
+     $('#EMAIL1').prop("readonly",false);// input 박스 readonly 속성 비활성화
+     $('#EMAIL2').prop("readonly",false);// input 박스 readonly 속성 비활성화
+  }
+  else if (selectEmail== '없음'){
+     $('#EMAIL1').prop("value",'없음'); // 없음
+     $('#EMAIL2').prop("value",'없음'); // 없음
+     $('#EMAIL1').prop("readonly",true);// input 박스 readonly 속성 비활성화
+     $('#EMAIL2').prop("readonly",true);// input 박스 readonly 속성 활성화
+  }
+  else {
+  // 이메일 선택했을경우   
+     $('#EMAIL1').prop("value",'');  // input 박스 초기화
+     $('#EMAIL2').prop("value",selectEmail); // 선택 값 input박스로 전달
+     $('#EMAIL1').prop("readonly",false);// input 박스 readonly 속성 비활성화
+     $('#EMAIL2').prop("readonly",true); // input 박스 readonly 속성 활성화
+     
+  }
+}
  	
  
 	function execDaumPostcode() {
@@ -82,19 +96,14 @@
 		          document.getElementById('guide').innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
 		      } else {
 		          document.getElementById('guide').innerHTML = '';
-		      }
-		      
-		     
+		      }	     
 		    }
 		  }).open();
-		}
-
-   
+		} 
    window.onload=function()
     {
       selectBoxInit();
     }
-
    // SELECT 박스 초기화 
     function selectBoxInit(){
     
@@ -155,141 +164,18 @@
         	 OPTIONEMAIL2[i].selected= true;
           break;
          }
-       } 
-     
+       }     
    }
 
 
-   
-
-function fn_modify_member_info(attribute){
-	var value;
-	// alert(member_id);
-	// alert("mod_type:"+mod_type);
-		var frm_mod_member=document.frm_mod_member;
-		if(attribute=='MEMBER_PW'){
-			value=frm_mod_member.MEMBER_PW.value;
-			alert("member_pw:"+value);
-		}else if(attribute=='MEMBER_GENDER'){
-			var MEMBER_GENDER=frm_mod_member.MEMBER_GENDER;
-			alert("MEMBER_GENDER:"+MEMBER_GENDER);
-			for(var i=0; MEMBER_GENDER.length;i++){
-			 	if(MEMBER_GENDER[i].checked){
-					value=MEMBER_GENDER[i].value;
-					break;
-				} 
-			}
-			alert("MEMBER_GENDER:"+value);
-		}else if(attribute=='MEMBER_BIRTH'){
-			var MEMBER_BIRTH_Y=frm_mod_member.MEMBER_BIRTH_Y;
-			var MEMBER_BIRTH_M=frm_mod_member.MEMBER_BIRTH_M;
-			var MEMBER_BIRTH_D=frm_mod_member.MEMBER_BIRTH_D;
-			
-			
-			for(var i=0; MEMBER_BIRTH_Y.length;i++){
-			 	if(MEMBER_BIRTH_Y[i].selected){
-					value_y=MEMBER_BIRTH_Y[i].value;
-					break;
-				} 
-			}
-			for(var i=0; MEMBER_BIRTH_M.length;i++){
-			 	if(MEMBER_BIRTH_M[i].selected){
-					value_m=MEMBER_BIRTH_M[i].value;
-					break;
-				} 
-			}
-			
-			for(var i=0; MEMBER_BIRTH_D.length;i++){
-			 	if(MEMBER_BIRTH_D[i].selected){
-					value_d=MEMBER_BIRTH_D[i].value;
-					break;
-				} 
-			}
-			
-			//alert("생년 양음년 "+value_gn);n 
-			value=+value_y+","+value_m+","+value_d;
-		}else if(attribute=='TEL'){
-			var TEL1=frm_mod_member.TEL1;
-			var TEL2=frm_mod_member.TEL2;
-			var TEL3=frm_mod_member.TEL3;
-			
-			for(var i=0; TEL1.length;i++){
-			 	if(TEL1[i].selected){
-					value_tel1=TEL1[i].value;
-					break;
-				} 
-			}
-			value_tel2=TEL2.value;
-			value_tel3=TEL3.value;
-			value=value_tel1+","+value_tel2+", "+value_tel3;
-		}else if(attribute=='HP'){
-			var HP1=frm_mod_member.HP1;
-			var HP2=frm_mod_member.HP2;
-			var HP3=frm_mod_member.HP3;
-			var SMSSTS_YN=frm_mod_member.SMSSTS_YN;
-			
-			
-			for(var i=0; HP1.length;i++){
-			 	if(HP1[i].selected){
-					value_hp1=HP1[i].value;
-					break;
-				} 
-			}
-				
-			value_hp2=HP2.value;
-			value_hp3=HP3.value;
-			value_smssts_yn=SMSSTS_YN.value;
-			value=value_hp1+","+value_hp2+","+value_hp3+","+value_smssts_yn;
-			
-			alert(value);
-		}else if(attribute=='EMAIL'){
-			var EMAIL1=frm_mod_member.EMAIL1;
-			var EMAIL2=frm_mod_member.EMAIL2;
-			var EMAILSTS_YN=frm_mod_member.EMAILSTS_YN;
-			
-			value_email1=EMAIL1.value;
-			value_email2=EMAIL2.value;
-			value_emailsts_yn=EMAILSTS_YN.value;
-			value=value_email1+","+value_email2+","+value_emailsts_yn;
-			alert(value);
-		}else if(attribute=='ADDRESS'){
-			var ZIPCODE=frm_mod_member.ZIPCODE;
-			var ROADADDRESS=frm_mod_member.ROADADDRESS;
-			var JIBUNADDRESS=frm_mod_member.JIBUNADDRESS;
-			var NAMUJIADDRESS=frm_mod_member.NAMUJIADDRESS;
-			
-			value_zipcode=ZIPCODE.value;
-			value_roadAddress=ROADADDRESS.value;
-			value_jibunAddress=JIBUNADDRESS.value;
-			value_namujiAddress=NAMUJIADDRESS.value;
-			value=value_zipcode+","+value_roadAddress+","+value_jibunAddress+","+value_namujiAddress;
-		}
-		console.log(attribute);
-	 
-		$.ajax({
-			type : "post",
-			async : false, //false인 경우 동기식으로 처리한다.
-			url : "${contextPath}/mypage/modifyMyInfo.do",
-			data : {
-				attribute:attribute,
-				value:value,
-			},
-			success : function(data, textStatus) {
-				if(data.trim()=='mod_success'){
-					alert("회원 정보를 수정했습니다.");
-				}else if(data.trim()=='failed'){
-					alert("다시 시도해 주세요.");	
-				}
-				
-			},
-			error : function(data, textStatus) {
-				alert("에러가 발생했습니다."+data);
-			},
-			complete : function(data, textStatus) {
-				//alert("작업을완료 했습니다");
-				
-			}
-		}); //end ajax
+function fn_modify_member_info(obj){
+	var a = $("input:password[name=MEMBER_PW]").val();
+	if (a == ''){
+	      alert('비밀번호를 입력 해주세요');
+	         return false;
+	 }
+	 obj.action="${contextPath}/mypage/modifyMyInfo.do";
+	 obj.submit();
 }
 
  function fn_modify_tag(){
@@ -300,12 +186,11 @@ function fn_modify_member_info(attribute){
 
 }
  
-function addTag(TAG_THIRD,tag_index){
+function addTag(TAG_THIRD){
 	var MEMBER_ID = $('#MEMBER_ID').val()
 	
 	 
 	alert(TAG_THIRD);
-	alert(tag_index);
 
 	 $.ajax({
 			type : "post",
@@ -327,59 +212,18 @@ function addTag(TAG_THIRD,tag_index){
 				alert("에러가 발생했습니다."+data);
 			},
 			complete : function(data, textStatus) {
-				alert("작업을완료 했습니다");	
+				
 			}
 		}); //end ajax
 		history.go(0);
-
-
 	}
  
-
-/* function fn_modify_tag(){
-	var tag_id = document.getElementById('addtag');
- 	var tag = document.getElementsByName('addtag');
-	
-	alert(tag_id.value);
-	alert(tag[0].value);
-	alert(tag[1].value);
-	alert(tag[2].value);
-	alert(tag[3].value);
-	
-	 $.ajax({
-		type : "post",
-		async : false, //false인 경우 동기식으로 처리한다.
-		url : "${contextPath}/member/modifyMyInfo.do",
-		data : {
-			attribute:attribute,
-			value:value,
-		},
-		success : function(data, textStatus) {
-			if(data.trim()=='mod_success'){
-				alert("회원 정보를 수정했습니다.");
-			}else if(data.trim()=='failed'){
-				alert("다시 시도해 주세요.");	
-			}
-			
-		},
-		error : function(data, textStatus) {
-			alert("에러가 발생했습니다."+data);
-		},
-		complete : function(data, textStatus) {
-			//alert("작업을완료 했습니다");
-			
-		}
-	}); //end ajax
-	 
-}
- */
-
 </script>
 </head>
 
 <body>
 	<h3>내 상세 정보</h3>
-<form name="frm_mod_member">	
+<form name="frm_mod_member" onsubmit="fn_modify_member_info(frm_mod_member)">	
 	<div id="detail_table">
 		<table>
 			<tbody>
@@ -395,9 +239,6 @@ function addTag(TAG_THIRD,tag_index){
 					<td class="fixed_join">비밀번호</td>
 					<td>
 					  <input name="MEMBER_PW" type="password" size="20" value="${member.MEMBER_PW }" />
-					</td>
-					<td>
-					  <input type="button" value="수정하기" onClick="fn_modify_member_info('MEMBER_PW')" />
 					</td>
 				</tr>
 				<tr class="dot_line">
@@ -423,9 +264,6 @@ function addTag(TAG_THIRD,tag_index){
 					      <input type="radio" name="MEMBER_GENDER" value="M"  />남성
 					   </c:otherwise>
 					   </c:choose>
-					</td>
-					<td>
-					  <input type="button" value="수정하기" onClick="fn_modify_member_info('MEMBER_GENDER')" />
 					</td>
 				</tr>
 				<tr class="dot_line">
@@ -469,9 +307,6 @@ function addTag(TAG_THIRD,tag_index){
 					   	</c:forEach>
 					</select>일 <span style="padding-left:50px"></span>
 					</td>
-					<td>
-					  <input type="button" value="수정하기" onClick="fn_modify_member_info('MEMBER_BIRTH')" />
-					</td>
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">전화번호</td>
@@ -506,9 +341,6 @@ function addTag(TAG_THIRD,tag_index){
 					    - <input type="text" size=4  name="TEL2" value="${member.TEL2 }"> 
 					    - <input type="text" size=4  name="TEL3" value="${member.TEL3 }">
 					</td>
-					<td>
-					  <input type="button" value="수정하기" onClick="fn_modify_member_info('TEL')" />
-					</td>
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">휴대폰번호</td>
@@ -526,23 +358,21 @@ function addTag(TAG_THIRD,tag_index){
 					 - <input type="text"name="HP3"  size=4 value="${member.HP3 }"><br> <br>
 					 <c:choose> 
 					   <c:when test="${member.SMSSTS_YN=='Y' }">
-					     <input type="checkbox"  name="SMSSTS_YN" value="Y" checked /> 쇼핑몰에서 발송하는 SMS 소식을 수신합니다.
+					     <input type="checkbox"  name="SMSSTS_YN" value="Y" checked /> 홈페이지에서 발송하는 SMS 소식을 수신합니다.
 						</c:when>
 						<c:otherwise>
-						  <input type="checkbox"  name="SMSSTS_YN" value="N"  /> 쇼핑몰에서 발송하는 SMS 소식을 수신합니다.
+						  <input type="checkbox"  name="SMSSTS_YN" value="N"  /> 홈페이지에서 발송하는 SMS 소식을 수신합니다.
 						</c:otherwise>
 					 </c:choose>	
 				    </td>
-					<td>
-					  <input size=4 type="button" value="수정하기" onClick="fn_modify_member_info('HP')" />
-					</td>	
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">이메일<br>(e-mail)</td>
 					<td>
-					   <input size="10px"   type="text" name="EMAIL1" value="${member.EMAIL1 }"/> @
+					   <input size="10px"   type="text" id="EMAIL1" name="EMAIL1" value="${member.EMAIL1 }" /> @
 					   <input size="10px"  type="text" id="EMAIL2" name="EMAIL2" value = "${member.EMAIL2}" readonly /> 
 						   <select onchange="Check_Email()" id="selectEmail" name="EMAIL3">
+						    <option value="없음">없음</option>
 							<option value="1">직접입력</option>
 							<option value="hanmail.net">hanmail.net</option>
 							<option value="naver.com">naver.com</option>
@@ -558,15 +388,12 @@ function addTag(TAG_THIRD,tag_index){
 					</select><Br><br> 
 					<c:choose> 
 					   <c:when test="${member.EMAILSTS_YN=='Y' }">
-					     <input type="checkbox" name="EMAILSTS_YN"  value="Y" checked /> 쇼핑몰에서 발송하는 e-mail을 수신합니다.
+					     <input type="checkbox" name="EMAILSTS_YN"  value="Y" checked /> 홈페이지에서 발송하는 e-mail을 수신합니다.
 						</c:when>
 						<c:otherwise>
-						  <input type="checkbox" name="EMAILSTS_YN"  value="N"  /> 쇼핑몰에서 발송하는 e-mail을 수신합니다.
+						  <input type="checkbox" name="EMAILSTS_YN"  value="N"  /> 홈페이지에서 발송하는 e-mail을 수신합니다.
 						</c:otherwise>
 					 </c:choose>
-					</td>
-					<td>
-					  <input type="button" value="수정하기" onClick="fn_modify_member_info('EMAIL')" />
 					</td>
 				</tr>
 				<tr class="dot_line">
@@ -581,9 +408,6 @@ function addTag(TAG_THIRD,tag_index){
 					  <span id="guide" style="color:#999"></span>
 					   </p>
 					</td>
-					<td>
-					  <input type="button" value="수정하기" onClick="fn_modify_member_info('ADDRESS')" />
-					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -593,8 +417,8 @@ function addTag(TAG_THIRD,tag_index){
 		<table align=center>
 		<tr>
 			<td >
-				<input type="hidden" name="command"  value="modify_my_info" /> 
-				<input name="btn_cancel_member" type="button"  value="수정 취소">
+				<input type="hidden" name="command"  value="modify_my_info" />
+				<input type="submit" value="수정하기"  /> 
 				<input name="btn_back_member" type="button" value="돌아가기"
 				 	 onClick="location.href='${contextPath}/member/listMembers.do'">
 			</td>
@@ -605,8 +429,8 @@ function addTag(TAG_THIRD,tag_index){
 	<input  type="hidden" name="H_HP1" value="${member.HP1}" />		
 	
 <form name="frmTag">
-	<table border="1"  align="center"  width="100%">
-	   	<tr align="center"   bgcolor="lightgreen"><td colspan="4">해쉬태그</td></tr>
+	<table border="1"  align="center"  width="80%">
+	   	<tr align="center"   bgcolor="lightgreen"><td colspan="5">해쉬태그</td></tr>
 	   	<tr>
 		   	<td align="center">
 		   	 	대분류
@@ -621,16 +445,13 @@ function addTag(TAG_THIRD,tag_index){
 		   		버튼
 		   	</td>
 	   	</tr>
-   	<c:forEach var="ProjectTagList" items="${ProjectTagList}" varStatus = "i" >
+   	<c:forEach var="ProjectTagList" items="${ProjectTagList}" >
 	   	<tr align="center">
-	   		<td>${i.count}</td>
 		   	<td>${ProjectTagList.TAG_FIRST}</td>
 		   	<td>${ProjectTagList.TAG_SECOND}</td>
 		   	<td>${ProjectTagList.TAG_THIRD}</td>
 		   	<td>
-		   		<input type="button" id = "tag" class="addtag"  
-		   			   onClick="addTag('${ProjectTagList.TAG_THIRD}','${i.index}')"
-		   			   value="추가하기">
+		   		<input type="button"  value="추가하기"  onClick="addTag('${ProjectTagList.TAG_THIRD}')"  /> 
 		   	</td>
 	   	</tr>
   	 </c:forEach>
@@ -638,7 +459,7 @@ function addTag(TAG_THIRD,tag_index){
 </form>
 
 <form name="frmMyTag" id="tag1"> 
-   <table  border="1"  align="center"  width="100%">
+   <table  border="1"  align="center"  width="80%">
 	   <tr align="center" bgcolor="lightgreen">
 	 	  <td colspan="2">MyTag</td>
 	   </tr>

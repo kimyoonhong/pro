@@ -25,6 +25,9 @@
 		<a href="${contextPath}/member/listMembers.do"  class="no-underline">회원관리</a><br>
 	    <a href="${contextPath}/project/listprojects.do"  class="no-underline">게시판관리</a><br>
 	    <a href="#"  class="no-underline">상품관리</a><br>
+ 		<a href="${contextPath}/qna/listArticles.do"  class="no-underline">qna관리</a><br>
+ 		<a href="${contextPath}/admin/listnotice.do"  class="no-underline">공지사항보기</a><br>
+ 
     </h1>
 	<%-- 
 	<h1>
